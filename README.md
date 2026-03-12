@@ -1,6 +1,6 @@
 # ghl-api-mcp
 
-`ghl-api-mcp` is a Dockerized MCP server that gives agents targeted access to GoHighLevel API documentation.
+`ghl-api-mcp` is an MCP server that gives agents targeted access to GoHighLevel API documentation.
 Instead of loading large markdown files into prompt context, agents can search docs, list endpoints, and fetch focused endpoint or section details on demand.
 
 ## Included Documentation
@@ -28,6 +28,13 @@ npm install
 npm start
 ```
 
+You can also run the CLI entrypoint directly after install:
+
+```bash
+npm install
+./bin/ghl-api-mcp.js
+```
+
 ## Run In Docker
 
 Build image:
@@ -51,7 +58,36 @@ docker run --rm -i \
   ghl-api-mcp
 ```
 
-## MCP Client Config Example
+## MCP Client Config Examples
+
+Use a local Node command when the repo is already checked out:
+
+```json
+{
+  "mcpServers": {
+    "ghl-docs": {
+      "command": "node",
+      "args": ["/absolute/path/to/ghl-api-mcp/src/server.js"]
+    }
+  }
+}
+```
+
+If you want the docs directory outside the repo:
+
+```json
+{
+  "mcpServers": {
+    "ghl-docs": {
+      "command": "node",
+      "args": ["/absolute/path/to/ghl-api-mcp/src/server.js"],
+      "env": {
+        "GHL_DOCS_DIR": "/absolute/path/to/docs"
+      }
+    }
+  }
+}
+```
 
 Use a docker-based stdio command in your MCP client configuration:
 

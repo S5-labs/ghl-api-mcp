@@ -11,22 +11,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DEFAULT_DOCS_DIR = path.resolve(__dirname, "..", "docs");
-const docsDir = process.env.GHL_DOCS_DIR || DEFAULT_DOCS_DIR;
-
-const docsIndex = new DocsIndex(docsDir);
-await docsIndex.load();
-
-const server = new Server(
-  {
-    name: "ghl-api-mcp",
-    version: "0.1.0",
-  },
-  {
-    capabilities: {
-      tools: {},
-    },
-  },
-);
 
 const tools = [
   {
@@ -143,94 +127,120 @@ const tools = [
   },
 ];
 
-server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools }));
+export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAULT_DOCS_DIR } = {}) {
+  const docsIndex = new DocsIndex(docsDir);
+  await docsIndex.load();
 
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  const name = request.params.name;
-  const args = request.params.arguments || {};
+  const server = new Server(
+    {
+      name: "ghl-api-mcp",
+      version: "0.1.0",
+    },
+    {
+      capabilities: {
+        tools: {},
+      },
+    },
+  );
 
-  switch (name) {
-    case "list_docs":
-      return textResponse(formatDocsList(docsIndex.listDocs()));
+  server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools }));
 
-    case "search_docs": {
-      const query = ensureString(args.query, "query");
-      const limit = ensureInteger(args.limit, 8);
-      const results = docsIndex.search(query, limit);
-      return textResponse(formatSearchResults(query, results));
-    }
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    const name = request.params.name;
+    const args = request.params.arguments || {};
 
-    case "list_endpoints": {
-      const method = optionalString(args.method)?.toUpperCase();
-      const pathContains = optionalString(args.path_contains);
-      const sectionContains = optionalString(args.section_contains);
-      const limit = ensureInteger(args.limit, 25);
+    switch (name) {
+      case "list_docs":
+        return textResponse(formatDocsList(docsIndex.listDocs()));
 
-      const endpoints = docsIndex.listEndpoints({
-        method,
-        pathContains,
-        sectionContains,
-        limit,
-      });
+      case "search_docs": {
+        const query = ensureString(args.query, "query");
+        const limit = ensureInteger(args.limit, 8);
+        const results = docsIndex.search(query, limit);
+        return textResponse(formatSearchResults(query, results));
+      }
 
-      return textResponse(formatEndpointList(endpoints));
-    }
+      case "list_endpoints": {
+        const method = optionalString(args.method)?.toUpperCase();
+        const pathContains = optionalString(args.path_contains);
+        const sectionContains = optionalString(args.section_contains);
+        const limit = ensureInteger(args.limit, 25);
 
-    case "get_endpoint_details": {
-      const endpointPath = ensureString(args.path, "path");
-      const method = optionalString(args.method)?.toUpperCase();
-      const endpoint = docsIndex.getEndpoint({ method, path: endpointPath });
+        const endpoints = docsIndex.listEndpoints({
+          method,
+          pathContains,
+          sectionContains,
+          limit,
+        });
 
-      if (!endpoint) {
+        return textResponse(formatEndpointList(endpoints));
+      }
+
+      case "get_endpoint_details": {
+        const endpointPath = ensureString(args.path, "path");
+        const method = optionalString(args.method)?.toUpperCase();
+        const endpoint = docsIndex.getEndpoint({ method, path: endpointPath });
+
+        if (!endpoint) {
+          return textResponse(
+            `No endpoint found for path \`${endpointPath}\`${
+              method ? ` and method \`${method}\`` : ""
+            }.`,
+          );
+        }
+
+        return textResponse(formatEndpointDetails(endpoint));
+      }
+
+      case "get_section": {
+        const title = ensureString(args.title, "title");
+        const maxChars = ensureInteger(args.max_chars, 4000);
+        const section = docsIndex.getSection(title);
+
+        if (!section) {
+          return textResponse(`No section matched title \`${title}\`.`);
+        }
+
+        const body =
+          section.content.length > maxChars
+            ? `${section.content.slice(0, maxChars)}\n\n[truncated at ${maxChars} characters]`
+            : section.content;
+
         return textResponse(
-          `No endpoint found for path \`${endpointPath}\`${
-            method ? ` and method \`${method}\`` : ""
-          }.`,
+          [
+            `# ${section.title}`,
+            "",
+            `- Document: ${section.docId}`,
+            `- Parent: ${section.parentTitle || "(none)"}`,
+            `- Lines: ${section.startLine}-${section.endLine}`,
+            "",
+            body,
+          ].join("\n"),
         );
       }
 
-      return textResponse(formatEndpointDetails(endpoint));
-    }
-
-    case "get_section": {
-      const title = ensureString(args.title, "title");
-      const maxChars = ensureInteger(args.max_chars, 4000);
-      const section = docsIndex.getSection(title);
-
-      if (!section) {
-        return textResponse(`No section matched title \`${title}\`.`);
+      case "reload_docs": {
+        await docsIndex.load();
+        const docs = docsIndex.listDocs();
+        return textResponse(
+          `Reloaded ${docs.length} documentation file(s) from \`${docsDir}\`.`,
+        );
       }
 
-      const body =
-        section.content.length > maxChars
-          ? `${section.content.slice(0, maxChars)}\n\n[truncated at ${maxChars} characters]`
-          : section.content;
-
-      return textResponse(
-        [
-          `# ${section.title}`,
-          "",
-          `- Document: ${section.docId}`,
-          `- Parent: ${section.parentTitle || "(none)"}`,
-          `- Lines: ${section.startLine}-${section.endLine}`,
-          "",
-          body,
-        ].join("\n"),
-      );
+      default:
+        throw new Error(`Unknown tool: ${name}`);
     }
+  });
 
-    case "reload_docs": {
-      await docsIndex.load();
-      const docs = docsIndex.listDocs();
-      return textResponse(
-        `Reloaded ${docs.length} documentation file(s) from \`${docsDir}\`.`,
-      );
-    }
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
 
-    default:
-      throw new Error(`Unknown tool: ${name}`);
-  }
-});
+  process.stderr.write(
+    `GHL docs MCP server started. docsDir=${docsDir}, docs=${docsIndex.listDocs().length}\n`,
+  );
+
+  return { server, docsIndex, docsDir };
+}
 
 function textResponse(text) {
   return {
@@ -357,9 +367,6 @@ function formatSearchResults(query, results) {
   return lines.join("\n").trim();
 }
 
-const transport = new StdioServerTransport();
-await server.connect(transport);
-
-process.stderr.write(
-  `GHL docs MCP server started. docsDir=${docsDir}, docs=${docsIndex.listDocs().length}\n`,
-);
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  await startServer();
+}

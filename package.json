@@ -4,6 +4,9 @@
   "description": "Dockerized MCP server for querying GoHighLevel API documentation",
   "type": "module",
   "main": "src/server.js",
+  "bin": {
+    "ghl-api-mcp": "./bin/ghl-api-mcp.js"
+  },
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
