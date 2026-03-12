@@ -14,8 +14,9 @@ test("loads docs and discovers endpoints", async () => {
   await index.load();
 
   const docs = index.listDocs();
-  assert.equal(docs.length, 1);
-  assert.ok(docs[0].endpoints >= 10);
+  assert.equal(docs.length, 2);
+  assert.ok(docs.some((doc) => doc.id === "GHL_Custom_Fields_Review"));
+  assert.ok(docs.some((doc) => doc.id === "GHL_Custom_Objects_Review"));
 
   const endpoint = index.getEndpoint({
     method: "POST",

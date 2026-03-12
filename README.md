@@ -7,7 +7,8 @@ Instead of loading large markdown files into prompt context, agents can search d
 
 The server currently ships with:
 
-- `docs/GHL_Custom_Objects_Fields_Review.md`
+- `docs/GHL_Custom_Fields_Review.md`
+- `docs/GHL_Custom_Objects_Review.md`
 
 You can add more `.md` files under `docs/` and call `reload_docs` to re-index them at runtime.
 

@@ -1,4 +1,4 @@
-# GoHighLevel Custom Objects, Custom Fields & Associations: Comprehensive API Review
+# GoHighLevel Custom Objects, Records, Associations & Relations API Review
 
 **Author:** Manus AI
 **Date:** March 9, 2026
@@ -10,14 +10,13 @@
 ## Table of Contents
 
 1. [Overview and Core Concepts](#1-overview-and-core-concepts)
-2. [Custom Fields V2](#2-custom-fields-v2)
-3. [Object Schema](#3-object-schema)
-4. [Object Records](#4-object-records)
-5. [Search Object Records](#5-search-object-records)
-6. [Associations](#6-associations)
-7. [Relations](#7-relations)
-8. [Authentication and Scopes Reference](#8-authentication-and-scopes-reference)
-9. [References](#9-references)
+2. [Object Schema](#2-object-schema)
+3. [Object Records](#3-object-records)
+4. [Search Object Records](#4-search-object-records)
+5. [Associations](#5-associations)
+6. [Relations](#6-relations)
+7. [Authentication and Scopes Reference](#7-authentication-and-scopes-reference)
+8. [References](#8-references)
 
 ---
 
@@ -39,8 +38,6 @@ A **Record** is a single instance of an object. Each record contains specific da
 
 **Illustrative Use Case: Real Estate CRM**
 
-A real estate CRM requires a way to manage properties as a Custom Object and link them to potential buyer Contacts. The workflow would proceed as follows:
-
 1. Define a Custom Object called `Property Listings` with fields such as `Property Name`, `Address`, `Price`, `Property Type`, `Bedrooms`, `Bathrooms`, and `Listing Status`. Set `Property Name` as the Primary Display Property.
 2. Create individual records for each property, such as "Luxury Villa - 123 Street" (Price: $2,000,000) and "Modern Apartment - Downtown" (Price: $750,000).
 3. Associate records with Contacts using the Associations API — for example, linking a contact named "John Doe" to "Luxury Villa - 123 Street" as an Interested Buyer. [^1]
@@ -51,174 +48,15 @@ As of the time of this writing, the records API supports **Custom Objects** and 
 
 ---
 
-## 2. Custom Fields V2
+## 2. Object Schema
 
-Custom fields are data points that allow you to capture and store specific information tailored to your business requirements. You can create fields across field types like text, numeric, selection options, and special fields like date/time or signature. [^2]
+The Object Schema API allows you to create, retrieve, and update the structural definition of custom and standard objects. [^2]
 
-> **INFO:** The Custom Fields V2 API only supports Custom Objects and Company (Business) today. It will be extended to other Standard Objects in the future. [^2]
-
-### 2.1 Field Data Types
-
-When creating or updating a custom field, you must specify a `dataType`. The following types are supported:
-
-| Data Type | Description | Notes |
-|---|---|---|
-| `TEXT` | Single-line text input | |
-| `LARGE_TEXT` | Multi-line text input | |
-| `NUMERICAL` | Numeric value | |
-| `PHONE` | Phone number | Must include country code with `+` |
-| `MONETORY` | Currency/monetary value | Only `"default"` (location's currency) supported today |
-| `CHECKBOX` | Multi-select checkbox | Values passed as `{add: [], remove: []}` |
-| `SINGLE_OPTIONS` | Dropdown single select | Only option keys accepted, not labels |
-| `MULTIPLE_OPTIONS` | Dropdown multi-select | Values passed as `{add: [], remove: []}` |
-| `DATE` | Date picker | Format: `YYYY-MM-DD` (ISO 8601) |
-| `TEXTBOX_LIST` | List of labeled text boxes | Key format: `{field_key}.{label_key}` |
-| `FILE_UPLOAD` | File upload field | Values passed as `{add: [{url}], remove: [{url}]}` |
-| `RADIO` | Radio button single select | Only option keys accepted |
-| `EMAIL` | Email address | Only supported for Business (Company) |
-
-### 2.2 Field Key Conventions
-
-The `fieldKey` is a critical identifier that follows a strict naming convention depending on the object type:
-
-- **Custom Objects:** `custom_object.{objectKey}.{fieldKey}` — for example, `custom_object.pet.name` for a "name" field in a "pet" custom object. [^3]
-- **Standard Objects (Business):** Standard field keys are used directly without the `custom_object.` prefix.
-
-The `objectKey` for custom objects always uses the `custom_objects.` prefix (note the plural form), for example `custom_objects.pet`. [^3]
-
-### 2.3 Create Custom Field
-
-**Endpoint:** `POST /custom-fields/`
-**Scope:** `locations/customFields.write`
-**Token Type:** Sub-Account Token [^3]
-
-**Request Body Parameters:**
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `locationId` | string | Yes | The sub-account location ID |
-| `name` | string | No | Display name for the field |
-| `description` | string | No | Description of the field |
-| `placeholder` | string | No | Placeholder text |
-| `showInForms` | boolean | Yes | Whether to show in forms |
-| `dataType` | string | Yes | One of the supported data types |
-| `fieldKey` | string | Yes | Unique field key with object prefix |
-| `objectKey` | string | Yes | The parent object key |
-| `options` | object[] | No | Options for selection-type fields |
-| `acceptedFormats` | string | No | Allowed formats for `FILE_UPLOAD` fields |
-| `maxFileLimit` | number | No | Max files for `FILE_UPLOAD` fields |
-| `allowCustomOption` | boolean | No | Allow custom values in `RADIO` fields |
-| `parentId` | string | Yes | ID of the parent folder |
-
-**Sample cURL Request:**
-
-```bash
-curl -L 'https://services.leadconnectorhq.com/custom-fields/' \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer <TOKEN>' \
-  -H 'Version: 2021-07-28' \
-  -d '{
-    "locationId": "ve9EPM428h8vShlRW1KT",
-    "name": "Pet Name",
-    "dataType": "TEXT",
-    "fieldKey": "custom_object.pet.name",
-    "objectKey": "custom_objects.pet",
-    "showInForms": true,
-    "parentId": "folder_id_here"
-  }'
-```
-
-**Sample Request Body — Selection Field with Options:**
-
-```json
-{
-  "locationId": "ve9EPM428h8vShlRW1KT",
-  "name": "Pet Type",
-  "dataType": "SINGLE_OPTIONS",
-  "fieldKey": "custom_object.pet.type",
-  "objectKey": "custom_objects.pet",
-  "showInForms": true,
-  "options": [
-    { "key": "dog", "label": "Dog" },
-    { "key": "cat", "label": "Cat" },
-    { "key": "bird", "label": "Bird" }
-  ],
-  "parentId": "folder_id_here"
-}
-```
-
-### 2.4 Get Custom Field by ID
-
-**Endpoint:** `GET /custom-fields/:id`
-**Scope:** `locations/customFields.readonly`
-**Token Type:** Sub-Account Token [^4]
-
-This endpoint retrieves a single custom field or folder by its ID. The response includes a `field` object containing all field metadata.
-
-```bash
-curl -L 'https://services.leadconnectorhq.com/custom-fields/FIELD_ID_HERE' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer <TOKEN>' \
-  -H 'Version: 2021-07-28'
-```
-
-### 2.5 Update Custom Field by ID
-
-**Endpoint:** `PUT /custom-fields/:id`
-**Scope:** `locations/customFields.write`
-**Token Type:** Sub-Account Token [^5]
-
-The update endpoint accepts the same body parameters as the create endpoint (excluding `dataType`, `fieldKey`, and `objectKey`, which are immutable after creation). You can update the name, description, placeholder, options, and file-related settings.
-
-```bash
-curl -L -X PUT 'https://services.leadconnectorhq.com/custom-fields/FIELD_ID_HERE' \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer <TOKEN>' \
-  -H 'Version: 2021-07-28' \
-  -d '{
-    "locationId": "ve9EPM428h8vShlRW1KT",
-    "name": "Updated Pet Name",
-    "showInForms": true
-  }'
-```
-
-### 2.6 Get Custom Fields by Object Key
-
-**Endpoint:** `GET /custom-fields/object-key/:objectKey`
-**Scope:** `locations/customFields.readonly`
-**Token Type:** Sub-Account Token [^6]
-
-This endpoint retrieves all custom fields and folders associated with a specific object. The `objectKey` path parameter must include the `custom_objects.` prefix for custom objects.
-
-| Parameter | Type | Required | Description |
-|---|---|---|---|
-| `objectKey` (path) | string | Yes | e.g., `custom_objects.pet` |
-| `locationId` (query) | string | Yes | The sub-account location ID |
-
-**Response Schema:**
-- `fields`: array of field objects
-- `folders`: array of folder objects
-
-```bash
-curl -L 'https://services.leadconnectorhq.com/custom-fields/object-key/custom_objects.pet?locationId=ve9EPM428h8vShlRW1KT' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer <TOKEN>' \
-  -H 'Version: 2021-07-28'
-```
-
----
-
-## 3. Object Schema
-
-The Object Schema API allows you to create, retrieve, and update the structural definition of custom and standard objects. [^7]
-
-### 3.1 Create Custom Object
+### 2.1 Create Custom Object
 
 **Endpoint:** `POST /objects/`
 **Scope:** `objects/schema.write`
-**Token Type:** Agency Token [^8]
+**Token Type:** Agency Token [^3]
 
 > **Important:** Creating a custom object schema requires an **Agency Token**, not a Sub-Account Token. This is the only endpoint in this group that requires agency-level access.
 
@@ -256,11 +94,11 @@ curl -L 'https://services.leadconnectorhq.com/objects/' \
   }'
 ```
 
-### 3.2 Get Object Schema by Key / ID
+### 2.2 Get Object Schema by Key / ID
 
 **Endpoint:** `GET /objects/:key`
 **Scope:** `objects/schema.readonly`
-**Token Type:** Sub-Account Token [^9]
+**Token Type:** Sub-Account Token [^4]
 
 This endpoint retrieves the full schema of an object — including all its fields and properties. It supports contact, opportunity, business, and custom objects.
 
@@ -275,31 +113,31 @@ This endpoint retrieves the full schema of an object — including all its field
 - `cache`: boolean indicating if the response was served from cache
 - `fields`: array of field objects (when `fetchProperties=true`)
 
-### 3.3 Get All Objects for a Location
+### 2.3 Get All Objects for a Location
 
 **Endpoint:** `GET /objects/`
 **Scope:** `objects/schema.readonly`
 **Token Type:** Sub-Account Token
 
-This endpoint returns all objects for a given location, including contact, opportunity, business, and all custom objects. [^7]
+This endpoint returns all objects for a given location, including contact, opportunity, business, and all custom objects. [^2]
 
 ---
 
-## 4. Object Records
+## 3. Object Records
 
-The Records API enables CRUD operations on individual records within any supported object. [^10]
+The Records API enables CRUD operations on individual records within any supported object. [^5]
 
-### 4.1 Create Record
+### 3.1 Create Record
 
 **Endpoint:** `POST /objects/:schemaKey/records`
 **Scope:** `objects/record.write`
-**Token Type:** Sub-Account Token [^11]
+**Token Type:** Sub-Account Token [^6]
 
 The `schemaKey` path parameter must include the `custom_objects.` prefix for custom objects (e.g., `custom_objects.pet`). For standard objects, use the respective key (e.g., `business`).
 
 **Request Body Structure:**
 
-The body is a single `object` containing the record's data. For custom objects, the `properties` field holds key-value pairs corresponding to the custom fields defined in the schema. [^12]
+The body is a single `object` containing the record's data. For custom objects, the `properties` field holds key-value pairs corresponding to the custom fields defined in the schema. [^7]
 
 **Sample Request — Custom Object Record:**
 
@@ -316,11 +154,11 @@ The body is a single `object` containing the record's data. For custom objects, 
 }
 ```
 
-### 4.2 Update Record
+### 3.2 Update Record
 
 **Endpoint:** `PUT /objects/:schemaKey/records/:recordId?locationId={locationId}`
 **Scope:** `objects/record.write`
-**Token Type:** Sub-Account Token [^12]
+**Token Type:** Sub-Account Token [^7]
 
 **Request Body Fields:**
 
@@ -380,7 +218,7 @@ The body is a single `object` containing the record's data. For custom objects, 
 }
 ```
 
-> **Note:** To remove the value of a custom field entirely, pass its value as `null`. For example: `{"properties": {"ticket_name": null}}` [^12]
+> **Note:** To remove the value of a custom field entirely, pass its value as `null`. For example: `{"properties": {"ticket_name": null}}` [^7]
 
 **Company (Business) Update Example:**
 
@@ -403,10 +241,10 @@ When updating a Business record, standard fields are included alongside custom f
 }
 ```
 
-### 4.3 Get Record by ID
+### 3.3 Get Record by ID
 
 **Endpoint:** `GET /objects/:schemaKey/records/:id`
-**Token Type:** Sub-Account Token [^13]
+**Token Type:** Sub-Account Token [^8]
 
 ```bash
 curl -L 'https://services.leadconnectorhq.com/objects/custom_objects.pet/records/RECORD_ID_HERE' \
@@ -417,17 +255,17 @@ curl -L 'https://services.leadconnectorhq.com/objects/custom_objects.pet/records
 
 ---
 
-## 5. Search Object Records
+## 4. Search Object Records
 
-The Search Records API enables powerful, filterable, sortable, and paginated search across custom objects and business records. [^14]
+The Search Records API enables powerful, filterable, sortable, and paginated search across custom objects and business records. [^9]
 
-> **Note:** Due to the complexity of the advanced filtering requirements, updates may take a few seconds to appear in the search results. [^14]
+> **Note:** Due to the complexity of the advanced filtering requirements, updates may take a few seconds to appear in the search results. [^9]
 
 **Endpoint:** `POST /objects/:schemaKey/records/search`
 **Scope:** `objects/record.readonly`
-**Token Type:** Sub-Account Token [^15]
+**Token Type:** Sub-Account Token [^10]
 
-### 5.1 Request Body Parameters
+### 4.1 Request Body Parameters
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
@@ -439,7 +277,7 @@ The Search Records API enables powerful, filterable, sortable, and paginated sea
 | `filters` | array | No | Nested filter groups with logical operators |
 | `sort` | array | No | Sorting criteria |
 
-### 5.2 Filter Structure
+### 4.2 Filter Structure
 
 Filters are organized as nested groups with logical operators. Each filter has three components:
 - **`field`:** The property to filter on (e.g., `properties.name`, `customFields.{field_id}`)
@@ -469,7 +307,7 @@ Filters are organized as nested groups with logical operators. Each filter has t
 | DATE | `customFields.{field_id}` | range, exists, not_exists |
 | TEXTBOX_LIST | `customFields.{field_id}.{option_id}` | eq, not_eq, contains, not_contains, exists, not_exists |
 
-### 5.3 Sample Search Requests
+### 4.3 Sample Search Requests
 
 **Custom Object Search with Nested AND/OR Filters:**
 
@@ -542,7 +380,7 @@ Filters are organized as nested groups with logical operators. Each filter has t
 }
 ```
 
-### 5.4 Sample Response
+### 4.4 Sample Response
 
 ```json
 {
@@ -574,15 +412,15 @@ Filters are organized as nested groups with logical operators. Each filter has t
 }
 ```
 
-The `sort` array in each record is used as the `searchAfter` cursor for the next page of results, enabling efficient deep pagination. [^14]
+The `sort` array in each record is used as the `searchAfter` cursor for the next page of results, enabling efficient deep pagination. [^9]
 
 ---
 
-## 6. Associations
+## 5. Associations
 
-Associations define the structural connection between two types of objects. Before you can link individual records together (Relations), you must first define the Association that describes the relationship type. [^16]
+Associations define the structural connection between two types of objects. Before you can link individual records together (Relations), you must first define the Association that describes the relationship type. [^11]
 
-> An **Association** represents a connection between two records in the system. It is used to establish a meaningful link between different entities such as contacts, opportunities and custom objects. The purpose of an association is to categorize how two objects are related to each other and to provide labels that define their relationship. [^16]
+> An **Association** represents a connection between two records in the system. It is used to establish a meaningful link between different entities such as contacts, opportunities and custom objects. The purpose of an association is to categorize how two objects are related to each other and to provide labels that define their relationship. [^11]
 
 ### Supported Association Pairs
 
@@ -594,13 +432,13 @@ The following object-to-object association types are currently supported:
 
 ### Association Types
 
-Associations can be either `USER_DEFINED` (created via the API) or `SYSTEM_DEFINED` (built-in platform associations). [^16]
+Associations can be either `USER_DEFINED` (created via the API) or `SYSTEM_DEFINED` (built-in platform associations). [^11]
 
-### 6.1 Create Association
+### 5.1 Create Association
 
 **Endpoint:** `POST /associations/`
 **Scope:** `associations.write`
-**Token Type:** Sub-Account Token [^17]
+**Token Type:** Sub-Account Token [^12]
 
 **Request Body Parameters:**
 
@@ -646,11 +484,11 @@ curl -L 'https://services.leadconnectorhq.com/associations/' \
 }
 ```
 
-### 6.2 Get All Associations for a Location
+### 5.2 Get All Associations for a Location
 
 **Endpoint:** `GET /associations/`
 **Scope:** `associations.readonly`
-**Token Type:** Sub-Account Token [^18]
+**Token Type:** Sub-Account Token [^13]
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
@@ -658,46 +496,46 @@ curl -L 'https://services.leadconnectorhq.com/associations/' \
 | `skip` (query) | number | Yes | Number of records to skip (for pagination) |
 | `limit` (query) | number | Yes | Maximum number of records to return |
 
-### 6.3 Get Association by Object Keys
+### 5.3 Get Association by Object Keys
 
 **Endpoint:** `GET /associations/` (with object key filters)
 **Scope:** `associations.readonly`
 
-This endpoint retrieves associations filtered by the object keys involved, making it easy to find all associations that involve a specific object type (e.g., all associations involving `custom_objects.pet`). [^16]
+This endpoint retrieves associations filtered by the object keys involved, making it easy to find all associations that involve a specific object type (e.g., all associations involving `custom_objects.pet`). [^11]
 
-### 6.4 Update Association by ID
+### 5.4 Update Association by ID
 
 **Endpoint:** `PUT /associations/:id`
 **Scope:** `associations.write`
 
-This endpoint allows you to update the labels of an existing association. Note that the `key`, `firstObjectKey`, and `secondObjectKey` are immutable once the association is created. [^16]
+This endpoint allows you to update the labels of an existing association. Note that the `key`, `firstObjectKey`, and `secondObjectKey` are immutable once the association is created. [^11]
 
-### 6.5 Delete Association
+### 5.5 Delete Association
 
 **Endpoint:** `DELETE /associations/:id`
 **Scope:** `associations.write`
 
-> **Warning:** Deleting a USER_DEFINED Association by ID will also delete **all the relations** for that association. This is a destructive, irreversible operation. [^16]
+> **Warning:** Deleting a USER_DEFINED Association by ID will also delete **all the relations** for that association. This is a destructive, irreversible operation. [^11]
 
 ---
 
-## 7. Relations
+## 6. Relations
 
-A Relation is the actual link between two specific records, created using a previously defined Association. While the Association defines the *type* of connection, the Relation instantiates the actual connection between two record instances. [^16]
+A Relation is the actual link between two specific records, created using a previously defined Association. While the Association defines the *type* of connection, the Relation instantiates the actual connection between two record instances. [^11]
 
-> A **Relation** specifies how two associated records are conceptually linked. Unlike an association, which simply establishes a connection, a relation defines the meaning behind the connection. [^16]
+> A **Relation** specifies how two associated records are conceptually linked. Unlike an association, which simply establishes a connection, a relation defines the meaning behind the connection. [^11]
 
 **Examples of Relations:**
 - A mentor-mentee relation between two contacts.
 - A supplier-client relation between two businesses.
 - A tenant-lease relation between a tenant (contact) and a rental property (custom object).
-- An investor-property relation between an opportunity and a property (custom object). [^16]
+- An investor-property relation between an opportunity and a property (custom object). [^11]
 
-### 7.1 Create Relation
+### 6.1 Create Relation
 
 **Endpoint:** `POST /associations/relations`
 **Scope:** `associations/relation.write`
-**Token Type:** Sub-Account Token [^19]
+**Token Type:** Sub-Account Token [^14]
 
 **Request Body Parameters:**
 
@@ -724,11 +562,11 @@ curl -L 'https://services.leadconnectorhq.com/associations/relations' \
   }'
 ```
 
-### 7.2 Get All Relations by Record ID
+### 6.2 Get All Relations by Record ID
 
 **Endpoint:** `GET /associations/relations/:recordId`
 **Scope:** `associations/relation.readonly`
-**Token Type:** Sub-Account Token [^20]
+**Token Type:** Sub-Account Token [^15]
 
 This endpoint retrieves all relations for a given record, regardless of which side of the association the record is on.
 
@@ -740,22 +578,21 @@ This endpoint retrieves all relations for a given record, regardless of which si
 | `limit` (query) | number | Yes | Max records to return |
 | `associationIds` (query) | string[] | No | Filter by specific association IDs |
 
-### 7.3 Delete Relation
+### 6.3 Delete Relation
 
 **Endpoint:** `DELETE /associations/relations/:id`
 **Scope:** `associations/relation.write`
 
-Deletes a single relation between two records. Unlike deleting an Association (which cascades to all relations), deleting a single Relation only removes that specific link. [^16]
+Deletes a single relation between two records. Unlike deleting an Association (which cascades to all relations), deleting a single Relation only removes that specific link. [^11]
 
 ---
 
-## 8. Authentication and Scopes Reference
+## 7. Authentication and Scopes Reference
 
 All endpoints require a `Version` header set to `2021-07-28` and a `Bearer` token in the `Authorization` header. The following table summarizes the required scopes for each API group.
 
 | API Group | Read Scope | Write Scope | Token Type |
 |---|---|---|---|
-| Custom Fields | `locations/customFields.readonly` | `locations/customFields.write` | Sub-Account |
 | Object Schema (Read) | `objects/schema.readonly` | — | Sub-Account |
 | Object Schema (Create) | — | `objects/schema.write` | **Agency** |
 | Object Records | `objects/record.readonly` | `objects/record.write` | Sub-Account |
@@ -766,44 +603,34 @@ All endpoints require a `Version` header set to `2021-07-28` and a `Bearer` toke
 
 ---
 
-## 9. References
+## 8. References
 
 [^1]: [Understanding Objects and Records in CRM](https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0) — ClickUp Documentation, Ansh Nagrath, last updated 7/21/25
 
-[^2]: [Custom Fields V2 — Overview](https://marketplace.gohighlevel.com/docs/ghl/custom-fields/custom-fields-v-2) — GHL Marketplace API Docs
+[^2]: [Object Schema — Overview](https://marketplace.gohighlevel.com/docs/ghl/objects/object-schema) — GHL Marketplace API Docs
 
-[^3]: [Create Custom Field](https://marketplace.gohighlevel.com/docs/ghl/custom-fields/create-custom-field) — GHL Marketplace API Docs
+[^3]: [Create Custom Object](https://marketplace.gohighlevel.com/docs/ghl/objects/create-custom-object-schema) — GHL Marketplace API Docs
 
-[^4]: [Get Custom Field / Folder By Id](https://marketplace.gohighlevel.com/docs/ghl/custom-fields/get-custom-field-by-id) — GHL Marketplace API Docs
+[^4]: [Get Object Schema by key / id](https://marketplace.gohighlevel.com/docs/ghl/objects/get-object-schema-by-key) — GHL Marketplace API Docs
 
-[^5]: [Update Custom Field By Id](https://marketplace.gohighlevel.com/docs/ghl/custom-fields/update-custom-field) — GHL Marketplace API Docs
+[^5]: [Records — Overview](https://marketplace.gohighlevel.com/docs/ghl/objects/records) — GHL Marketplace API Docs
 
-[^6]: [Get Custom Fields By Object Key](https://marketplace.gohighlevel.com/docs/ghl/custom-fields/get-custom-fields-by-object-key) — GHL Marketplace API Docs
+[^6]: [Create Record](https://marketplace.gohighlevel.com/docs/ghl/objects/create-object-record) — GHL Marketplace API Docs
 
-[^7]: [Object Schema — Overview](https://marketplace.gohighlevel.com/docs/ghl/objects/object-schema) — GHL Marketplace API Docs
+[^7]: [Update Records API](https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-376296) — ClickUp Documentation, Ansh Nagrath, last updated 3/19/25
 
-[^8]: [Create Custom Object](https://marketplace.gohighlevel.com/docs/ghl/objects/create-custom-object-schema) — GHL Marketplace API Docs
+[^8]: [Get Record By Id](https://marketplace.gohighlevel.com/docs/ghl/objects/get-record-by-id) — GHL Marketplace API Docs
 
-[^9]: [Get Object Schema by key / id](https://marketplace.gohighlevel.com/docs/ghl/objects/get-object-schema-by-key) — GHL Marketplace API Docs
+[^9]: [Records Search Api](https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-379336) — ClickUp Documentation, Ansh Nagrath, last updated 12/8/25
 
-[^10]: [Records — Overview](https://marketplace.gohighlevel.com/docs/ghl/objects/records) — GHL Marketplace API Docs
+[^10]: [Search Object Records](https://marketplace.gohighlevel.com/docs/ghl/objects/search-object-records) — GHL Marketplace API Docs
 
-[^11]: [Create Record](https://marketplace.gohighlevel.com/docs/ghl/objects/create-object-record) — GHL Marketplace API Docs
+[^11]: [Understanding Associations And Relations](https://doc.clickup.com/8631005/d/h/87cpx-293776/cd0f4122abc04d3) — ClickUp Documentation, Ansh Nagrath, last updated 10/9/25
 
-[^12]: [Update Records API](https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-376296) — ClickUp Documentation, Ansh Nagrath, last updated 3/19/25
+[^12]: [Create Association](https://marketplace.gohighlevel.com/docs/ghl/associations/create-association) — GHL Marketplace API Docs
 
-[^13]: [Get Record By Id](https://marketplace.gohighlevel.com/docs/ghl/objects/get-record-by-id) — GHL Marketplace API Docs
+[^13]: [Get all associations for a sub-account / location](https://marketplace.gohighlevel.com/docs/ghl/associations/find-associations) — GHL Marketplace API Docs
 
-[^14]: [Records Search Api](https://doc.clickup.com/8631005/d/h/87cpx-277156/93bf0c2e23177b0/87cpx-379336) — ClickUp Documentation, Ansh Nagrath, last updated 12/8/25
+[^14]: [Create Relation for you associated entities](https://marketplace.gohighlevel.com/docs/ghl/associations/create-relation) — GHL Marketplace API Docs
 
-[^15]: [Search Object Records](https://marketplace.gohighlevel.com/docs/ghl/objects/search-object-records) — GHL Marketplace API Docs
-
-[^16]: [Understanding Associations And Relations](https://doc.clickup.com/8631005/d/h/87cpx-293776/cd0f4122abc04d3) — ClickUp Documentation, Ansh Nagrath, last updated 10/9/25
-
-[^17]: [Create Association](https://marketplace.gohighlevel.com/docs/ghl/associations/create-association) — GHL Marketplace API Docs
-
-[^18]: [Get all associations for a sub-account / location](https://marketplace.gohighlevel.com/docs/ghl/associations/find-associations) — GHL Marketplace API Docs
-
-[^19]: [Create Relation for you associated entities](https://marketplace.gohighlevel.com/docs/ghl/associations/create-relation) — GHL Marketplace API Docs
-
-[^20]: [Get all relations By record Id](https://marketplace.gohighlevel.com/docs/ghl/associations/get-relations-by-record-id) — GHL Marketplace API Docs
+[^15]: [Get all relations By record Id](https://marketplace.gohighlevel.com/docs/ghl/associations/get-relations-by-record-id) — GHL Marketplace API Docs
