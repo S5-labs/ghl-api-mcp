@@ -18,7 +18,7 @@ await docsIndex.load();
 
 const server = new Server(
   {
-    name: "ghl-api-docs-mcp",
+    name: "ghl-api-mcp",
     version: "0.1.0",
   },
   {

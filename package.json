@@ -1,7 +1,7 @@
 {
-  "name": "ghl-docs-mcp-server",
+  "name": "ghl-api-mcp",
   "version": "0.1.0",
-  "description": "Docker-friendly MCP server for GoHighLevel API documentation lookup",
+  "description": "Dockerized MCP server for querying GoHighLevel API documentation",
   "type": "module",
   "main": "src/server.js",
   "scripts": {

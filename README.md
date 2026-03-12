@@ -1,23 +1,24 @@
-# GHL API Docs MCP Server
+# ghl-api-mcp
 
-Dockerized MCP server that exposes GoHighLevel API documentation lookup tools for agents.
+`ghl-api-mcp` is a Dockerized MCP server that gives agents targeted access to GoHighLevel API documentation.
+Instead of loading large markdown files into prompt context, agents can search docs, list endpoints, and fetch focused endpoint or section details on demand.
 
 ## Included Documentation
 
-The server ships with:
+The server currently ships with:
 
 - `docs/GHL_Custom_Objects_Fields_Review.md`
 
-You can add more `.md` files under `docs/` and call `reload_docs` to re-index at runtime.
+You can add more `.md` files under `docs/` and call `reload_docs` to re-index them at runtime.
 
 ## Tools Exposed
 
-- `list_docs` - list loaded documents and counts.
-- `search_docs` - keyword search across sections and endpoints.
-- `list_endpoints` - browse endpoints with optional filters.
-- `get_endpoint_details` - get endpoint metadata + excerpt.
-- `get_section` - fetch a full section by title.
-- `reload_docs` - reload markdown from disk.
+- `list_docs` lists loaded documents and counts.
+- `search_docs` runs keyword search across sections and endpoints.
+- `list_endpoints` browses endpoints with optional method, path, and section filters.
+- `get_endpoint_details` returns endpoint metadata and a focused excerpt.
+- `get_section` fetches a section by title or partial title.
+- `reload_docs` reloads markdown files from disk.
 
 ## Run Locally
 
@@ -31,13 +32,13 @@ npm start
 Build image:
 
 ```bash
-docker build -t ghl-docs-mcp .
+docker build -t ghl-api-mcp .
 ```
 
 Run with bundled docs:
 
 ```bash
-docker run --rm -i ghl-docs-mcp
+docker run --rm -i ghl-api-mcp
 ```
 
 Run with external docs folder mounted:
@@ -46,7 +47,7 @@ Run with external docs folder mounted:
 docker run --rm -i \
   -v /absolute/path/to/docs:/docs:ro \
   -e GHL_DOCS_DIR=/docs \
-  ghl-docs-mcp
+  ghl-api-mcp
 ```
 
 ## MCP Client Config Example
@@ -58,7 +59,7 @@ Use a docker-based stdio command in your MCP client configuration:
   "mcpServers": {
     "ghl-docs": {
       "command": "docker",
-      "args": ["run", "--rm", "-i", "ghl-docs-mcp"]
+      "args": ["run", "--rm", "-i", "ghl-api-mcp"]
     }
   }
 }
@@ -79,7 +80,7 @@ If you want to pass your own docs folder:
         "/absolute/path/to/docs:/docs:ro",
         "-e",
         "GHL_DOCS_DIR=/docs",
-        "ghl-docs-mcp"
+        "ghl-api-mcp"
       ]
     }
   }
@@ -88,8 +89,9 @@ If you want to pass your own docs folder:
 
 ## Development
 
-Run tests:
+Install dependencies and run tests:
 
 ```bash
+npm install
 npm test
 ```
