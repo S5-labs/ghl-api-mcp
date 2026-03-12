@@ -1,0 +1,18 @@
+{
+  "name": "ghl-docs-mcp-server",
+  "version": "0.1.0",
+  "description": "Docker-friendly MCP server for GoHighLevel API documentation lookup",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.27.1"
+  }
+}
