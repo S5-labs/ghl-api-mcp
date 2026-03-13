@@ -145,4 +145,4 @@ npm run scrape:page -- \
   --output docs/generated/search-contacts-advanced.md
 ```
 
-The scraper prefers Zen when it can launch it and falls back to Chrome when Zen is unavailable or already open. You can override the executable with `--executablePath` or `ZEN_BROWSER_PATH`.
+The scraper prefers Chrome by default, then falls back to Chrome Canary, and only uses Zen as a last fallback. You can override the browser with `--browser` or set an explicit executable with `--executablePath` or `PUPPETEER_EXECUTABLE_PATH`.

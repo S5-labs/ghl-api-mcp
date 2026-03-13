@@ -77,7 +77,7 @@ async function resolveBrowser(args) {
   }
 
   const order =
-    requested === "auto" ? ["zen", "chrome", "canary"] : [requested, "chrome", "canary"];
+    requested === "auto" ? ["chrome", "canary", "zen"] : [requested, "chrome", "canary", "zen"];
 
   for (const name of order) {
     const candidate = BROWSER_CANDIDATES[name];

@@ -1,6 +1,6 @@
 # Search Contacts
 - Source URL: https://marketplace.gohighlevel.com/docs/ghl/contacts/search-contacts-advanced/index.html
-- Browser: zen (fallback: chrome)
+- Browser: chrome
 - Endpoint URL: POST https://services.leadconnectorhq.com/contacts/search
 ## API Reference
 **Endpoint:** `POST /contacts/search`
