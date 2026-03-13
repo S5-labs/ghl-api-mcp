@@ -21,6 +21,8 @@ You can add more `.md` files under `docs/` and call `reload_docs` to re-index th
 - `get_section` fetches a section by title or partial title.
 - `reload_docs` reloads markdown files from disk.
 
+For `search_docs`, `list_endpoints`, `get_endpoint_details`, and `get_section`, you can pass an optional `whitelabel_domain` value such as `api.example.com` or `https://api.example.com`. When provided, returned endpoint URLs and embedded example URLs are rewritten to that domain.
+
 ## Run Locally
 
 ```bash

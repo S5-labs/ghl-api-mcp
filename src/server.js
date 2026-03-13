@@ -11,6 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const DEFAULT_DOCS_DIR = path.resolve(__dirname, "..", "docs");
+const DEFAULT_API_BASE_URL = "https://services.leadconnectorhq.com";
 
 const tools = [
   {
@@ -39,6 +40,11 @@ const tools = [
           minimum: 1,
           maximum: 20,
           description: "Maximum number of results to return (default: 8).",
+        },
+        whitelabel_domain: {
+          type: "string",
+          description:
+            "Optional whitelabel API domain or base URL to use when rendering endpoint URLs.",
         },
       },
       required: ["query"],
@@ -70,6 +76,11 @@ const tools = [
           maximum: 100,
           description: "Maximum rows to return (default: 25).",
         },
+        whitelabel_domain: {
+          type: "string",
+          description:
+            "Optional whitelabel API domain or base URL to use when rendering endpoint URLs.",
+        },
       },
       additionalProperties: false,
     },
@@ -88,6 +99,11 @@ const tools = [
         method: {
           type: "string",
           description: "Optional HTTP method to disambiguate endpoint matches.",
+        },
+        whitelabel_domain: {
+          type: "string",
+          description:
+            "Optional whitelabel API domain or base URL to use when rendering endpoint URLs.",
         },
       },
       required: ["path"],
@@ -110,6 +126,11 @@ const tools = [
           minimum: 300,
           maximum: 12000,
           description: "Maximum number of section characters to return (default: 4000).",
+        },
+        whitelabel_domain: {
+          type: "string",
+          description:
+            "Optional whitelabel API domain or base URL to use when rendering endpoint URLs.",
         },
       },
       required: ["title"],
@@ -148,6 +169,7 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const name = request.params.name;
     const args = request.params.arguments || {};
+    const whitelabelDomain = optionalString(args.whitelabel_domain);
 
     switch (name) {
       case "list_docs":
@@ -157,7 +179,7 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
         const query = ensureString(args.query, "query");
         const limit = ensureInteger(args.limit, 8);
         const results = docsIndex.search(query, limit);
-        return textResponse(formatSearchResults(query, results));
+        return textResponse(formatSearchResults(query, results, whitelabelDomain));
       }
 
       case "list_endpoints": {
@@ -173,7 +195,7 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
           limit,
         });
 
-        return textResponse(formatEndpointList(endpoints));
+        return textResponse(formatEndpointList(endpoints, whitelabelDomain));
       }
 
       case "get_endpoint_details": {
@@ -189,7 +211,7 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
           );
         }
 
-        return textResponse(formatEndpointDetails(endpoint));
+        return textResponse(formatEndpointDetails(endpoint, whitelabelDomain));
       }
 
       case "get_section": {
@@ -205,6 +227,7 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
           section.content.length > maxChars
             ? `${section.content.slice(0, maxChars)}\n\n[truncated at ${maxChars} characters]`
             : section.content;
+        const renderedBody = rewriteBaseUrls(body, whitelabelDomain);
 
         return textResponse(
           [
@@ -213,8 +236,11 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
             `- Document: ${section.docId}`,
             `- Parent: ${section.parentTitle || "(none)"}`,
             `- Lines: ${section.startLine}-${section.endLine}`,
+            whitelabelDomain
+              ? `- API Base URL: ${normalizeWhitelabelDomain(whitelabelDomain)}`
+              : null,
             "",
-            body,
+            renderedBody,
           ].join("\n"),
         );
       }
@@ -293,7 +319,7 @@ function formatDocsList(docs) {
   return lines.join("\n").trim();
 }
 
-function formatEndpointList(endpoints) {
+function formatEndpointList(endpoints, whitelabelDomain) {
   if (endpoints.length === 0) {
     return "No endpoints matched the filter.";
   }
@@ -303,6 +329,9 @@ function formatEndpointList(endpoints) {
   endpoints.forEach((endpoint, idx) => {
     lines.push(
       `${idx + 1}. ${endpoint.method} ${endpoint.path}`,
+      whitelabelDomain
+        ? `   - URL: ${buildEndpointUrl(endpoint.path, whitelabelDomain)}`
+        : null,
       `   - Operation: ${endpoint.operationTitle}`,
       `   - Section: ${endpoint.sectionTitle || "(unknown)"}`,
       `   - Scope: ${endpoint.scope || "(not listed)"}`,
@@ -311,13 +340,16 @@ function formatEndpointList(endpoints) {
     );
   });
 
-  return lines.join("\n").trim();
+  return lines.filter(Boolean).join("\n").trim();
 }
 
-function formatEndpointDetails(endpoint) {
+function formatEndpointDetails(endpoint, whitelabelDomain) {
   return [
     `# ${endpoint.method} ${endpoint.path}`,
     "",
+    whitelabelDomain
+      ? `- URL: ${buildEndpointUrl(endpoint.path, whitelabelDomain)}`
+      : null,
     `- Operation: ${endpoint.operationTitle}`,
     `- Section: ${endpoint.sectionTitle || "(unknown)"}`,
     `- Scope: ${endpoint.scope || "(not listed)"}`,
@@ -327,13 +359,13 @@ function formatEndpointDetails(endpoint) {
     "",
     "## Excerpt",
     "",
-    endpoint.content,
+    rewriteBaseUrls(endpoint.content, whitelabelDomain),
   ]
     .filter(Boolean)
     .join("\n");
 }
 
-function formatSearchResults(query, results) {
+function formatSearchResults(query, results, whitelabelDomain) {
   if (results.length === 0) {
     return `No results found for \`${query}\`.`;
   }
@@ -345,10 +377,13 @@ function formatSearchResults(query, results) {
       const endpoint = result.item;
       lines.push(
         `${idx + 1}. [Endpoint] ${endpoint.method} ${endpoint.path}`,
+        whitelabelDomain
+          ? `   - URL: ${buildEndpointUrl(endpoint.path, whitelabelDomain)}`
+          : null,
         `   - Operation: ${endpoint.operationTitle}`,
         `   - Scope: ${endpoint.scope || "(not listed)"}`,
         `   - Score: ${result.score}`,
-        `   - Excerpt: ${result.excerpt}`,
+        `   - Excerpt: ${rewriteBaseUrls(result.excerpt, whitelabelDomain)}`,
         "",
       );
       return;
@@ -359,12 +394,41 @@ function formatSearchResults(query, results) {
       `${idx + 1}. [Section] ${section.title}`,
       `   - Parent: ${section.parentTitle || "(none)"}`,
       `   - Score: ${result.score}`,
-      `   - Excerpt: ${result.excerpt}`,
+      `   - Excerpt: ${rewriteBaseUrls(result.excerpt, whitelabelDomain)}`,
       "",
     );
   });
 
-  return lines.join("\n").trim();
+  return lines.filter(Boolean).join("\n").trim();
+}
+
+export function normalizeWhitelabelDomain(value) {
+  const trimmed = ensureString(value, "whitelabel_domain");
+  const candidate = /^[a-z]+:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+  let url;
+  try {
+    url = new URL(candidate);
+  } catch {
+    throw new Error("'whitelabel_domain' must be a valid domain or URL");
+  }
+
+  return url.origin;
+}
+
+export function buildEndpointUrl(endpointPath, whitelabelDomain) {
+  const baseUrl = whitelabelDomain
+    ? normalizeWhitelabelDomain(whitelabelDomain)
+    : DEFAULT_API_BASE_URL;
+  const normalizedPath = endpointPath.startsWith("/") ? endpointPath : `/${endpointPath}`;
+  return `${baseUrl}${normalizedPath}`;
+}
+
+export function rewriteBaseUrls(text, whitelabelDomain) {
+  if (!whitelabelDomain) return text;
+
+  const normalizedBaseUrl = normalizeWhitelabelDomain(whitelabelDomain);
+  return text.replaceAll(DEFAULT_API_BASE_URL, normalizedBaseUrl);
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
