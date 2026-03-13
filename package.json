@@ -8,6 +8,7 @@
     "ghl-api-mcp": "./bin/ghl-api-mcp.js"
   },
   "scripts": {
+    "scrape:page": "node scripts/scrape-ghl-page.js",
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "test": "node --test"
@@ -16,6 +17,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "1.27.1"
+    "@modelcontextprotocol/sdk": "1.27.1",
+    "puppeteer-core": "^24.39.1"
   }
 }

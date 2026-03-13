@@ -10,7 +10,7 @@ The server currently ships with:
 - `docs/GHL_Custom_Fields_Review.md`
 - `docs/GHL_Custom_Objects_Review.md`
 
-You can add more `.md` files under `docs/` and call `reload_docs` to re-index them at runtime.
+You can add more `.md` files under `docs/` and call `reload_docs` to re-index them at runtime. Generated browser-scraped pages can live under `docs/generated/` and will be indexed automatically.
 
 ## Tools Exposed
 
@@ -134,3 +134,15 @@ Install dependencies and run tests:
 npm install
 npm test
 ```
+
+## Scraping Workflow
+
+Use the browser-backed scraper when GHL pages link out to richer ClickUp documentation:
+
+```bash
+npm run scrape:page -- \
+  --url https://marketplace.gohighlevel.com/docs/ghl/contacts/search-contacts-advanced \
+  --output docs/generated/search-contacts-advanced.md
+```
+
+The scraper prefers Zen when it can launch it and falls back to Chrome when Zen is unavailable or already open. You can override the executable with `--executablePath` or `ZEN_BROWSER_PATH`.
