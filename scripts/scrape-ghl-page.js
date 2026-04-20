@@ -3,11 +3,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 import puppeteer from "puppeteer-core";
 
-const ROOT_DIR = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const __filename = fileURLToPath(import.meta.url);
+const ROOT_DIR = path.resolve(path.dirname(__filename), "..");
 const DEFAULT_OUTPUT_DIR = path.join(ROOT_DIR, "docs", "generated");
+const HTTP_METHOD_PATTERN = /^(GET|POST|PUT|PATCH|DELETE)\b/i;
 
 const BROWSER_CANDIDATES = {
   zen: {
@@ -142,6 +145,379 @@ function extractLinesBetween(text, startMarker, endMarkers) {
     .filter(Boolean);
 }
 
+function slugify(value) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function stripUiNoise(text) {
+  return text
+    .replace(/\r/g, "")
+    .replace(/^Copy\s*$/gm, "")
+    .replace(/^Get ClickUp Free\s*$/gm, "")
+    .replace(/^Open in ClickUp\s*$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function cleanGeneratedMarkdown(markdown, title) {
+  return stripUiNoise(markdown)
+    .split("\n")
+    .filter((line) => {
+      const trimmed = line.trim();
+      if (!trimmed) return true;
+      if (trimmed === title) return false;
+      return true;
+    })
+    .join("\n")
+    .trim();
+}
+
+function cleanIntroText(text, title = "") {
+  const lines = stripUiNoise(text)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const firstMeaningfulIndex = lines.findIndex(
+    (line) =>
+      line.startsWith("Please note:") ||
+      /^The\s.+\sAPI\b/.test(line) ||
+      line.includes(" enables users to ") ||
+      line.includes(" allows users to "),
+  );
+
+  const relevantLines = firstMeaningfulIndex === -1 ? lines : lines.slice(firstMeaningfulIndex);
+  const cleaned = [];
+
+  for (const line of relevantLines) {
+    if (!line) continue;
+    if (title && line === title) continue;
+    if (line === "Endpoint:") break;
+    if (/^(Scope\(s\)|Auth Method\(s\)|Token Type\(s\)|Request)$/i.test(line)) break;
+    if (HTTP_METHOD_PATTERN.test(line)) continue;
+    if (/^https?:\/\//i.test(line)) continue;
+    if (HTTP_METHOD_PATTERN.test(line) && line.includes("/")) break;
+    if (/^(Request Body|Filters|Sort|Response Body)$/i.test(line)) break;
+    if (line === "Requirements") continue;
+    if (line.includes("Documentation Link - ")) {
+      cleaned.push(line.split("Documentation Link - ")[0].trim());
+      continue;
+    }
+    if (line.includes("GoHighLevel Marketplace Documentation")) continue;
+    cleaned.push(line);
+  }
+
+  return cleaned.join("\n\n").trim();
+}
+
+function splitTopLevelSections(markdown) {
+  const lines = markdown.split("\n");
+  const intro = [];
+  const sections = [];
+  let current = null;
+
+  for (const line of lines) {
+    if (line.startsWith("## ")) {
+      if (current) {
+        current.content = current.content.join("\n").trim();
+        sections.push(current);
+      }
+
+      current = {
+        title: line.replace(/^##\s+/, "").trim(),
+        content: [],
+      };
+      continue;
+    }
+
+    if (current) {
+      current.content.push(line);
+    } else {
+      intro.push(line);
+    }
+  }
+
+  if (current) {
+    current.content = current.content.join("\n").trim();
+    sections.push(current);
+  }
+
+  return {
+    intro: intro.join("\n").trim(),
+    sections,
+  };
+}
+
+function cleanSectionTitle(title) {
+  return title.replace(/^[^A-Za-z0-9]+/, "").trim();
+}
+
+function normalizeCodeBlock(code) {
+  return stripUiNoise(code)
+    .replace(/\t/g, "  ")
+    .replace(/[ \t]+$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function normalizeCurlBlock(code) {
+  return stripUiNoise(code)
+    .split("\n")
+    .map((line) => line.trimEnd())
+    .filter(Boolean)
+    .join("\n")
+    .trim();
+}
+
+function extractFirstCurlBlock(markdown) {
+  const matches = markdown.matchAll(/```[a-z]*\n([\s\S]*?)```/gi);
+  for (const match of matches) {
+    if (match[1].includes("curl ")) {
+      return normalizeCurlBlock(match[1]);
+    }
+  }
+  return null;
+}
+
+function parseMarkdownRow(line) {
+  const placeholder = "__ESCAPED_PIPE__";
+  const safeLine = line.replace(/\\\|/g, placeholder);
+  return safeLine
+    .split("|")
+    .slice(1, -1)
+    .map((cell) => cell.replaceAll(placeholder, "|").trim());
+}
+
+function formatMarkdownRow(cells) {
+  return `| ${cells.join(" | ")} |`;
+}
+
+function normalizeTableRows(rows) {
+  if (rows.length < 2) return rows;
+
+  const width = Math.max(...rows.map((row) => row.length));
+  const [header, separator, ...body] = rows;
+  const normalized = [header, separator];
+  let lastTopLevel = null;
+
+  for (const rawRow of body) {
+    const row = [...rawRow];
+    while (row.length < width) row.push("");
+
+    const firstCell = row[0].trim();
+    if (firstCell && !firstCell.startsWith("|----") && !firstCell.startsWith("\\|----")) {
+      lastTopLevel = firstCell.replace(/`/g, "");
+    }
+
+    if (firstCell.startsWith("|----") || firstCell.startsWith("\\|----")) {
+      const nestedKey = firstCell.replace(/^\\?\|----\s*/, "").trim();
+      row[0] = lastTopLevel ? `\`${lastTopLevel}.${nestedKey}\`` : `\`${nestedKey}\``;
+    }
+
+    if (!row[0] && /note/i.test(row[3] || "")) {
+      row[0] = "`Note`";
+    }
+
+    normalized.push(row);
+  }
+
+  return normalized;
+}
+
+function normalizeMarkdownTables(markdown) {
+  const lines = markdown.split("\n");
+  const output = [];
+  let index = 0;
+
+  while (index < lines.length) {
+    if (!lines[index].trim().startsWith("|")) {
+      output.push(lines[index]);
+      index += 1;
+      continue;
+    }
+
+    const tableLines = [];
+    while (index < lines.length && lines[index].trim().startsWith("|")) {
+      tableLines.push(lines[index].trim());
+      index += 1;
+    }
+
+    const rows = tableLines.map(parseMarkdownRow);
+    const normalizedRows = normalizeTableRows(rows).map(formatMarkdownRow);
+    output.push(...normalizedRows);
+  }
+
+  return output.join("\n");
+}
+
+function cleanSectionContent(content) {
+  return normalizeMarkdownTables(stripUiNoise(content))
+    .replace(/For more information on how searchable fields work for contacts, please refer to this guide:\s*(?:<br>\s*)?GohighlevelSearching an Object Record\s*/gi, "")
+    .replace(/```\n([\s\S]*?)```/g, (_match, code) => `\`\`\`\n${normalizeCodeBlock(code)}\n\`\`\``)
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function scoreOverviewText(text) {
+  let score = 0;
+  if (!text) return score;
+  if (text.includes("Please note:")) score += 3;
+  if (/\bAPI\b/.test(text)) score += 2;
+  if (/enables users|allows users/i.test(text)) score += 2;
+  if (/https?:\/\//i.test(text)) score -= 2;
+  if (/Requirements\b/.test(text)) score -= 1;
+  if (/ContactsSearchSearch Contacts/.test(text)) score -= 4;
+  if (text.length > 120) score += 1;
+  return score;
+}
+
+function extractOverviewText(source, primarySupplement) {
+  const sourceIntro = source.bodyText
+    .split(/Scope\(s\)|Auth Method\(s\)|Token Type\(s\)|Request/i)[0]
+    .trim();
+  const candidates = [
+    cleanIntroText(sourceIntro, source.title),
+    primarySupplement ? cleanIntroText(primarySupplement.intro, primarySupplement.title) : "",
+  ].filter(Boolean);
+
+  return candidates.sort((left, right) => scoreOverviewText(right) - scoreOverviewText(left))[0]
+    || "This document was generated from the public HighLevel API page and its linked ClickUp supplement.";
+}
+
+function promoteNestedMajorSections(sections) {
+  const promoted = [];
+  const majorHeadings = new Set(["Sort", "Response Body"]);
+
+  for (const section of sections) {
+    const lines = section.content.split("\n");
+    let current = { title: section.title, content: [] };
+
+    for (const line of lines) {
+      if (line.startsWith("### ")) {
+        const nestedTitle = cleanSectionTitle(line.replace(/^###\s+/, ""));
+        if (majorHeadings.has(nestedTitle)) {
+          if (current.content.join("\n").trim()) {
+            promoted.push({
+              title: current.title,
+              content: current.content.join("\n").trim(),
+            });
+          }
+          current = { title: nestedTitle, content: [] };
+          continue;
+        }
+      }
+
+      current.content.push(line);
+    }
+
+    if (current.content.join("\n").trim()) {
+      promoted.push({
+        title: current.title,
+        content: current.content.join("\n").trim(),
+      });
+    }
+  }
+
+  return promoted;
+}
+
+function renderReviewMarkdown({ source, supplements }) {
+  const endpointPath = source.endpointUrl ? new URL(source.endpointUrl).pathname : null;
+  const curlBlock = extractFirstCurlBlock(source.markdown);
+  const primarySupplement = supplements[0] || null;
+  const parsedSupplement = primarySupplement
+    ? splitTopLevelSections(cleanGeneratedMarkdown(primarySupplement.markdown, primarySupplement.title))
+    : { intro: "", sections: [] };
+  const overviewText = extractOverviewText(source, primarySupplement && {
+    ...primarySupplement,
+    intro: parsedSupplement.intro,
+  });
+
+  const dynamicSections = promoteNestedMajorSections(parsedSupplement.sections)
+    .map((section) => ({
+      title: cleanSectionTitle(section.title),
+      content: cleanSectionContent(section.content),
+    }))
+    .filter((section) => section.title && section.content);
+
+  const tableOfContents = [
+    { title: "Overview", number: 1 },
+    { title: "API Reference", number: 2 },
+    ...dynamicSections.map((section, index) => ({ title: section.title, number: index + 3 })),
+    { title: "Authentication and Scopes Reference", number: dynamicSections.length + 3 },
+    { title: "References", number: dynamicSections.length + 4 },
+  ];
+
+  const lines = [
+    `# GoHighLevel ${source.title} API Review`,
+    "",
+    "**Author:** Browser Scraper",
+    `**Date:** ${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}`,
+    "**API Version:** 2021-07-28",
+    "**Base URL:** `https://services.leadconnectorhq.com`",
+    "",
+    "---",
+    "",
+    "## Table of Contents",
+    "",
+    ...tableOfContents.map((section) => `${section.number}. [${section.title}](#${section.number}-${slugify(section.title)})`),
+    "",
+    "---",
+    "",
+    "## 1. Overview",
+    "",
+    overviewText,
+    "",
+    "---",
+    "",
+    "## 2. API Reference",
+    "",
+    endpointPath ? `**Endpoint:** \`${source.endpointMethod} ${endpointPath}\`` : null,
+    source.scopes.length > 0 ? `**Scope:** \`${source.scopes.join(", ")}\`` : null,
+    source.tokenTypes.length > 0 ? `**Token Type:** ${source.tokenTypes.join(", ")}` : null,
+    source.authMethods.length > 0 ? `**Auth Method(s):** ${source.authMethods.join(", ")}` : null,
+    curlBlock ? "" : null,
+    curlBlock ? "**Sample cURL Request:**" : null,
+    curlBlock ? "" : null,
+    curlBlock ? `\`\`\`bash\n${curlBlock}\n\`\`\`` : null,
+  ].filter((line) => line !== null);
+
+  dynamicSections.forEach((section, index) => {
+    lines.push(
+      "",
+      "---",
+      "",
+      `## ${index + 3}. ${section.title}`,
+      "",
+      section.content,
+    );
+  });
+
+  lines.push(
+    "",
+    "---",
+    "",
+    `## ${dynamicSections.length + 3}. Authentication and Scopes Reference`,
+    "",
+    "| API Group | Scope | Token Type | Auth Method(s) |",
+    "| --- | --- | --- | --- |",
+    `| ${source.title} | ${source.scopes.length > 0 ? `\`${source.scopes.join(", ")}\`` : "(not detected)"} | ${source.tokenTypes.length > 0 ? source.tokenTypes.join(", ") : "(not detected)"} | ${source.authMethods.length > 0 ? source.authMethods.join(", ") : "(not detected)"} |`,
+    "",
+    "---",
+    "",
+    `## ${dynamicSections.length + 4}. References`,
+    "",
+    `[^1]: [HighLevel API Page](${source.url})`,
+    primarySupplement ? `[^2]: [ClickUp Supplement](${primarySupplement.url})` : null,
+    "",
+  );
+
+  return `${lines.filter(Boolean).join("\n")}\n`;
+}
+
 async function extractPage(page, url) {
   await page.goto(url, {
     waitUntil: "networkidle2",
@@ -160,23 +536,45 @@ async function extractPage(page, url) {
         .trim();
     }
 
+    function stripNoise(text) {
+      return collapseWhitespace(text)
+        .replace(/^Copy\s*$/gm, "")
+        .replace(/^Get ClickUp Free\s*$/gm, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+
     function visibleText(element) {
       if (!element) return "";
-      return collapseWhitespace(element.innerText || element.textContent || "");
+      return stripNoise(element.innerText || element.textContent || "");
+    }
+
+    function tableCellText(cell) {
+      return visibleText(cell)
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .join("<br>")
+        .replace(/\|/g, "\\|");
     }
 
     function renderTable(table) {
       const rows = Array.from(table.querySelectorAll("tr"))
         .map((row) =>
-          Array.from(row.querySelectorAll("th, td")).map((cell) =>
-            visibleText(cell).replace(/\|/g, "\\|"),
-          ),
+          Array.from(row.querySelectorAll("th, td")).map((cell) => tableCellText(cell)),
         )
         .filter((row) => row.length > 0);
 
       if (rows.length === 0) return "";
 
-      const [header, ...body] = rows;
+      const width = Math.max(...rows.map((row) => row.length));
+      const padded = rows.map((row) => {
+        const cells = [...row];
+        while (cells.length < width) cells.push("");
+        return cells;
+      });
+
+      const [header, ...body] = padded;
       const headerLine = `| ${header.join(" | ")} |`;
       const separatorLine = `| ${header.map(() => "---").join(" | ")} |`;
       const bodyLines = body.map((row) => `| ${row.join(" | ")} |`);
@@ -216,6 +614,11 @@ async function extractPage(page, url) {
       return lines.filter(Boolean).join("\n");
     }
 
+    function renderCodeBlock(node) {
+      const code = stripNoise(node.innerText || node.textContent || "");
+      return code ? `\`\`\`\n${code}\n\`\`\`` : "";
+    }
+
     function serialize(root) {
       const blocks = [];
 
@@ -226,6 +629,7 @@ async function extractPage(page, url) {
         if (style.display === "none" || style.visibility === "hidden") return;
 
         const tag = node.tagName;
+        if (["SCRIPT", "STYLE", "NOSCRIPT", "SVG", "BUTTON"].includes(tag)) return;
 
         if (tag === "TABLE") {
           const rendered = renderTable(node);
@@ -234,8 +638,8 @@ async function extractPage(page, url) {
         }
 
         if (tag === "PRE") {
-          const code = collapseWhitespace(node.innerText || "");
-          if (code) blocks.push(`\`\`\`\n${code}\n\`\`\``);
+          const rendered = renderCodeBlock(node);
+          if (rendered) blocks.push(rendered);
           return;
         }
 
@@ -264,13 +668,13 @@ async function extractPage(page, url) {
       }
 
       walk(root);
-      return collapseWhitespace(blocks.join("\n\n"));
+      return stripNoise(blocks.join("\n\n"));
     }
 
     const root = isClickUp
       ? document.querySelector('[data-test="dashboard-doc-container__content"]') || document.body
       : document.querySelector("main") || document.body;
-    const bodyText = collapseWhitespace(root.innerText || root.textContent || "");
+    const bodyText = stripNoise(root.innerText || root.textContent || "");
     const clickupLinks = Array.from(document.querySelectorAll("a"))
       .map((anchor) => ({
         text: visibleText(anchor),
@@ -295,45 +699,6 @@ async function extractPage(page, url) {
       markdown: serialize(root),
     };
   }, { isClickUp });
-}
-
-function renderMarkdown({ source, supplements, browserName }) {
-  const endpointPath = source.endpointUrl ? new URL(source.endpointUrl).pathname : null;
-  const lines = [
-    `# ${source.title}`,
-    "",
-    `- Source URL: ${source.url}`,
-    `- Browser: ${browserName}`,
-    source.endpointMethod && source.endpointUrl
-      ? `- Endpoint URL: ${source.endpointMethod} ${source.endpointUrl}`
-      : null,
-    "",
-    "## API Reference",
-    "",
-    source.endpointMethod && endpointPath
-      ? `**Endpoint:** \`${source.endpointMethod} ${endpointPath}\``
-      : null,
-    source.scopes.length > 0 ? `**Scope:** \`${source.scopes.join(", ")}\`` : null,
-    source.tokenTypes.length > 0 ? `**Token Type:** ${source.tokenTypes.join(", ")}` : null,
-    source.authMethods.length > 0 ? `**Auth Method(s):** ${source.authMethods.join(", ")}` : null,
-    "",
-    "## HighLevel Page",
-    "",
-    source.markdown,
-  ].filter(Boolean);
-
-  for (const supplement of supplements) {
-    lines.push(
-      "",
-      `## ClickUp Supplement: ${supplement.title}`,
-      "",
-      `- Source URL: ${supplement.url}`,
-      "",
-      supplement.markdown,
-    );
-  }
-
-  return `${lines.join("\n")}\n`;
 }
 
 async function main() {
@@ -379,10 +744,9 @@ async function main() {
       await supplementPage.close();
     }
 
-    const markdown = renderMarkdown({
+    const markdown = renderReviewMarkdown({
       source,
       supplements,
-      browserName: browserConfig.name,
     });
 
     await fs.mkdir(path.dirname(outputPath), { recursive: true });
@@ -406,4 +770,14 @@ async function main() {
   }
 }
 
-await main();
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  await main();
+}
+
+export {
+  cleanIntroText,
+  cleanSectionContent,
+  extractOverviewText,
+  normalizeMarkdownTables,
+  renderReviewMarkdown,
+};

@@ -4,6 +4,10 @@ import path from "node:path";
 const ENDPOINT_RE = /\*\*Endpoint:\*\*\s*`([A-Z]+)\s+([^`]+)`(?:\s*\(([^)]+)\))?/;
 const SCOPE_RE = /\*\*Scope:\*\*\s*`?([^`]+?)`?\s*$/;
 const TOKEN_RE = /\*\*Token Type:\*\*\s*([^\[]+?)(?:\s*\[\^\d+\])?\s*$/;
+const RAW_ENDPOINT_RE = /^(GET|POST|PUT|PATCH|DELETE)\s+(https?:\/\/\S+|\/\S+)\s*$/;
+const RAW_SCOPE_RE = /^Scope:\s*(.+?)\s*$/i;
+const RAW_TOKEN_RE = /^Token(?:\s+Type)?:\s*(.+?)\s*$/i;
+const TABLE_ROW_RE = /^\|\s*\*\*(Method|Endpoint|Scope|Token|Token Type)\*\*\s*\|\s*(.+?)\s*\|\s*$/i;
 const HEADING_RE = /^(#{1,6})\s+(.+)$/;
 
 function slugify(value) {
@@ -16,6 +20,39 @@ function slugify(value) {
 
 function normalize(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+function normalizeEndpointPath(rawPath) {
+  const trimmed = rawPath.trim();
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    try {
+      const parsed = new URL(trimmed);
+      return decodeURIComponent(`${parsed.pathname}${parsed.search}`);
+    } catch {
+      return trimmed;
+    }
+  }
+
+  return trimmed;
+}
+
+function canonicalizeEndpointPath(rawPath) {
+  return normalizeEndpointPath(rawPath)
+    .replace(/\$\{[^}]+\}/g, "{param}")
+    .replace(/\{[^}]+\}/g, "{param}")
+    .replace(/:[A-Za-z0-9_]+/g, "{param}")
+    .replace(/\/+/g, "/")
+    .replace(/\/$/, "") || "/";
+}
+
+function cleanTableValue(value) {
+  return value
+    .trim()
+    .replace(/^`/, "")
+    .replace(/`$/, "")
+    .replace(/<\/?br\s*\/?>/gi, " ")
+    .trim();
 }
 
 function excerptAround(text, query, maxLength = 600) {
@@ -90,58 +127,122 @@ function parseMarkdownDocument(filePath, content) {
   });
 
   const endpoints = [];
+  const seenEndpoints = new Set();
 
-  for (let i = 0; i < lines.length; i += 1) {
-    const endpointMatch = lines[i].match(ENDPOINT_RE);
-    if (!endpointMatch) continue;
-
-    const [, method, rawPath, note] = endpointMatch;
-    const pathValue = rawPath.trim();
-
-    const operationHeading = [...headings]
-      .reverse()
-      .find((heading) => heading.line < i && heading.level >= 3);
+  function resolveHeadingContext(lineIndex) {
     const sectionHeading = [...headings]
       .reverse()
-      .find((heading) => heading.line < i && heading.level === 2);
+      .find((heading) => heading.line < lineIndex && heading.level === 2);
+    const operationHeading = [...headings]
+      .reverse()
+      .find(
+        (heading) =>
+          heading.line < lineIndex &&
+          heading.level >= 3 &&
+          (!sectionHeading || heading.line > sectionHeading.line),
+      );
 
-    let scope = null;
-    let tokenType = null;
+    return { operationHeading, sectionHeading };
+  }
 
-    for (let j = i + 1; j < Math.min(i + 10, lines.length); j += 1) {
-      if (!scope) {
-        const scopeMatch = lines[j].match(SCOPE_RE);
-        if (scopeMatch) scope = scopeMatch[1].trim();
-      }
+  function addEndpoint({ method, rawPath, note = null, scope = null, tokenType = null, lineIndex }) {
+    const pathValue = normalizeEndpointPath(rawPath);
+    const canonicalPath = canonicalizeEndpointPath(pathValue);
+    const dedupeKey = `${method}:${canonicalPath}:${lineIndex}`;
+    if (seenEndpoints.has(dedupeKey)) return;
+    seenEndpoints.add(dedupeKey);
 
-      if (!tokenType) {
-        const tokenMatch = lines[j].match(TOKEN_RE);
-        if (tokenMatch) tokenType = tokenMatch[1].trim();
-      }
-
-      if (scope && tokenType) break;
-    }
-
-    const blockStart = operationHeading ? operationHeading.line : Math.max(0, i - 4);
-    const nextHeading = headings.find((heading) => heading.line > i);
+    const { operationHeading, sectionHeading } = resolveHeadingContext(lineIndex);
+    const blockStart = operationHeading ? operationHeading.line : Math.max(0, lineIndex - 4);
+    const nextHeading = headings.find((heading) => heading.line > lineIndex);
     const blockEnd = nextHeading ? nextHeading.line - 1 : lines.length - 1;
     const blockContent = lines.slice(blockStart, blockEnd + 1).join("\n").trim();
 
-    const endpointId = `${method}:${pathValue}:${i + 1}`;
-
     endpoints.push({
-      id: endpointId,
+      id: `${method}:${canonicalPath}:${lineIndex + 1}`,
       docId,
       method,
       path: pathValue,
+      canonicalPath,
       note: note?.trim() || null,
       scope,
       tokenType,
       sectionTitle: sectionHeading?.title || null,
-      operationTitle: operationHeading?.title || sectionHeading?.title || `Endpoint at line ${i + 1}`,
-      line: i + 1,
+      operationTitle: operationHeading?.title || sectionHeading?.title || `Endpoint at line ${lineIndex + 1}`,
+      line: lineIndex + 1,
       content: blockContent,
     });
+  }
+
+  for (let i = 0; i < lines.length; i += 1) {
+    const endpointMatch = lines[i].match(ENDPOINT_RE);
+    if (endpointMatch) {
+      const [, method, rawPath, note] = endpointMatch;
+      let scope = null;
+      let tokenType = null;
+
+      for (let j = i + 1; j < Math.min(i + 10, lines.length); j += 1) {
+        if (!scope) {
+          const scopeMatch = lines[j].match(SCOPE_RE);
+          if (scopeMatch) scope = scopeMatch[1].trim();
+        }
+
+        if (!tokenType) {
+          const tokenMatch = lines[j].match(TOKEN_RE);
+          if (tokenMatch) tokenType = tokenMatch[1].trim();
+        }
+
+        if (scope && tokenType) break;
+      }
+
+      addEndpoint({ method, rawPath, note, scope, tokenType, lineIndex: i });
+      continue;
+    }
+
+    const tableRowMatch = lines[i].match(TABLE_ROW_RE);
+    if (tableRowMatch && tableRowMatch[1].toLowerCase() === "endpoint") {
+      let method = null;
+      let rawPath = cleanTableValue(tableRowMatch[2]);
+      let scope = null;
+      let tokenType = null;
+
+      for (let j = Math.max(0, i - 4); j <= Math.min(lines.length - 1, i + 4); j += 1) {
+        const match = lines[j].match(TABLE_ROW_RE);
+        if (!match) continue;
+        const key = match[1].toLowerCase();
+        const value = cleanTableValue(match[2]);
+
+        if (key === "method") method = value.toUpperCase();
+        if (key === "scope") scope = value;
+        if (key === "token" || key === "token type") tokenType = value;
+      }
+
+      if (method && rawPath) {
+        addEndpoint({ method, rawPath, scope, tokenType, lineIndex: i });
+        continue;
+      }
+    }
+
+    const rawEndpointMatch = lines[i].trim().match(RAW_ENDPOINT_RE);
+    if (rawEndpointMatch) {
+      const [, method, rawPath] = rawEndpointMatch;
+      let scope = null;
+      let tokenType = null;
+
+      for (let j = i + 1; j < Math.min(i + 6, lines.length); j += 1) {
+        if (!scope) {
+          const scopeMatch = lines[j].trim().match(RAW_SCOPE_RE);
+          if (scopeMatch) scope = scopeMatch[1].trim();
+        }
+
+        if (!tokenType) {
+          const tokenMatch = lines[j].trim().match(RAW_TOKEN_RE);
+          if (tokenMatch) tokenType = tokenMatch[1].trim();
+        }
+      }
+
+      addEndpoint({ method, rawPath, scope, tokenType, lineIndex: i });
+    }
   }
 
   return {
@@ -232,17 +333,21 @@ export class DocsIndex {
   getEndpoint({ method, path: endpointPath }) {
     const methodNorm = method ? method.toUpperCase() : null;
     const pathNorm = endpointPath.trim().toLowerCase();
+    const canonicalPath = canonicalizeEndpointPath(endpointPath).toLowerCase();
 
     let match = this.endpoints.find((endpoint) => {
       if (methodNorm && endpoint.method !== methodNorm) return false;
-      return endpoint.path.toLowerCase() === pathNorm;
+      return endpoint.path.toLowerCase() === pathNorm || endpoint.canonicalPath.toLowerCase() === canonicalPath;
     });
 
     if (match) return match;
 
     match = this.endpoints.find((endpoint) => {
       if (methodNorm && endpoint.method !== methodNorm) return false;
-      return endpoint.path.toLowerCase().includes(pathNorm);
+      return (
+        endpoint.path.toLowerCase().includes(pathNorm) ||
+        endpoint.canonicalPath.toLowerCase().includes(canonicalPath)
+      );
     });
 
     return match || null;
