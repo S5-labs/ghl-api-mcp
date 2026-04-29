@@ -1,68 +1,62 @@
 # ghl-api-mcp
 
-`ghl-api-mcp` is an MCP server that gives agents targeted access to GoHighLevel API documentation.
-Instead of loading large markdown files into prompt context, agents can search docs, list endpoints, and fetch focused endpoint or section details on demand.
+`ghl-api-mcp` is an MCP stdio server for GoHighLevel documentation. It lets agents search docs, list endpoints, and fetch focused API details without loading large markdown files into prompt context.
 
-## Included Documentation
+This repo does not include a runnable GoHighLevel OAuth/SSO sample app; it contains documentation and the MCP docs server that indexes that documentation.
 
-The server currently ships with:
+## What It Does
 
-- `docs/GHL_Custom_Fields_Review.md`
-- `docs/GHL_Custom_Objects_Review.md`
+The server indexes markdown files under `docs/` and exposes MCP tools for:
 
-You can add more `.md` files under `docs/` and call `reload_docs` to re-index them at runtime. Generated browser-scraped pages can live under `docs/generated/` and will be indexed automatically.
+- `list_docs`
+- `search_docs`
+- `list_endpoints`
+- `get_endpoint_details`
+- `get_section`
+- `get_document`
+- `reload_docs`
 
-## Tools Exposed
+The current corpus includes API review docs, implementation guides, and operational notes such as OAuth/SSO integration details and rate-limit guidance. To see exactly what is loaded, run `list_docs`.
 
-- `list_docs` lists loaded documents and counts.
-- `search_docs` runs keyword search across sections and endpoints.
-- `list_endpoints` browses endpoints with optional method, path, and section filters.
-- `get_endpoint_details` returns endpoint metadata and a focused excerpt.
-- `get_section` fetches a section by title or partial title.
-- `reload_docs` reloads markdown files from disk.
+`list_docs` labels each file as either a `reference` or `guide`. Use `get_document` when an agent needs the full body of a longer procedural document instead of a single extracted section.
 
-For `search_docs`, `list_endpoints`, `get_endpoint_details`, and `get_section`, you can pass an optional `whitelabel_domain` value such as `api.example.com` or `https://api.example.com`. When provided, returned endpoint URLs and embedded example URLs are rewritten to that domain.
+For `search_docs`, `list_endpoints`, `get_endpoint_details`, and `get_section`, you can pass an optional `whitelabel_domain` like `api.example.com` or `https://api.example.com`. Returned endpoint URLs and embedded example URLs will be rewritten to that domain.
 
-## Run Locally
+## Requirements
+
+- Node.js `>=20` for local usage
+- Docker, if you want to run the containerized version
+
+## Quick Start
+
+### Local
 
 ```bash
 npm install
 npm start
 ```
 
-You can also run the CLI entrypoint directly after install:
+Or run the CLI entrypoint directly:
 
 ```bash
 npm install
 ./bin/ghl-api-mcp.js
 ```
 
-## Run In Docker
+Important: this is a stdio MCP server. When you run it successfully, it stays attached and waits for client requests. It is not an HTTP server and does not open a port.
 
-Build image:
+### Docker
 
 ```bash
 docker build -t ghl-api-mcp .
-```
-
-Run with bundled docs:
-
-```bash
 docker run --rm -i ghl-api-mcp
 ```
 
-Run with external docs folder mounted:
+## MCP Client Configuration
 
-```bash
-docker run --rm -i \
-  -v /absolute/path/to/docs:/docs:ro \
-  -e GHL_DOCS_DIR=/docs \
-  ghl-api-mcp
-```
+### Local Repo Checkout
 
-## MCP Client Config Examples
-
-Use a local Node command when the repo is already checked out:
+Use this when the repository already exists on disk:
 
 ```json
 {
@@ -75,7 +69,7 @@ Use a local Node command when the repo is already checked out:
 }
 ```
 
-If you want the docs directory outside the repo:
+### Local Repo Checkout With External Docs Directory
 
 ```json
 {
@@ -91,7 +85,7 @@ If you want the docs directory outside the repo:
 }
 ```
 
-Use a docker-based stdio command in your MCP client configuration:
+### Docker
 
 ```json
 {
@@ -104,7 +98,7 @@ Use a docker-based stdio command in your MCP client configuration:
 }
 ```
 
-If you want to pass your own docs folder:
+### Docker With External Docs Directory
 
 ```json
 {
@@ -126,9 +120,13 @@ If you want to pass your own docs folder:
 }
 ```
 
-## Development
+## Document Loading
 
-Install dependencies and run tests:
+- Any `.md` file under `docs/` is indexed automatically
+- If the server is already running, call `reload_docs` after changing docs on disk
+- If you add docs to the repo and run via Docker without a mounted docs directory, rebuild the image so the container includes the new files
+
+## Development
 
 ```bash
 npm install
@@ -137,7 +135,7 @@ npm test
 
 ## Scraping Workflow
 
-Use the browser-backed scraper when GHL pages link out to richer ClickUp documentation:
+Use the browser-backed scraper when a GHL doc links to richer ClickUp content:
 
 ```bash
 npm run scrape:page -- \
@@ -145,4 +143,10 @@ npm run scrape:page -- \
   --output docs/generated/search-contacts-advanced.md
 ```
 
-The scraper prefers Chrome by default, then falls back to Chrome Canary, and only uses Zen as a last fallback. You can override the browser with `--browser` or set an explicit executable with `--executablePath` or `PUPPETEER_EXECUTABLE_PATH`.
+Browser selection order:
+
+1. Chrome
+2. Chrome Canary
+3. Zen
+
+You can override the browser with `--browser`, `--executablePath`, or `PUPPETEER_EXECUTABLE_PATH`.

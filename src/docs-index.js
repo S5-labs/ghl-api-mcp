@@ -76,6 +76,35 @@ function excerptAround(text, query, maxLength = 600) {
   return `${prefix}${clean.slice(start, end)}${suffix}`;
 }
 
+function inferDocumentType({ title, rawContent, sections, endpoints }) {
+  const titleNorm = normalize(title);
+  const contentNorm = normalize(rawContent);
+  const proceduralSignalCount = [
+    "step by step",
+    "reproduction guide",
+    "implementation guide",
+    "implementation order",
+    "prerequisites",
+    "end to end flow",
+    "checklist",
+    "sequence diagram",
+    "route inventory",
+  ].filter((signal) => contentNorm.includes(signal)).length;
+
+  if (
+    titleNorm.includes("guide") ||
+    titleNorm.includes("runbook") ||
+    titleNorm.includes("playbook") ||
+    titleNorm.includes("tutorial") ||
+    proceduralSignalCount >= 2 ||
+    (sections.length >= 8 && endpoints.length <= 2 && contentNorm.includes("1 validate"))
+  ) {
+    return "guide";
+  }
+
+  return "reference";
+}
+
 function parseMarkdownDocument(filePath, content) {
   const lines = content.split(/\r?\n/);
   const docId = path.basename(filePath, path.extname(filePath));
@@ -252,6 +281,12 @@ function parseMarkdownDocument(filePath, content) {
     sections,
     endpoints,
     rawContent: content,
+    docType: inferDocumentType({
+      title: documentTitle,
+      rawContent: content,
+      sections,
+      endpoints,
+    }),
   };
 }
 
@@ -299,10 +334,34 @@ export class DocsIndex {
     return this.docs.map((doc) => ({
       id: doc.id,
       title: doc.title,
+      docType: doc.docType,
       filePath: doc.filePath,
       sections: doc.sections.length,
       endpoints: doc.endpoints.length,
     }));
+  }
+
+  getDocument(query) {
+    const queryNorm = query.toLowerCase();
+    const normalizedQuery = normalize(query);
+
+    const byId = this.docs.find((doc) => doc.id.toLowerCase() === queryNorm);
+    if (byId) return byId;
+
+    const byTitle = this.docs.find((doc) => doc.title.toLowerCase() === queryNorm);
+    if (byTitle) return byTitle;
+
+    const byNormalizedTitle = this.docs.find((doc) => normalize(doc.title) === normalizedQuery);
+    if (byNormalizedTitle) return byNormalizedTitle;
+
+    const byContains = this.docs.find(
+      (doc) =>
+        doc.title.toLowerCase().includes(queryNorm) ||
+        doc.id.toLowerCase().includes(queryNorm) ||
+        normalize(doc.title).includes(normalizedQuery),
+    );
+
+    return byContains || null;
   }
 
   listEndpoints({ method, pathContains, sectionContains, limit = 25 } = {}) {
@@ -418,7 +477,24 @@ export class DocsIndex {
       })
       .filter(Boolean);
 
-    return [...endpointResults, ...sectionResults]
+    const documentResults = this.docs
+      .map((doc) => {
+        const searchable = [doc.title, doc.id, doc.docType, doc.rawContent]
+          .filter(Boolean)
+          .join("\n");
+        const score = scoreText(searchable, queryTerms, fullQuery) + (doc.docType === "guide" ? 2 : 0);
+        if (score === 0) return null;
+
+        return {
+          type: "document",
+          score,
+          item: doc,
+          excerpt: excerptAround(doc.rawContent, query, 700),
+        };
+      })
+      .filter(Boolean);
+
+    return [...documentResults, ...endpointResults, ...sectionResults]
       .sort((a, b) => b.score - a.score)
       .slice(0, Math.max(1, Math.min(limit, 20)));
   }

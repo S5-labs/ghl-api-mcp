@@ -138,6 +138,33 @@ const tools = [
     },
   },
   {
+    name: "get_document",
+    description:
+      "Retrieve a full documentation file by id or title, useful for longer implementation guides and runbooks.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id_or_title: {
+          type: "string",
+          description: "Document id or title, such as 'GHL_OAuth_SSO_Reproduction_Guide'.",
+        },
+        max_chars: {
+          type: "integer",
+          minimum: 500,
+          maximum: 50000,
+          description: "Maximum number of document characters to return (default: 12000).",
+        },
+        whitelabel_domain: {
+          type: "string",
+          description:
+            "Optional whitelabel API domain or base URL to use when rendering endpoint URLs.",
+        },
+      },
+      required: ["id_or_title"],
+      additionalProperties: false,
+    },
+  },
+  {
     name: "reload_docs",
     description: "Reload markdown files from disk (useful after docs updates).",
     inputSchema: {
@@ -245,6 +272,18 @@ export async function startServer({ docsDir = process.env.GHL_DOCS_DIR || DEFAUL
         );
       }
 
+      case "get_document": {
+        const idOrTitle = ensureString(args.id_or_title, "id_or_title");
+        const maxChars = ensureInteger(args.max_chars, 12000);
+        const doc = docsIndex.getDocument(idOrTitle);
+
+        if (!doc) {
+          return textResponse(`No document matched \`${idOrTitle}\`.`);
+        }
+
+        return textResponse(formatDocument(doc, maxChars, whitelabelDomain));
+      }
+
       case "reload_docs": {
         await docsIndex.load();
         const docs = docsIndex.listDocs();
@@ -309,6 +348,7 @@ function formatDocsList(docs) {
   docs.forEach((doc, idx) => {
     lines.push(
       `${idx + 1}. ${doc.title} (${doc.id})`,
+      `   - Type: ${doc.docType}`,
       `   - File: ${doc.filePath}`,
       `   - Sections: ${doc.sections}`,
       `   - Endpoints: ${doc.endpoints}`,
@@ -373,6 +413,19 @@ function formatSearchResults(query, results, whitelabelDomain) {
   const lines = [`Search results for \`${query}\` (${results.length}):`, ""];
 
   results.forEach((result, idx) => {
+    if (result.type === "document") {
+      const doc = result.item;
+      lines.push(
+        `${idx + 1}. [Document] ${doc.title}`,
+        `   - Id: ${doc.id}`,
+        `   - Type: ${doc.docType}`,
+        `   - Score: ${result.score}`,
+        `   - Excerpt: ${rewriteBaseUrls(result.excerpt, whitelabelDomain)}`,
+        "",
+      );
+      return;
+    }
+
     if (result.type === "endpoint") {
       const endpoint = result.item;
       lines.push(
@@ -400,6 +453,29 @@ function formatSearchResults(query, results, whitelabelDomain) {
   });
 
   return lines.filter(Boolean).join("\n").trim();
+}
+
+function formatDocument(doc, maxChars, whitelabelDomain) {
+  const body =
+    doc.rawContent.length > maxChars
+      ? `${doc.rawContent.slice(0, maxChars)}\n\n[truncated at ${maxChars} characters]`
+      : doc.rawContent;
+
+  return [
+    `# ${doc.title}`,
+    "",
+    `- Document ID: ${doc.id}`,
+    `- Type: ${doc.docType}`,
+    `- Sections: ${doc.sections.length}`,
+    `- Endpoints: ${doc.endpoints.length}`,
+    whitelabelDomain
+      ? `- API Base URL: ${normalizeWhitelabelDomain(whitelabelDomain)}`
+      : null,
+    "",
+    rewriteBaseUrls(body, whitelabelDomain),
+  ]
+    .filter(Boolean)
+    .join("\n");
 }
 
 export function normalizeWhitelabelDomain(value) {

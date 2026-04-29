@@ -19,6 +19,10 @@ test("loads docs and discovers endpoints", async () => {
   assert.ok(docs.length >= 2);
   assert.ok(docs.some((doc) => doc.id === "GHL_Custom_Fields_Review"));
   assert.ok(docs.some((doc) => doc.id === "GHL_Custom_Objects_Review"));
+  assert.equal(
+    docs.find((doc) => doc.id === "GHL_OAuth_SSO_Reproduction_Guide")?.docType,
+    "guide",
+  );
 
   const endpoint = index.getEndpoint({
     method: "POST",
@@ -39,6 +43,19 @@ test("search returns endpoint and section matches", async () => {
 
   const hasEndpoint = results.some((result) => result.type === "endpoint");
   assert.ok(hasEndpoint);
+});
+
+test("can retrieve full guide documents and surface them in search", async () => {
+  const index = new DocsIndex(docsDir);
+  await index.load();
+
+  const doc = index.getDocument("oauth sso reproduction guide");
+  assert.ok(doc);
+  assert.equal(doc.docType, "guide");
+  assert.match(doc.rawContent, /Exact Reproduction Strategy: Sub-Account Installs/);
+
+  const results = index.search("step by step oauth sso reproduction", 5);
+  assert.ok(results.some((result) => result.type === "document" && result.item.id === doc.id));
 });
 
 test("parses table-style endpoint docs and normalizes absolute URLs", async () => {
