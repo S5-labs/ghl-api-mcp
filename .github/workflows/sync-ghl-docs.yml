@@ -1,0 +1,56 @@
+name: Sync HighLevel API documentation
+
+on:
+  schedule:
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-highlevel-api-docs
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run docs:sync
+        env:
+          GHL_DOCS_WEBSITE_REFRESH: "1"
+      - run: npm test
+
+      - name: Open or update documentation pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: automation/sync-highlevel-api-docs
+        run: |
+          if git diff --quiet -- docs/generated docs/website; then
+            echo "HighLevel documentation is already current."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -C "$BRANCH"
+          git add docs/generated docs/website
+          git commit -m "Update generated HighLevel API docs"
+          git push --force-with-lease origin "$BRANCH"
+
+          gh pr view "$BRANCH" >/dev/null 2>&1 || gh pr create \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$BRANCH" \
+            --title "Update generated HighLevel API docs" \
+            --body "Automated weekly synchronization from the rendered HighLevel documentation website and HighLevel's public OpenAPI source repository. Tests passed before this pull request was created."

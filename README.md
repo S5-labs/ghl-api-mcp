@@ -69,6 +69,10 @@ Use this when the repository already exists on disk:
 }
 ```
 
+This is the preferred setup for local agents. It reads the repo's `docs/`
+directory directly, so docs-only edits do not require rebuilding Docker images
+and MCP clients do not create Docker containers.
+
 ### Local Repo Checkout With External Docs Directory
 
 ```json
@@ -86,6 +90,10 @@ Use this when the repository already exists on disk:
 ```
 
 ### Docker
+
+Use Docker only when the repo is not available to the MCP client. For a local
+checkout, prefer the Node configuration above so client restarts cannot leave
+old MCP containers running.
 
 ```json
 {
@@ -134,6 +142,75 @@ npm test
 ```
 
 ## Scraping Workflow
+
+### Automatic full-corpus synchronization
+
+The documentation corpus is synchronized from two official sources:
+
+1. The rendered [HighLevel API documentation website](https://marketplace.gohighlevel.com/docs/)
+   is the freshness authority. Its sitemap currently exposes the canonical,
+   unversioned pages, which are converted to Markdown under `docs/website/`.
+2. HighLevel's
+   [`GoHighLevel/highlevel-api-docs`](https://github.com/GoHighLevel/highlevel-api-docs)
+   repository supplies structured OpenAPI schemas and source Markdown under
+   `docs/generated/`.
+
+This split is intentional: the website can be newer than the public source
+repository, while the repository often contains richer request and response
+schemas than the rendered API pages. Knowledge-base document and section
+lookups prefer website snapshots; exact endpoint lookups prefer the structured
+v3/v2 OpenAPI documents.
+
+Run a synchronization locally:
+
+```bash
+npm run docs:sync
+```
+
+Check whether the committed corpus is current without changing files:
+
+```bash
+npm run docs:check
+```
+
+Hand-authored review documents in `docs/` are never overwritten. Both syncs are
+deterministic and record source/output hashes in
+`docs/website/.ghl-website-manifest.json` and
+`docs/generated/.ghl-sync-manifest.json`. Normal local website syncs cache pages
+whose non-empty sitemap timestamp has not changed. Pages without a sitemap
+timestamp are fetched on every sync so new content is not cached indefinitely.
+This includes SDK and Marketplace CLI guides as well as API reference pages.
+Deleted sitemap routes are removed
+automatically.
+
+`npm run docs:check` forces a complete website revalidation, even when sitemap
+timestamps are unchanged. The scheduled workflow does the same, preventing an
+incorrect or missing `lastmod` value from hiding website drift.
+
+The `Sync HighLevel API documentation` GitHub Actions workflow runs every Monday
+and can also be started manually. When either official source changes, it runs
+the test suite and opens or updates a pull request from
+`automation/sync-highlevel-api-docs`. Repository Actions settings must allow
+GitHub Actions to create pull requests.
+
+You can pin a different upstream branch or tag with `GHL_DOCS_REF`, or test a
+local checkout without network access:
+
+```bash
+node scripts/sync-ghl-docs.js --source-dir /path/to/highlevel-api-docs
+```
+
+To refresh only the rendered website snapshots, or inspect one page during
+development:
+
+```bash
+npm run docs:sync:website
+node scripts/sync-ghl-website.js \
+  --url https://marketplace.gohighlevel.com/docs/other/user-context-marketplace-apps \
+  --output /tmp/ghl-website-page
+```
+
+### Single-page browser scraping
 
 Use the browser-backed scraper when a GHL doc links to richer ClickUp content:
 

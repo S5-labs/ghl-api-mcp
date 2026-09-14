@@ -145,6 +145,7 @@ function parseMarkdownDocument(filePath, content) {
     return {
       id: `${docId}:${heading.slug}:${startLine + 1}`,
       docId,
+      filePath,
       title: heading.title,
       level: heading.level,
       slug: heading.slug,
@@ -190,6 +191,7 @@ function parseMarkdownDocument(filePath, content) {
     endpoints.push({
       id: `${method}:${canonicalPath}:${lineIndex + 1}`,
       docId,
+      filePath,
       method,
       path: pathValue,
       canonicalPath,
@@ -308,6 +310,42 @@ function scoreText(text, queryTerms, fullQuery) {
   return score;
 }
 
+function endpointSourcePriority(endpoint) {
+  const normalizedPath = endpoint.filePath.split(path.sep).join("/").toLowerCase();
+  if (normalizedPath.includes("/generated/api/v3/")) return 0;
+  if (normalizedPath.includes("/generated/api/v2/")) return 1;
+  if (normalizedPath.includes("/website/")) return 2;
+  if (normalizedPath.includes("/generated/")) return 3;
+  return 4;
+}
+
+function documentSourcePriority(item) {
+  const normalizedPath = item.filePath.split(path.sep).join("/").toLowerCase();
+  if (normalizedPath.includes("/website/")) return 0;
+  if (normalizedPath.includes("/generated/guides/")) return 1;
+  if (normalizedPath.includes("/generated/api/")) return 2;
+  if (normalizedPath.includes("/generated/")) return 3;
+  return 4;
+}
+
+function preferDocument(items) {
+  return [...items].sort(
+    (left, right) => documentSourcePriority(left) - documentSourcePriority(right),
+  )[0] || null;
+}
+
+function preferOfficialEndpoints(endpoints) {
+  const preferred = new Map();
+  for (const endpoint of endpoints) {
+    const key = `${endpoint.method}:${endpoint.canonicalPath}`;
+    const existing = preferred.get(key);
+    if (!existing || endpointSourcePriority(endpoint) < endpointSourcePriority(existing)) {
+      preferred.set(key, endpoint);
+    }
+  }
+  return [...preferred.values()];
+}
+
 export class DocsIndex {
   constructor(docsDir) {
     this.docsDir = docsDir;
@@ -346,20 +384,32 @@ export class DocsIndex {
     const normalizedQuery = normalize(query);
 
     const byId = this.docs.find((doc) => doc.id.toLowerCase() === queryNorm);
-    if (byId) return byId;
+    if (byId) {
+      const normalizedPath = byId.filePath.split(path.sep).join("/").toLowerCase();
+      if (normalizedPath.includes("/generated/guides/")) {
+        return preferDocument(
+          this.docs.filter((doc) => normalize(doc.title) === normalize(byId.title)),
+        );
+      }
+      return byId;
+    }
 
-    const byTitle = this.docs.find((doc) => doc.title.toLowerCase() === queryNorm);
+    const byTitle = preferDocument(
+      this.docs.filter((doc) => doc.title.toLowerCase() === queryNorm),
+    );
     if (byTitle) return byTitle;
 
-    const byNormalizedTitle = this.docs.find((doc) => normalize(doc.title) === normalizedQuery);
+    const byNormalizedTitle = preferDocument(
+      this.docs.filter((doc) => normalize(doc.title) === normalizedQuery),
+    );
     if (byNormalizedTitle) return byNormalizedTitle;
 
-    const byContains = this.docs.find(
+    const byContains = preferDocument(this.docs.filter(
       (doc) =>
         doc.title.toLowerCase().includes(queryNorm) ||
         doc.id.toLowerCase().includes(queryNorm) ||
         normalize(doc.title).includes(normalizedQuery),
-    );
+    ));
 
     return byContains || null;
   }
@@ -382,7 +432,7 @@ export class DocsIndex {
       return true;
     });
 
-    results = results
+    results = preferOfficialEndpoints(results)
       .sort((a, b) => a.path.localeCompare(b.path) || a.method.localeCompare(b.method))
       .slice(0, Math.max(1, Math.min(limit, 100)));
 
@@ -394,20 +444,24 @@ export class DocsIndex {
     const pathNorm = endpointPath.trim().toLowerCase();
     const canonicalPath = canonicalizeEndpointPath(endpointPath).toLowerCase();
 
-    let match = this.endpoints.find((endpoint) => {
-      if (methodNorm && endpoint.method !== methodNorm) return false;
-      return endpoint.path.toLowerCase() === pathNorm || endpoint.canonicalPath.toLowerCase() === canonicalPath;
-    });
+    let match = this.endpoints
+      .filter((endpoint) => {
+        if (methodNorm && endpoint.method !== methodNorm) return false;
+        return endpoint.path.toLowerCase() === pathNorm || endpoint.canonicalPath.toLowerCase() === canonicalPath;
+      })
+      .sort((left, right) => endpointSourcePriority(left) - endpointSourcePriority(right))[0];
 
     if (match) return match;
 
-    match = this.endpoints.find((endpoint) => {
-      if (methodNorm && endpoint.method !== methodNorm) return false;
-      return (
-        endpoint.path.toLowerCase().includes(pathNorm) ||
-        endpoint.canonicalPath.toLowerCase().includes(canonicalPath)
-      );
-    });
+    match = this.endpoints
+      .filter((endpoint) => {
+        if (methodNorm && endpoint.method !== methodNorm) return false;
+        return (
+          endpoint.path.toLowerCase().includes(pathNorm) ||
+          endpoint.canonicalPath.toLowerCase().includes(canonicalPath)
+        );
+      })
+      .sort((left, right) => endpointSourcePriority(left) - endpointSourcePriority(right))[0];
 
     return match || null;
   }
@@ -415,13 +469,13 @@ export class DocsIndex {
   getSection(query) {
     const queryNorm = query.toLowerCase();
 
-    const byTitle = this.sections.find((section) =>
-      section.title.toLowerCase() === queryNorm,
+    const byTitle = preferDocument(
+      this.sections.filter((section) => section.title.toLowerCase() === queryNorm),
     );
     if (byTitle) return byTitle;
 
-    const byContains = this.sections.find((section) =>
-      section.title.toLowerCase().includes(queryNorm),
+    const byContains = preferDocument(
+      this.sections.filter((section) => section.title.toLowerCase().includes(queryNorm)),
     );
 
     return byContains || null;
@@ -433,7 +487,7 @@ export class DocsIndex {
 
     const queryTerms = fullQuery.split(/\s+/).filter(Boolean);
 
-    const endpointResults = this.endpoints
+    const endpointResults = preferOfficialEndpoints(this.endpoints)
       .map((endpoint) => {
         const searchable = [
           endpoint.method,
@@ -447,8 +501,9 @@ export class DocsIndex {
           .filter(Boolean)
           .join("\n");
 
-        const score = scoreText(searchable, queryTerms, fullQuery) + 3;
-        if (score === 0) return null;
+        const lexicalScore = scoreText(searchable, queryTerms, fullQuery);
+        if (lexicalScore === 0) return null;
+        const score = lexicalScore + 3;
 
         return {
           type: "endpoint",
@@ -465,8 +520,9 @@ export class DocsIndex {
         const searchable = [section.title, section.parentTitle, section.content]
           .filter(Boolean)
           .join("\n");
-        const score = scoreText(searchable, queryTerms, fullQuery);
-        if (score === 0) return null;
+        const lexicalScore = scoreText(searchable, queryTerms, fullQuery);
+        if (lexicalScore === 0) return null;
+        const score = lexicalScore + (4 - documentSourcePriority(section));
 
         return {
           type: "section",
@@ -482,8 +538,12 @@ export class DocsIndex {
         const searchable = [doc.title, doc.id, doc.docType, doc.rawContent]
           .filter(Boolean)
           .join("\n");
-        const score = scoreText(searchable, queryTerms, fullQuery) + (doc.docType === "guide" ? 2 : 0);
-        if (score === 0) return null;
+        const lexicalScore = scoreText(searchable, queryTerms, fullQuery);
+        if (lexicalScore === 0) return null;
+        const score =
+          lexicalScore +
+          (doc.docType === "guide" ? 2 : 0) +
+          (4 - documentSourcePriority(doc));
 
         return {
           type: "document",

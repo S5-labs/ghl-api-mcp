@@ -1,0 +1,58 @@
+> Live website snapshot from [HighLevel API Documentation](https://marketplace.gohighlevel.com/docs/ghl/opportunities/get-pipeline). This rendered page is the freshness authority; repository-derived documents remain available for structured schema details.
+
+**Website Version:** v3
+
+# Get Pipeline
+
+**Endpoint:** `GET /opportunities/pipelines/:pipelineId`
+
+Retrieves a single pipeline by its ID, including all its stages and configuration.
+
+## Request
+
+**Version**
+
+string
+
+required
+
+API Version
+
+Available options
+
+`v3`
+
+**pipelineId**
+
+string
+
+required
+
+The unique identifier of the pipeline
+
+application/json
+
+Successful response
+
+- application/json
+
+- Schema
+- Example (auto)
+
+**Schema**
+
+**id**stringUnique identifier of the pipeline**name**stringName of the pipeline**stages**array[]Stages belonging to this pipeline**showInFunnel**booleanWhether the pipeline is shown in the funnel view**showInPieChart**booleanWhether the pipeline is shown in the pie chart view**locationId**stringIdentifier of the location (sub-account) this pipeline belongs to**useOpportunityProbability**booleanWhether stage-level win probability is enabled for this pipeline**colorRenderMode**stringHow pipeline/stage colors are renderedAvailable options`dot``bg-tint``none`**position**stringFractional-index key used to sort pipelines. Updated when the user reorders pipelines (via drag-and-drop or the reorder modal).
+
+```json
+{
+  "id": "aWdODOBVOlH1RUFKWQke",
+  "name": "new pipeline",
+  "stages": [],
+  "showInFunnel": false,
+  "showInPieChart": true,
+  "locationId": "VeMHYX28Satp2p7XVKbb",
+  "useOpportunityProbability": true,
+  "colorRenderMode": "dot",
+  "position": "a0V"
+}
+```
