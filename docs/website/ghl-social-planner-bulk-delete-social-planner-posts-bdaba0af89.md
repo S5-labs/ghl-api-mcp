@@ -12,7 +12,7 @@ Note:
 
 1.The maximum number of posts that can be deleted in a single request is '50'.
 
-2.However, It will only get deleted in CRM database but still it is recommended to be cautious of this operation.
+2.However, It will only get deleted in the platform database but still it is recommended to be cautious of this operation.
 
 ## Request
 
@@ -28,6 +28,14 @@ Available options
 
 `v3`
 
+**locationId**
+
+string
+
+required
+
+Location ID (also known as Sub-Account ID) for the business location.
+
 application/json
 
 - application/json
@@ -37,7 +45,7 @@ application/json
 
 ### Body**required**
 
-**postIds**string[]Requested Results
+**postIds**string[]Post identifiers to delete. Each is either a 24-char post id or a 40-char native post id.
 
 ```json
 {
@@ -58,13 +66,16 @@ Posts deleted successfully
 
 **Schema**
 
-**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**requiredMessage and deleted count
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectrequiredMessage and deleted count
 
 ```json
 {
   "success": true,
   "statusCode": 201,
   "message": "Posts Deleted Successfully",
-  "results": "{ message: \"Posts deleted successfully\", deletedCount: 10 }"
+  "results": {
+    "message": "Posts deleted successfully",
+    "deletedCount": 10
+  }
 }
 ```

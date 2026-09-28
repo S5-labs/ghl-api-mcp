@@ -31,7 +31,7 @@ application/json
 
 ### Body**required**
 
-**locationId**stringrequiredLocation ID**categoryId**stringrequiredCategory ID**timeSlots**object[]required**enableFuturePosts**booleanEnable Future Posts. Defaults to false.**prioritizeNewContent**booleanPrioritize New Content. Defaults to false.**userId**stringrequiredUser id
+**locationId**stringrequiredLocation ID**categoryId**stringrequiredCategory ID**timeSlots**object[]requiredTime slots defining when posts should be published**enableFuturePosts**booleanEnable Future Posts. Defaults to false.**prioritizeNewContent**booleanPrioritize New Content. Defaults to false.**userId**stringrequiredUser id
 
 ```json
 {
@@ -39,8 +39,12 @@ application/json
   "categoryId": "60af88475f1b2c001f5d5f4b",
   "timeSlots": [
     {
-      "dayOfWeek": 0,
+      "dayOfWeek": 1,
       "time": "09:00"
+    },
+    {
+      "dayOfWeek": 3,
+      "time": "14:30"
     }
   ],
   "enableFuturePosts": true,
@@ -60,7 +64,7 @@ Queue created successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -91,6 +95,6 @@ Queue created successfully.
       "updatedAt": "2025-07-09T19:12:16.366Z"
     }
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

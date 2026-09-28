@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 **locationId**
 
 string
@@ -47,7 +49,7 @@ Successfully retrieved the category queue.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -58,22 +60,18 @@ Successfully retrieved the category queue.
     "queue": {
       "_id": "60af88475f1b2c001f5d5f4b",
       "locationId": "location-123",
-      "categoryId": "60af88475f1b2c001f5d5f4b",
+      "categoryId": "6756f381be2553245b08d30c",
       "timeSlots": [
         {
-          "dayOfWeek": 0,
-          "time": "09:00"
+          "_id": "65f1a4e1b1d7f0b8d5a7d6a5",
+          "dayOfWeek": 1,
+          "time": "10:00"
         }
       ],
       "enableFuturePosts": false,
       "prioritizeNewContent": false,
-      "currentOrder": 1000,
       "status": "active",
       "startDate": "2023-01-01T12:00:00Z",
-      "skipDateTime": [
-        "2023-01-02T12:00:00Z"
-      ],
-      "currentPostId": "60af88475f1b2c001f5d5f4b",
       "totalPosts": 10,
       "lastScheduledTime": "2023-01-01T12:00:00Z",
       "createdBy": "user-123",
@@ -92,6 +90,6 @@ Successfully retrieved the category queue.
       }
     }
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

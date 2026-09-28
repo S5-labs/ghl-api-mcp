@@ -2,21 +2,13 @@
 
 **Website Version:** v3
 
-# Get categories by id
+# Get category by ID
 
 **Endpoint:** `GET /social-media-posting/:locationId/categories/:id`
 
 Retrieve a specific category by its ID
 
 ## Request
-
-**Authorization**
-
-string
-
-required
-
-Access Token
 
 **Version**
 
@@ -66,14 +58,12 @@ Successful response
   "message": "Fetched Category",
   "results": {
     "category": {
+      "_id": "6284c43d519161e96cc09c13",
       "name": "Primary",
-      "primaryColor": "#32a852",
-      "secondaryColor": "#32a852",
+      "primaryColor": "#FFFFFF",
+      "secondaryColor": "#FFFFFF",
       "locationId": "Lx1EI6YIgQYMQi0ytFXv",
-      "_id": "Lx1EI6YIgQYMQi0ytFXv",
-      "createdBy": "Lx1EI6YIgQYMQi0ytFXv",
       "deleted": false,
-      "message": "Category not found",
       "createdAt": "2023-08-02T00:00:00.000Z",
       "updatedAt": "2023-08-02T00:00:00.000Z"
     }

@@ -28,6 +28,8 @@ string
 
 required
 
+Location (sub-account) ID to list agents for
+
 **isPublished**
 
 string
@@ -40,15 +42,21 @@ string
 
 required
 
+Maximum number of agents to return (pagination page size)
+
 **offset**
 
 string
 
 required
 
+Number of agents to skip before collecting results (pagination offset)
+
 **source**
 
 string
+
+Origin channel attributed to this read for auditing (e.g. public_api, internal)
 
 application/json
 

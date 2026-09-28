@@ -2,7 +2,7 @@
 
 **Website Version:** v3
 
-# Get categories by location id
+# Get categories by location ID
 
 **Endpoint:** `GET /social-media-posting/:locationId/categories`
 
@@ -70,12 +70,11 @@ Successful response
     "count": 3,
     "categories": [
       {
+        "_id": "6284c43d519161e96cc09c13",
         "name": "Primary",
         "primaryColor": "#FFFFFF",
         "secondaryColor": "#FFFFFF",
         "locationId": "Lx1EI6YIgQYMQi0ytFXv",
-        "_id": "Lx1EI6YIgQYMQi0ytFXv",
-        "createdBy": "Lx1EI6YIgQYMQi0ytFXv",
         "deleted": false,
         "createdAt": "2023-08-02T00:00:00.000Z",
         "updatedAt": "2023-08-02T00:00:00.000Z"

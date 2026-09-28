@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 application/json
 
 - application/json
@@ -56,7 +58,7 @@ Edit session started successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -67,6 +69,6 @@ Edit session started successfully.
     "sessionId": "60af88475f1b2c001f5d5f4b",
     "itemCount": 25
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

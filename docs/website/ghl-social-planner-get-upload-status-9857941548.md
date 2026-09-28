@@ -28,7 +28,7 @@ string
 
 required
 
-Location Id
+Location ID (also known as Sub-Account ID) for the business location.
 
 **skip**
 

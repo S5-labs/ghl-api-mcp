@@ -6,7 +6,7 @@
 
 **Endpoint:** `POST /social-media-posting/comments/:platform/:id/like`
 
-Like a comment by its **Highlevel** comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
+Like a comment by its internal comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
 
 Works for any comment level — top-level comments, replies, and replies-to-replies. **Supported platforms:** Facebook, LinkedIn, Community, TikTok, Bluesky. Instagram is not supported (passing `instagram` returns 400).
 
@@ -50,7 +50,7 @@ string
 
 required
 
-Highlevel comment ID — the `_id` returned by the list-comments endpoint (`POST /comments/{platform}/list`). Not the native platform comment ID. Works for any comment level: top-level comments, replies, and replies-to-replies.
+Internal comment ID — the `_id` returned by the list-comments endpoint (`POST /comments/{platform}/list`). Not the native platform comment ID. Works for any comment level: top-level comments, replies, and replies-to-replies.
 
 **locationId**
 

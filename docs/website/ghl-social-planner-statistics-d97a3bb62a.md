@@ -4,7 +4,7 @@
 
 # Statistics
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Get Social Media Statistics
 

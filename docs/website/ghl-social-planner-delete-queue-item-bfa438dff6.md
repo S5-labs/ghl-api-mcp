@@ -28,11 +28,15 @@ string
 
 required
 
+Category queue ID
+
 **itemId**
 
 string
 
 required
+
+Queue item ID
 
 **locationId**
 
@@ -59,7 +63,7 @@ The queue item has been successfully deleted.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -71,11 +75,12 @@ The queue item has been successfully deleted.
       {
         "itemId": "60af88475f1b2c001f5d5f4b",
         "scheduledDateTime": "2023-10-15T10:00:00.000Z",
-        "isSkipped": false
+        "isSkipped": false,
+        "order": 18000
       }
     ],
     "totalPostsChanged": 5
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

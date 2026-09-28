@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sitemap": "https://marketplace.gohighlevel.com/docs/sitemap.xml",
-  "pageCount": 993,
+  "pageCount": 1053,
   "pages": [
     {
       "url": "https://marketplace.gohighlevel.com/docs/Authorization/AccessTokenUseCase",
@@ -37,7 +37,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/Authorization/Scopes",
       "lastmod": null,
       "output": "authorization-scopes-e749192cc1.md",
-      "sha256": "8e0abf7038569100bf541ce7b0fb268e8caaa9aa8dd1b9aa92096ea3cb2ab1de"
+      "sha256": "c1fc96ff46b8a18b596016e9f80e91e5850cdb4daf17f83ca2f5f3e767b202e3"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/Authorization/TargetUserAgency",
@@ -55,7 +55,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/Changelog",
       "lastmod": null,
       "output": "changelog-09b5b4bbd6.md",
-      "sha256": "dad2de6f85621051e32ffe397931730b203cc37cc927d413d578012342e802a7"
+      "sha256": "867c8150764313c6ed511e3ef093debf91aae807a575653784910064c76f8eef"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/ad-publishing/ad-manager-api",
@@ -943,73 +943,97 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/agents",
       "lastmod": null,
       "output": "ghl-agent-studio-agents-d2e0d832e7.md",
-      "sha256": "6c3c545bbc8bf8397eb0d512b9b16eca25838e7a81747beec2a568b8cb70fba1"
+      "sha256": "2f6d53f6495b80aa4fa66c0dbab6defa862517bd9f5fbb7a345ec375ce82b892"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/create-agent",
       "lastmod": null,
       "output": "ghl-agent-studio-create-agent-481e629cb0.md",
-      "sha256": "e38c0c99372910ef1591ac07ba8a20efc1d7c9d5122f58b5fc76f35b408d730e"
+      "sha256": "e727a756fe727e30044845a5bd4276402472ca4bf008feffb213f6357aeba921"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/delete-agent",
       "lastmod": null,
       "output": "ghl-agent-studio-delete-agent-a47cbcce9d.md",
-      "sha256": "2079dd670444917c357478208c14ec06b3027ce77568663502db7aea904439b9"
+      "sha256": "cd33cd1243f1b4d76e2ea9707928666e01cb2a1ecd279747b5818e19761644e5"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/execute-agent",
       "lastmod": null,
       "output": "ghl-agent-studio-execute-agent-84c7b74ada.md",
-      "sha256": "871d4b8eb1f09cfa6730ac384de645e1e728f99aa93e7c55dfb5e44db726dd25"
+      "sha256": "5611dc9185ba2a69ad601990e72c9b98f92a48b44b58236fbe9734c2ef9dc504"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/execute-agent-deprecated",
       "lastmod": null,
       "output": "ghl-agent-studio-execute-agent-deprecated-b41323b3cb.md",
-      "sha256": "13874dca74e0d52e7c8fdc2e816e73f5a6f2934033b2f576c9e6599d79f88646"
+      "sha256": "cf022e39d19971068b60989fc46fc7598fc3c2d323b0fb99ba85d428a75beb0f"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/execute-managed-agent",
+      "lastmod": null,
+      "output": "ghl-agent-studio-execute-managed-agent-0e23ff136b.md",
+      "sha256": "50b7429a36d0f1f55c1dda342f77e238d3715cf3251a0e24f00e5251d255283f"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/get-agent-by-id",
       "lastmod": null,
       "output": "ghl-agent-studio-get-agent-by-id-bd5ef0fe63.md",
-      "sha256": "663826d0292d5da67e2a93fcb3cd38b277e648eae9c36d39eb8b6a73d4be99d4"
+      "sha256": "e5d22db3498d89deb740853645f6df4262f04d33d808a0dc4262e888b8176aee"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/get-agent-by-id-deprecated",
       "lastmod": null,
       "output": "ghl-agent-studio-get-agent-by-id-deprecated-b48076d64c.md",
-      "sha256": "4e092a1e91124aad49d505d2c052aca4c96475e8cdc377d4fa2d6fed09a7a388"
+      "sha256": "6eb79cc5c2a4e5f9be2dbfdf85fa66c056154438bc16f152b0014597e614486a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/get-agents",
       "lastmod": null,
       "output": "ghl-agent-studio-get-agents-5c6ec7844c.md",
-      "sha256": "fa870c600b0ea0ad91ec49d7cb67bd7050b7cdac9b3444dcb820797d50a888e7"
+      "sha256": "3ce57f5ed2079cd57890f1f59154a40058d1c6012b2cfc4c122a3287ac750e39"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/get-agents-deprecated",
       "lastmod": null,
       "output": "ghl-agent-studio-get-agents-deprecated-840c6322b1.md",
-      "sha256": "a9711a46ff5a09af6536acd6b75756fe0fde444693f9c866865254d937a2d6ed"
+      "sha256": "d95ecca156c424577264f11b2275bcea9fbec30dd1d8ab041c234eb7a89bfcdd"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/get-managed-agent",
+      "lastmod": null,
+      "output": "ghl-agent-studio-get-managed-agent-fd79b575fd.md",
+      "sha256": "7024955cf521794c83ad1b8b9e3557aa8482e953ad638a8f2503cf1daeabe275"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/list-managed-agents",
+      "lastmod": null,
+      "output": "ghl-agent-studio-list-managed-agents-0ab71e0cb1.md",
+      "sha256": "0eead35365d9e7862aa32c05470b80d53cbc1503178092c91e68c48237f77468"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/managed-agents",
+      "lastmod": null,
+      "output": "ghl-agent-studio-managed-agents-d00c2087a7.md",
+      "sha256": "c47149412c1bd67f5bc207cb283095e81c1dc34617b9c559504d81f548986fec"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/promote-and-publish",
       "lastmod": null,
       "output": "ghl-agent-studio-promote-and-publish-c0904bcd05.md",
-      "sha256": "a9a6e3632220fc2828129d0ba19cdb66086140f33e53207e36f8a2b1093dc195"
+      "sha256": "36e5635536cf7e19a842c918bbbb6f18b67b7a0affeafbc87b3a0344de1ca285"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/update-agent-metadata",
       "lastmod": null,
       "output": "ghl-agent-studio-update-agent-metadata-c0cb556e71.md",
-      "sha256": "ffb1c0be937a96e91e84a552e4954f3f2cf8ac9b0857b123963a597294dcf797"
+      "sha256": "9221e9ab50e2986e1139c91e8e11d7413fcdd2190d8ff302d13c7c99057dfa46"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/agent-studio/update-agent-version",
       "lastmod": null,
       "output": "ghl-agent-studio-update-agent-version-66def4a1a7.md",
-      "sha256": "39cbb1b0414bbe31a9585b62d1d17220aefd4de248d5f3c84cb8e4704a9956e2"
+      "sha256": "413fcea2a2d2d2abcc6cc357bdaeb6674de39676e1cbd8cc36cf8ad5c0607e53"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/associations/associations",
@@ -1090,58 +1114,82 @@
       "sha256": "7149c0883251f212ba4c973e745c8bbaac5a9c2c9a3b9957a1af214bda212c9a"
     },
     {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/blog-authors",
+      "lastmod": null,
+      "output": "ghl-blogs-blog-authors-9788dfc858.md",
+      "sha256": "de0a7e6d8e6322bf7c97b08583c21159c866f33b15012b62d3a2ecbf300fd6a1"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/blog-categories",
+      "lastmod": null,
+      "output": "ghl-blogs-blog-categories-147f70c978.md",
+      "sha256": "9d688c44532e31ea76e3660260f3d02d3c3fdcfc1e09b0b484a5c869e15f3203"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/blog-posts",
+      "lastmod": null,
+      "output": "ghl-blogs-blog-posts-d2d76d7899.md",
+      "sha256": "09fa534112b23452b339fff658a93e793cdd87dde0a385bdbfd9f0cef9926fc5"
+    },
+    {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/blogs",
       "lastmod": null,
       "output": "ghl-blogs-blogs-09c6ac0764.md",
-      "sha256": "80c71d3e00e4d65ce1c4487abc067ad96fe2a334478d196e8cd98f5fefd58903"
+      "sha256": "fc0f1420258568864864a29e57a954df376bba822db771007fad0c73ad441d4a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/blogs-api",
       "lastmod": null,
       "output": "ghl-blogs-blogs-api-8f070276de.md",
-      "sha256": "154a2378c42657cf7e37ea4654706ccaef224cb0769ecda3ccb4856c5b8e3c89"
+      "sha256": "66c6c9a1c52f3be91d53bef47d0aee728e576290ee1ff7e27700a4ea712d2ac0"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/check-url-slug-exists",
       "lastmod": null,
       "output": "ghl-blogs-check-url-slug-exists-8927b9abba.md",
-      "sha256": "5d37d0164d1856670f80be11c946aab641b5082d6f91e475797907ac4cf7d7f7"
+      "sha256": "f5f8b6cf48a4d8a260a83a9aaec87a9848db577e11339e623cbe0be45791d194"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/create-blog-post",
       "lastmod": null,
       "output": "ghl-blogs-create-blog-post-2bda7fd436.md",
-      "sha256": "2bec55702cddb5a37a003b4939791424c97885a62ee8750a4b6d3e87565e4c6a"
+      "sha256": "f45bb5074cbae2a88923f6ef17f1eac2c5d812903c89ff2d4b42d83ef2f886ac"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/get-all-blog-authors-by-location",
       "lastmod": null,
       "output": "ghl-blogs-get-all-blog-authors-by-location-cecc639c77.md",
-      "sha256": "0f4789e282ac25250434ce35f27c844c7e51795cef5d88cfce0af900dfab1a84"
+      "sha256": "afc5ddef4122b4eab521c70336e7e424038086a21083ff558f99944db256b641"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/get-all-categories-by-location",
       "lastmod": null,
       "output": "ghl-blogs-get-all-categories-by-location-ea54f9a34d.md",
-      "sha256": "730455016645ada7c14df4c93b54a54e891288c99dd21d2fec47e9d5b70ab133"
+      "sha256": "13dd4938f6c2d406bb7a5e8f8d5e1a0cff46946d8d82beb1dc25cde8bea4b848"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/get-blog-post",
       "lastmod": null,
       "output": "ghl-blogs-get-blog-post-5fa355f3a7.md",
-      "sha256": "77c1f73830eb700ba9f1d62400616eb3889bf9e97aff324ca4ac2b217256e467"
+      "sha256": "2bde7008d86787d49469f1941bfa7909ad2df23d2676d0174f22de87e2e2ff85"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/get-blog-post-by-id",
+      "lastmod": null,
+      "output": "ghl-blogs-get-blog-post-by-id-89e80e672e.md",
+      "sha256": "28726aba7bc8c8e800c9a15ea1cee30988bcd62c135a813896270c4275aeaf08"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/get-blogs",
       "lastmod": null,
       "output": "ghl-blogs-get-blogs-ae0e9c6029.md",
-      "sha256": "9da0b7b18bc008867a16b70fc85d9dc589d42cb4c6b785076b32d90407be3f32"
+      "sha256": "0a1e6b0faf04c63fd46bfe24cc19ad60cfb37d43cf4f114cbeda1f44673a3436"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/blogs/update-blog-post",
       "lastmod": null,
       "output": "ghl-blogs-update-blog-post-f781ffd7af.md",
-      "sha256": "ff39c5184936bf822a650b13779f20cad9efbe2efabeb439ba1d4c6a1054a5bd"
+      "sha256": "fd1178e43f449d8609297b19005e1351c198c7a6b9a61847d06671538d227686"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/brand-boards/brand-boards-api-v-3",
@@ -1351,7 +1399,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/create-calendar",
       "lastmod": null,
       "output": "ghl-calendars-create-calendar-ec875b730f.md",
-      "sha256": "402b4b18fb67d07ac4f5b8944783bf61038e79fde15b4783cc5bb6d2d5a53d52"
+      "sha256": "bb34d1d589362e9e351414ec25731e28f06f63a8681bc83e2c6f8b822b3fce40"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/create-calendar-group",
@@ -1609,7 +1657,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/get-slots",
       "lastmod": null,
       "output": "ghl-calendars-get-slots-597a3a86ac.md",
-      "sha256": "44f0bc7063a3adcd9d439f9ad43c072f79ab2084cc5e0bf83afef6d3f7d5187a"
+      "sha256": "bbc18cdaf3c1c4a13890781b3b2110f26f671429c8fddd4bf0cc8017c2ff35e0"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/remove-calendar-from-schedule",
@@ -1645,7 +1693,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/update-calendar",
       "lastmod": null,
       "output": "ghl-calendars-update-calendar-a84d5a97d7.md",
-      "sha256": "e1673512d71d7a14238921f7c86b41d04a626b177986e30a8ee8cf1862b62fcf"
+      "sha256": "1755c771bce1016c34073e865389b8da13ab38d1e75ca5eb8a5c804afeca866d"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/calendars/update-calendar-resource",
@@ -2047,7 +2095,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/actions",
       "lastmod": null,
       "output": "ghl-conversation-ai-actions-96e7a030a8.md",
-      "sha256": "13d904bd2c670b81565330223d64beea981e7d7a5d98fada2cba805abaf59b35"
+      "sha256": "e4a44416b022927b666255bb798b21f39ab87f3bc7a7aabbf2a6fd6e3190a8a5"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/agents",
@@ -2065,13 +2113,13 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/create-action",
       "lastmod": null,
       "output": "ghl-conversation-ai-create-action-6a15896332.md",
-      "sha256": "f3052a46e468e98d290837360d3e3d32fc77d79512deb9f623fba32a75a750f5"
+      "sha256": "969acc1925135c0dbe66b2cdbb86a3b1db39e2acfd4e9d59bfc08ccf304c9174"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/create-agent",
       "lastmod": null,
       "output": "ghl-conversation-ai-create-agent-4d07d6dfe0.md",
-      "sha256": "f47eb04f5505705b2d956a6a15ac890b43aacacf4fd8c0a5bbf19c4ce5132ff1"
+      "sha256": "c25f64897a4d794edc9f2d591cc5dc1d5a94dec2ca6bd60efeb857a558a0263c"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/create-agent-working-hours",
@@ -2083,7 +2131,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/delete-action",
       "lastmod": null,
       "output": "ghl-conversation-ai-delete-action-6ace920b2e.md",
-      "sha256": "8ba3ee44adc85c24dc2df0f254e1101f11ee6c17de56134ee4833c071fb4f830"
+      "sha256": "2812474c0548c41f75d263fc138d6fe98fdb4ddece63c3a3751794a53641ec9a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/delete-agent",
@@ -2107,13 +2155,19 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/get-action-by-id",
       "lastmod": null,
       "output": "ghl-conversation-ai-get-action-by-id-8c7dbb48a4.md",
-      "sha256": "68de955e198b126e76f9d0ece62aeefbe11d5ce844abbb36081ee0588699d7ab"
+      "sha256": "766a84464e8a9bf1333de51f1d0f6e9b4d7ea88343ade6037d26973fe56116c8"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/get-agent",
       "lastmod": null,
       "output": "ghl-conversation-ai-get-agent-1892492f70.md",
-      "sha256": "f8e8d7744f621b1dc75ec5d9c5c30611c88de30d9817283789d32bef9319b22b"
+      "sha256": "79b2cccb8c5357f0bba68216ee69a9215ae15665eb4128ab34c85cc01fdcac0f"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/get-agent-actions",
+      "lastmod": null,
+      "output": "ghl-conversation-ai-get-agent-actions-e04b177f42.md",
+      "sha256": "a5fcda9069d4aee1da49f8a107d9ce2cfb2101cfdf557816b05f14fcdbb866d9"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/get-agent-working-hours",
@@ -2125,31 +2179,31 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/get-generation-details",
       "lastmod": null,
       "output": "ghl-conversation-ai-get-generation-details-15aba3c166.md",
-      "sha256": "4ec410f0a8191d27aa90a511b0beedcc155568fd1a47953a372a65acb370a81d"
+      "sha256": "15e1e3f22b86ba9a4fc411d2f6fe3f3677a88f71e2d4eb108075dd2ed0f8ffbe"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/list-actions",
       "lastmod": null,
       "output": "ghl-conversation-ai-list-actions-092b177a42.md",
-      "sha256": "87cbccabf3f4748fe4605b8b90e18af07e8e22cb3a10982aad8cb4f637c899e9"
+      "sha256": "59872b1518245877f37888558b33d9d9e67e4b03772eb2654eaa63bb74c34785"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/search-agent",
       "lastmod": null,
       "output": "ghl-conversation-ai-search-agent-680cd273e7.md",
-      "sha256": "067cff2d23aa637eff2f777eca37873f753e151db7203eece293580ce917c911"
+      "sha256": "6e18ba1eb75fd46c4c0fd4c032278c1f41cbbc65e4ec1a37b4cbc0b777ebcd80"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/update-action",
       "lastmod": null,
       "output": "ghl-conversation-ai-update-action-e50e3559e8.md",
-      "sha256": "efb685cc8a6f4250243078b665fcd28b50f454bf21391b40938966b90d11fddb"
+      "sha256": "78815ce9fb1c9bbb28af942ab1348fd8fffca194dc66f0e7ff96171c3b6d6b0f"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/update-agent",
       "lastmod": null,
       "output": "ghl-conversation-ai-update-agent-5e75096e86.md",
-      "sha256": "b115638d410c3a71906c8ae16aef921b6ddd30c67cf7e86a7db359022ac75591"
+      "sha256": "fdb3efb41f21e9646221f74af56d3b3adc6840c2983de15d8c20e6410518df7d"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/update-agent-working-hours",
@@ -2161,7 +2215,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/update-followup-settings",
       "lastmod": null,
       "output": "ghl-conversation-ai-update-followup-settings-92a67f68cb.md",
-      "sha256": "e8f9608c9f231ee52c010ecb374c94c95c478c6fdd0921dcd7727b901b5a676a"
+      "sha256": "d21d26cc9c1c2c2c93892dcd714512c4f74b2186c637001b15e306a0ab7e23cc"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversation-ai/working-hours",
@@ -2287,7 +2341,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversations/messages",
       "lastmod": null,
       "output": "ghl-conversations-messages-f3094a2f9d.md",
-      "sha256": "f7e23acaaa71dd92fd91e370e39f52b506bfadece55ac9032b995101149f0b20"
+      "sha256": "d0b0aeede6849061a05d470c756003ef66b3d4501d75a3a4ece3635c4f091645"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversations/providers",
@@ -2335,19 +2389,325 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/conversations/upload-file-attachments",
       "lastmod": null,
       "output": "ghl-conversations-upload-file-attachments-8a2e5726a3.md",
-      "sha256": "66a2184e2952962d3d0d729210c23cd843be5e5e76bffd648a6c088260047b4a"
+      "sha256": "46a2f7688244be0c9c0788cb03992eb847d95dbac99dcf13d6ae36a046dfd576"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/assessment",
+      "lastmod": null,
+      "output": "ghl-courses-assessment-9af41f967f.md",
+      "sha256": "b4757ec1697bddeb02d6160c891879a4c29b7c93d39f41885617545936264fbb"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/assignment",
+      "lastmod": null,
+      "output": "ghl-courses-assignment-2fed496a18.md",
+      "sha256": "9a2d74b854e8d5d0c9204dbb2534dfedab9d194f08eaedb7c0a94507fca8e326"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/category",
+      "lastmod": null,
+      "output": "ghl-courses-category-7da0ca987c.md",
+      "sha256": "2698213400d49f694f578ddeba4e2cab629280d0810b52bc5ca1bf2479aa08b8"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/course-import",
+      "lastmod": null,
+      "output": "ghl-courses-course-import-15351cbc7f.md",
+      "sha256": "7750359635d2365eed315d9144a6abd5f49e8e0fca728b55cbe089628aad57d8"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/courses-api-v-3",
+      "lastmod": null,
+      "output": "ghl-courses-courses-api-v-3-8053ca0ef6.md",
+      "sha256": "b97808ae52f074eac1f551da429cde45dfe465d0ffe4a384f4bb8aef88cd85d3"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-category",
+      "lastmod": null,
+      "output": "ghl-courses-create-category-9bc523ac5e.md",
+      "sha256": "545a00841d3799d92ea41d2df7d794594f305376ab446f5f24d8858906f4fdcb"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-course",
+      "lastmod": null,
+      "output": "ghl-courses-create-course-ae12311201.md",
+      "sha256": "5e1fc00a3c7f861a8d52df53f2a3d5d1a8d663583dc18eecae74f0076090c8f4"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-enrollment",
+      "lastmod": null,
+      "output": "ghl-courses-create-enrollment-5e5b696688.md",
+      "sha256": "6ac0de8146be2bc5c85dbac7269053fc65aa0782068bdb8b55811c229f1ffb25"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-lesson",
+      "lastmod": null,
+      "output": "ghl-courses-create-lesson-56fc33f032.md",
+      "sha256": "c50cba77e2dd0e8c27519e8efb0c8faeed6c670c07c095b5c156dfec39bb05e4"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-lesson-assignment",
+      "lastmod": null,
+      "output": "ghl-courses-create-lesson-assignment-7dfd0f72f5.md",
+      "sha256": "df4622c45fd21a7a8a7c86f1097099f22936ec31b012f3fe18a1ae58b4434f22"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-lesson-quiz",
+      "lastmod": null,
+      "output": "ghl-courses-create-lesson-quiz-42b6297dc6.md",
+      "sha256": "3cbc90dd665c305e96be53ed9a7396d13be64eef1bab86c78db69aef6e2c4d25"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/create-offer",
+      "lastmod": null,
+      "output": "ghl-courses-create-offer-ec636a7055.md",
+      "sha256": "0fd3bb59b4a09710899beee28f4c81b8aa92e23f6f9459e82c2c1e8b16ff8f98"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-assignment",
+      "lastmod": null,
+      "output": "ghl-courses-delete-assignment-f4a530d27a.md",
+      "sha256": "0ec692f48fb03ca824146facc220012a5c8545eff29716e8d43011e57f000fc0"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-category",
+      "lastmod": null,
+      "output": "ghl-courses-delete-category-176f69bb6b.md",
+      "sha256": "0fd6a96fd9d0c7635f4fbd1ae5e2fb2324c6e25e72a7c782bf61d482b15a794a"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-course",
+      "lastmod": null,
+      "output": "ghl-courses-delete-course-3b4b44c70e.md",
+      "sha256": "8def1eb46d335cf8836986c0c711df88ef2c168553dd73bcfc9ce873cd67921d"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-enrollment",
+      "lastmod": null,
+      "output": "ghl-courses-delete-enrollment-65d47cb931.md",
+      "sha256": "aeeafec78ab34fa2fdcce189c102a721ed52b147cf11a003393613bdc076b98f"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-lesson",
+      "lastmod": null,
+      "output": "ghl-courses-delete-lesson-54d9f722a3.md",
+      "sha256": "ce48f01830fe009e4258e9bf618a1b2807b6ec30e7632681b43815bad1300450"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-offer",
+      "lastmod": null,
+      "output": "ghl-courses-delete-offer-35784a7c39.md",
+      "sha256": "4b3334f541cc7c98ed63fe7f52347092b5a7fff41a2b57b5aaba0fd47d12e424"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/delete-quiz",
+      "lastmod": null,
+      "output": "ghl-courses-delete-quiz-aff8753816.md",
+      "sha256": "d60ad0504f056d0c66e3e2ff78a3ec64cdefaaf66b811481e0f3b7402aa86d03"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/enrollment",
+      "lastmod": null,
+      "output": "ghl-courses-enrollment-94e102acaf.md",
+      "sha256": "c75b517f81a7d900bbd157e416845c3070b6174eabd66ce4be56886c07587623"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-assessment",
+      "lastmod": null,
+      "output": "ghl-courses-get-assessment-be8197796f.md",
+      "sha256": "62258a860aa9f6a09723a19ff634ca941f5e3ab4a706d94601e88ee96b85565f"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-category",
+      "lastmod": null,
+      "output": "ghl-courses-get-category-1fc143ecc9.md",
+      "sha256": "d9f3beecec6e6d15cf663753b59a241fb037ba3e13b64718c228c190dc03957d"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-course",
+      "lastmod": null,
+      "output": "ghl-courses-get-course-10061da9f7.md",
+      "sha256": "81a3ee05adc081e2fbe278914ddd16080f36b3e8ad84b670451c0f2d76d4354b"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-lesson",
+      "lastmod": null,
+      "output": "ghl-courses-get-lesson-183f2c7ce9.md",
+      "sha256": "6c0526e1ea3d30f134ec43d0bc9ba3b9b7b1b7e07e4b5bc49583e94a92dc7595"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-lesson-assignment",
+      "lastmod": null,
+      "output": "ghl-courses-get-lesson-assignment-d3466dddc1.md",
+      "sha256": "6b4f4e63840087a0df103b4f30c595e85d4bf2816da1c1edd4b53b75fa8041b7"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-lesson-quiz",
+      "lastmod": null,
+      "output": "ghl-courses-get-lesson-quiz-b0b9984a38.md",
+      "sha256": "9f5d5e5e8c845473db9ff836c8eb399480cd6b114ace028e8a312b445895123c"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-offer",
+      "lastmod": null,
+      "output": "ghl-courses-get-offer-9ef6a0e12e.md",
+      "sha256": "cc660aa28880cf677a7a28d63e93998ea654a0d2b488f23c7cacfb69b0c35f92"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/get-quiz-questions",
+      "lastmod": null,
+      "output": "ghl-courses-get-quiz-questions-a2a4e6b83c.md",
+      "sha256": "9d373f119c28084b200f2036828d4f4db9814fcaad8125f0312154881787fa72"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/import-courses",
       "lastmod": null,
       "output": "ghl-courses-import-courses-8387c2bdec.md",
-      "sha256": "986fce4f1ec0be5b4b8071c61c2938a1f1b2097fefd306ad7131ee56fc975b23"
+      "sha256": "7286af9597a9d2b5d747848eeb6ae6e236ae50508a91ebab532cb5ee8c92a879"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/memberships-api",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/lesson",
       "lastmod": null,
-      "output": "ghl-courses-memberships-api-ff51b9e0bd.md",
-      "sha256": "122e91ab4bfc5ef45967ca81a7f6d53ea32f91729756daf2df92745d95284f83"
+      "output": "ghl-courses-lesson-ff86415698.md",
+      "sha256": "b406464c38a4b6bc9e7031f7d3dc4b028827f9c423c2d546a99929081c9b37ae"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-assessments",
+      "lastmod": null,
+      "output": "ghl-courses-list-assessments-0d4179fb86.md",
+      "sha256": "2bed6ff0ddd4bb33c43e57421dff25cc6c116feca367bb962cf0f3a2f4adf417"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-bulk-progress",
+      "lastmod": null,
+      "output": "ghl-courses-list-bulk-progress-dfb0c5efa7.md",
+      "sha256": "ab37868248cf8eb9da11f6b5f194c83d488ff3de5adc0cff2b6efd31aaae4d90"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-categories",
+      "lastmod": null,
+      "output": "ghl-courses-list-categories-c7afe423ea.md",
+      "sha256": "17dc20fce810e51053ed922e830d02911da8458888fd5775ee86950623d983ee"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-category-progress",
+      "lastmod": null,
+      "output": "ghl-courses-list-category-progress-7e4560681b.md",
+      "sha256": "40c4ef24a6e0ee0ebd0c4198be0c8afb97db52264dc2c1c3c73fa17750254898"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-completions",
+      "lastmod": null,
+      "output": "ghl-courses-list-completions-c354c2c7bc.md",
+      "sha256": "9fb39b45f9d56d2cb2827495001474f384b09eeb678db926f35c8b0550bee241"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-courses",
+      "lastmod": null,
+      "output": "ghl-courses-list-courses-8918b97a5f.md",
+      "sha256": "0a9a4a42f966ae5adc5f57694e92329a02206e2801efeb0dc314a89470436558"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-enrollments",
+      "lastmod": null,
+      "output": "ghl-courses-list-enrollments-ae411bddf7.md",
+      "sha256": "52dec734618f9abca724073bbd51ba0afd4cf4a24cdce53d083167626f791574"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-lessons",
+      "lastmod": null,
+      "output": "ghl-courses-list-lessons-a3620a0bd8.md",
+      "sha256": "e9db870393b8f12ed13d52965071f2ab2e3d526569f43e5d9fd26eb6ae3ddb0a"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/list-offers",
+      "lastmod": null,
+      "output": "ghl-courses-list-offers-aafd19b838.md",
+      "sha256": "df6a9d299009a85a84575d5ee5fddd062d0ff988cee0044d47094a2889c4cb49"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/offer",
+      "lastmod": null,
+      "output": "ghl-courses-offer-c4709bead1.md",
+      "sha256": "7150a2bfb3b3db88d6f9e1ce28d8993bf560811c32786a1e7f583efb59a7aee4"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/products",
+      "lastmod": null,
+      "output": "ghl-courses-products-c252a25acb.md",
+      "sha256": "bc740d1d946fdf636296d82b4fa20901e94bd99e98a83c989e3198745e641ee9"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/progress",
+      "lastmod": null,
+      "output": "ghl-courses-progress-d2f6490c66.md",
+      "sha256": "06c153f4077c2d56c2a0dc983dc7c3827e0a4af3851283d84dc275289789ef7a"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/quiz",
+      "lastmod": null,
+      "output": "ghl-courses-quiz-b8d88b9e4d.md",
+      "sha256": "3a1a6bbf4f17d389ed8adc99509116ae4db1bbb4d6f5c37be3bd5618dedebf39"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/review-assessment",
+      "lastmod": null,
+      "output": "ghl-courses-review-assessment-78155c3079.md",
+      "sha256": "e48e181f5391b9ea77e5d95d41ee2378cda9f3242428a2271f8edb263889ea8c"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/sequence-categories",
+      "lastmod": null,
+      "output": "ghl-courses-sequence-categories-1729f06b5f.md",
+      "sha256": "1b08dfac5106b3e6fc0c7daee608eb809b0badf4fe7f105f5382e91248225cad"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/sequence-lessons",
+      "lastmod": null,
+      "output": "ghl-courses-sequence-lessons-d836ecf3a7.md",
+      "sha256": "f22eb4380805731bc93c6dc11d58d768fef5ec72d9ad277e5b40f27519ae5c5d"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-assignment",
+      "lastmod": null,
+      "output": "ghl-courses-update-assignment-d3a3a2c906.md",
+      "sha256": "11a89b970ed756ae623a7f3fbbe7c57c5e5d279e71b0f945875fe34a90a5c929"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-category",
+      "lastmod": null,
+      "output": "ghl-courses-update-category-b4720134f3.md",
+      "sha256": "139636b4d2cc79a343b17072128d861dab1d0bbcd6d5d95bb3459e384486c081"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-course",
+      "lastmod": null,
+      "output": "ghl-courses-update-course-31798736d1.md",
+      "sha256": "9e20d63193e3b67f532f5bf8299a77f359abe8ffe2472b489f74cada55b839d3"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-lesson",
+      "lastmod": null,
+      "output": "ghl-courses-update-lesson-a485a404f5.md",
+      "sha256": "7951abe28b2717ea768763cae46bd783eb9f7190d55b48d96e67fd9da50a3972"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-offer",
+      "lastmod": null,
+      "output": "ghl-courses-update-offer-924b34c06a.md",
+      "sha256": "ecb3488e9a4eaa9e1c79d663360209484dec5493aa6f4da1397cb77f1ddd3a1e"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/update-quiz",
+      "lastmod": null,
+      "output": "ghl-courses-update-quiz-d9aa8acd30.md",
+      "sha256": "c87f15fedb4ca5957cfffac2f48956873d3af393aac15b446eb0bd6c32830f3e"
+    },
+    {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/courses/upsert-quiz-questions",
+      "lastmod": null,
+      "output": "ghl-courses-upsert-quiz-questions-3728a651a6.md",
+      "sha256": "c66f0b62e28abd6cb0740d6cba3f38a88e4ad082948a6180a6eeefc327322775"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/custom-fields/create-custom-field",
@@ -3484,10 +3844,10 @@
       "sha256": "9c689c0ba378c5c5307e23846d40d8453f546d8c256cf744416943ae663b26f0"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/developer-marketplace-api",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/developer-marketplace-api-v-3",
       "lastmod": null,
-      "output": "ghl-marketplace-developer-marketplace-api-9519813dcf.md",
-      "sha256": "2595e5a322fa7d71479634b292c0483daea21a990e2beb1d7906be6c7a07c8b0"
+      "output": "ghl-marketplace-developer-marketplace-api-v-3-41291b9ffe.md",
+      "sha256": "a788487c78c2fd5886008b3226bda42f6ce503c4f2311f244df422673b0fbb0e"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/external-auth-migration",
@@ -3511,7 +3871,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/get-rebilling-config-for-app",
       "lastmod": null,
       "output": "ghl-marketplace-get-rebilling-config-for-app-47f8355ec3.md",
-      "sha256": "e1abeee8a7f6d51a429391d19ac2e30cb83d7cc152156ccb22aa3d058ac96509"
+      "sha256": "7528444635a75b787e37c899985c6dad805567094977533bc45792d741e5b9b2"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/get-specific-charge",
@@ -3529,7 +3889,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/migrate-connection",
       "lastmod": null,
       "output": "ghl-marketplace-migrate-connection-616fa1105b.md",
-      "sha256": "b28acac9eca09f76659835f61ecea1399ee1271a91f4ce6d410f5d52104421aa"
+      "sha256": "9e7c95c03839f9bab669e55019582f1d43a0a93ef16cb7d61952885acb956336"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/marketplace/uninstall-application",
@@ -3643,7 +4003,7 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/objects/create-object-record",
       "lastmod": null,
       "output": "ghl-objects-create-object-record-fc611238d9.md",
-      "sha256": "ace05e05eaa48e7bd968a19b471cfbb7d06cfa39d471419bc2baea4d82b2c840"
+      "sha256": "568ec89a10c27cfd8eae8fbe50f93534cd6b396ae639f9efa0e7329ff7fe3bc9"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/objects/custom-objects-api",
@@ -4513,97 +4873,97 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/account",
       "lastmod": null,
       "output": "ghl-social-planner-account-6bdc00846d.md",
-      "sha256": "52446f572e635bc9aa953856a7481b49a426f1996c34a2f861e7bd95654b2266"
+      "sha256": "75fb8f628068e113e4c4159cf361dadb5df5005acad7e55e66ac714b8a09b414"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/apply-watermark-to-image",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/add-watermark-on-image",
       "lastmod": null,
-      "output": "ghl-social-planner-apply-watermark-to-image-a732c0657b.md",
-      "sha256": "7fb7d4b30e8772dec74632f05c312bdc1bd93f335be297f3ee7475901ff7d83e"
+      "output": "ghl-social-planner-add-watermark-on-image-0fb6d0d7c1.md",
+      "sha256": "f8efa910f875a767d879e73999a7775c7461bf37da7790debf08dfd1b1c68a07"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/attach-oauth-accounts",
       "lastmod": null,
       "output": "ghl-social-planner-attach-oauth-accounts-c785bc87eb.md",
-      "sha256": "9c1886b6325ba4c6c73e0828e5ff8a467646fad8d0481916fe341f4972d25735"
+      "sha256": "8750acf41c1df6ded1933bfc6f93cf9fc7305064205daff71efcc515587a7866"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/bulk-delete-social-planner-posts",
       "lastmod": null,
       "output": "ghl-social-planner-bulk-delete-social-planner-posts-bdaba0af89.md",
-      "sha256": "711a2142e9811f903949ba174413537c0b089090fbb69a4006f078c216338b58"
+      "sha256": "2a75b3e563cccd6de386aab2a4e2be33646d10dadc432b7406163c7266848f3a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/category",
       "lastmod": null,
       "output": "ghl-social-planner-category-f26a3e6387.md",
-      "sha256": "a2e2488ed72a50bfb5faba9b7b29b2742baac69dbfba67de5ac347e919f07247"
+      "sha256": "2fa72bc6b5570cef821005064a63b4fe3c3eda1ebe7393f05365514a1a0ddd25"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/category-queue",
       "lastmod": null,
       "output": "ghl-social-planner-category-queue-d1d974c9fa.md",
-      "sha256": "17ea52ba83267f367c2e1c39143e38fb7a615f97d0a9b9167a77a6fb34de80aa"
+      "sha256": "dba9e5d3fa1f2fc1ad6f591e3d54b7438977ac55b42cdc97966b4b7caac49571"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/clone-queue-item",
       "lastmod": null,
       "output": "ghl-social-planner-clone-queue-item-67df0ca5fa.md",
-      "sha256": "44e51e6cae490420f8816b9edaf34630400235345adced605c0ec62fb87d1f6a"
+      "sha256": "b2e5fc685d06e8f76418d74f923587af9b71c7fe5409eb7f2d97b3b1637e2cc9"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/comments",
       "lastmod": null,
       "output": "ghl-social-planner-comments-2061dff239.md",
-      "sha256": "4bc8bc10f34cff69635951d37edfad716b89faebe3afeb851dd2e09b2c92e236"
+      "sha256": "771d1af401324963eb77f9780c2fae295e7a34a16dadfd5574a9325198e1c803"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-comment",
       "lastmod": null,
       "output": "ghl-social-planner-create-comment-f3d6b3d272.md",
-      "sha256": "1b6aab55102ce9169ef67fc8e0c421337a2a8c5a5926ff8bb82374cc8554d8a7"
+      "sha256": "113532fe3462e07e9afd4baa46bdfcc7a9fc37e3737858ed0b922c679f9a7d4b"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-like",
       "lastmod": null,
       "output": "ghl-social-planner-create-like-26abf23a5a.md",
-      "sha256": "e4c848b87c8e06feb41a12f861c2171390c650b214426655287184aab7ec2342"
+      "sha256": "e3f99ac774fd10bc6397f1e8ce565946c4ca65a0c4857ecf1ec3c3c50287327d"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-post",
       "lastmod": null,
       "output": "ghl-social-planner-create-post-72425d6bb0.md",
-      "sha256": "3f598bddb8e1d7e5177a2e669c108f2e8a7e818242aaeac3963186cd330ee969"
+      "sha256": "0c10916156791b272a1f90bfa41d60c3c1c2f78958f5a8537c9de8b0f1936c47"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-queue",
       "lastmod": null,
       "output": "ghl-social-planner-create-queue-ce0977122c.md",
-      "sha256": "d347e0622ab5277f1cc25460ba09b89ba4fe1d4519c9f680019a394025cdfa2d"
+      "sha256": "22d9492cacc33e731f44a8f4da2b45ae2fbd15a02a17afd8f9521f8d3bccb9dc"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-queue-item",
       "lastmod": null,
       "output": "ghl-social-planner-create-queue-item-0f10fdc33a.md",
-      "sha256": "0ed69ccaf4cce34954936651a85b66ffbe84a8ed551521ba4c319125601a30d7"
+      "sha256": "e2bf8c15d09d6fd92c3efc6c218d5cbd19856bb00c47ddc28b6aa51fd27062d8"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-watermark-template",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-watermark",
       "lastmod": null,
-      "output": "ghl-social-planner-create-watermark-template-6b4900b73d.md",
-      "sha256": "cc2d265a93a4f6a3f61cdcb0aecf932f0e5e6f69537899beb2977e21363724b3"
+      "output": "ghl-social-planner-create-watermark-5acf468fab.md",
+      "sha256": "eac183d2fbf26bd69744149c9853dc600fdc1309f94183c142a52127eaa33e21"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/csv",
       "lastmod": null,
       "output": "ghl-social-planner-csv-031f4f7200.md",
-      "sha256": "15f8c182eaca7b150c036e5cf56ab1fad2561ebcc5281034e935b89d8ca3b8f7"
+      "sha256": "d26a358ace9ab039cd460a2b7f6f062b52d9b049b001e86548a9346d700d2217"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-account",
       "lastmod": null,
       "output": "ghl-social-planner-delete-account-567c0de523.md",
-      "sha256": "b692a50f17570576237ba7d3a112021f8f6642430233ea600e213dcc0bc5bf4e"
+      "sha256": "6f16d904048551a34f12e17252666c2d6b2d3c5cba6e50610e19042c74bc71b0"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-csv",
@@ -4621,85 +4981,85 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-current-active-post-and-schedule-next",
       "lastmod": null,
       "output": "ghl-social-planner-delete-current-active-post-and-schedule-next-345d592f90.md",
-      "sha256": "f0fd0da81f6a1a3887470877f6cd8f1bb78f70425be675bab25d701af1fb6a70"
+      "sha256": "b492312418e911a647a6c7eeb0b297f9191736489e941ca8f9aa41b9b6810b68"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-like",
       "lastmod": null,
       "output": "ghl-social-planner-delete-like-d9d0d5ab91.md",
-      "sha256": "2cf5a64f8cb1685fa1e601c7261ffee8f4f54a1bbdfc68fb9ebb092f6e12e6c4"
+      "sha256": "ea438591563eed0bcee3175aeff6910791547375fdffd1c8163f20e950d64a2a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-post",
       "lastmod": null,
       "output": "ghl-social-planner-delete-post-3ae1803f1a.md",
-      "sha256": "71cf0404092f0f62590cf3704054415e7d484739a943653f8e25be5608517038"
+      "sha256": "cb205e0c7b6d848765b1e57bfdf0206a41ee46580d87130ef1d0f1c249774856"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-queue-item",
       "lastmod": null,
       "output": "ghl-social-planner-delete-queue-item-bfa438dff6.md",
-      "sha256": "528b21022f42895e46e9197811dca146675e6a94d5b0899a2a8fed7224346d7d"
+      "sha256": "0d1aa027a8ae1df5932d1831bfe3c523a5431130c1eda71ba872fab2615ba812"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-watermark-template",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/delete-watermark",
       "lastmod": null,
-      "output": "ghl-social-planner-delete-watermark-template-3ae7752d63.md",
-      "sha256": "7c00ba7a12f705a37d1df53a0f9f1937ea36aa6a9b0569fbac8d4ba7bd1972a4"
+      "output": "ghl-social-planner-delete-watermark-9d94daef59.md",
+      "sha256": "2c7d6e188f892f063da9328e20cd6dda576f3ca14ae64a2e6dd47ad09bd79d69"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/discard-edit-session",
       "lastmod": null,
       "output": "ghl-social-planner-discard-edit-session-a89a2b1a04.md",
-      "sha256": "44283159db6fdd2d07988c15f2c21f267992b78944c60280050986d00b011d81"
+      "sha256": "d76736daf92aa93e7592c2be42cedbb93bbe12347a8ecca201c57f65142e2405"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/edit-post",
       "lastmod": null,
       "output": "ghl-social-planner-edit-post-6a44525e7c.md",
-      "sha256": "e9c9d03dd34f8066f32a67a314c865c485d63e2ff92ba4f7f1855d7eb0ec0913"
+      "sha256": "fde37564440c744a1d0ad6c09f255d592f1e09966aa8bb2db0f7e90ed9e350eb"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-available-categories",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-available-categories-59015dc40f.md",
-      "sha256": "a3d99d1987a9c81fedc86735c155f31c23880407806d47b03fbebe05af465407"
+      "sha256": "e3887153f1804bdabaf9a371e83044f543be8841bdddf8486241290337a3fe84"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-calendar-list",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-calendar-list-47aca05c31.md",
-      "sha256": "a72d3120e7375c39dd03826650aec9366ca282dd96e2b2fde25e367e048a4d67"
+      "sha256": "2ec91101535f512546e5869e02fa216c31b9b775b4b2a0ea7bd85179efab8c84"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-edit-session-calendar",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-edit-session-calendar-9edba4a104.md",
-      "sha256": "62daf0df2e887092799b1205582a896eb0d26ac93cfa5bf18d96bb0d3d445344"
+      "sha256": "81a4e88b304bd1e93cf6a5a736ae3383020ad4dc69267598b5ad417aad77a385"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-queue-by-id",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-queue-by-id-372bd5ec90.md",
-      "sha256": "6f95bd03a662f5f92875e6786d9448ca62f5efa5596ce2565926c5ccf54d07c2"
+      "sha256": "e7a2fe9d49a111bfc50dbc3c608c4c035f55796365c4db180e6b734f96da916e"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-queue-items",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-queue-items-ed63700887.md",
-      "sha256": "95ab507decb30441380df2bcdbe56aee1fc9dd1f1bf5883f3d3ab9696a82099a"
+      "sha256": "1414d0eef5a8466a2a1de85be93e93ad6421a2865e4d7b2fe3deae30812e59c0"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-queues",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-queues-c89de2dde5.md",
-      "sha256": "b1d52eebe481ec85d6390b8d5a8bfe0a0b3bbe88c9667160587d7ba9b7e714d2"
+      "sha256": "cef9356995e7e0df32fa3e3a95918e16e0a26fe9ff3535ae42841e6fa15cbb97"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/fetch-slots",
       "lastmod": null,
       "output": "ghl-social-planner-fetch-slots-dcc94d7547.md",
-      "sha256": "77645a3cb239ec7bc5a66afdd09d81540a1adea2a2d6f1686eb68b2ffec3a110"
+      "sha256": "3732ccec50d0451f371b311941f6a4c31742122d9422043b2ce1e614c3cee13a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-account",
@@ -4708,22 +5068,28 @@
       "sha256": "4d560685bcf71f91af9f7dc492c50a9a3bc01c9d3a9acf29ed8e7eeb363bf3a4"
     },
     {
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-all-watermarks",
+      "lastmod": null,
+      "output": "ghl-social-planner-get-all-watermarks-bff260a126.md",
+      "sha256": "5a93e547fc490076dc1c7e74760cf1d7d73fd2999dc1874fa823a3a69aec4dc0"
+    },
+    {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-categories-id",
       "lastmod": null,
       "output": "ghl-social-planner-get-categories-id-bdb7725366.md",
-      "sha256": "6178273db89b3f16059be1863685c73d495315ad5aa3a972b1adf87006d84477"
+      "sha256": "aab433f66acc9898de04c6ab28514ea6242598dafb4acf3e90873fef71efe2fd"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-categories-location-id",
       "lastmod": null,
       "output": "ghl-social-planner-get-categories-location-id-cfa8cdddc9.md",
-      "sha256": "f3110a45a80d8e4b18c1d778fc9c8c2839cec3dc31b1e31fd2f48b41cb6e8dd1"
+      "sha256": "55a4bbab0e6ddea4445561ac7283c808a3ad054fe816e87a5c88ba0b012260af"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-comment-list",
       "lastmod": null,
       "output": "ghl-social-planner-get-comment-list-6108efb505.md",
-      "sha256": "349d147a8173448f26c2463c67b5fbc87f9e6564486d734fb5682fdca70337ee"
+      "sha256": "5787d7092e58c2a87568635a74817a5c1f4a1b58386892e45235f540386d6cbb"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-csv-post",
@@ -4735,91 +5101,85 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-oauth-accounts",
       "lastmod": null,
       "output": "ghl-social-planner-get-oauth-accounts-4b474ebfe5.md",
-      "sha256": "c1af7957c29c820847979063d0f30a345507dedf5553f257f08d201144922dcc"
+      "sha256": "2b8062a62b323395561a3e79ae3c8b5588be1f843c465d0ac2a3934e7ab83f39"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-post",
       "lastmod": null,
       "output": "ghl-social-planner-get-post-2fc779c404.md",
-      "sha256": "ea5dcfb01de856f2defd8ec62e7909a073ebc3f237bb54f2a75adedadea05b82"
+      "sha256": "89958fc6a05c0418f731ddcbb0c146620c6a37e185338d055e69dc0d2586b1ef"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-posts",
       "lastmod": null,
       "output": "ghl-social-planner-get-posts-244fa8307f.md",
-      "sha256": "801b7c087991b22e15f1b40f014d27500c67e8ea4e4593f97655e39c03ee06ea"
+      "sha256": "94241c40ae098b866ae9dd8e0c38bd9f42c5ccc6ba29ef450b46cd089b4f877d"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-statistics",
       "lastmod": null,
       "output": "ghl-social-planner-get-statistics-9ae12d138f.md",
-      "sha256": "2170afedb5e60652a64a0fe280b1c5280ad8271f656ec9c4922dd49d78faf988"
+      "sha256": "2a0797ee69e0bfd91780ecbeff8ef07a32151a78cb8f1e61f8217147392f8e4a"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-tags-by-ids",
       "lastmod": null,
       "output": "ghl-social-planner-get-tags-by-ids-63f3983d6a.md",
-      "sha256": "e45ccedce2ca84e24c84a7a0802e59430c8e12563fa0074d7d114b3213cf6c12"
+      "sha256": "b0d1928f5a6656f33f3f238a829a6271e2ba5029a467ac04f2426cd08ed01c75"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-tags-location-id",
       "lastmod": null,
       "output": "ghl-social-planner-get-tags-location-id-2303679ad1.md",
-      "sha256": "e3bfb4f145736355748dfee5930dcff3f5e0c4278d932d25156d26e3fbd4f449"
+      "sha256": "515001d2e1892bca3d9e24d3cc4d1c82d88593d760c6777ffb936d66004523dd"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-upload-status",
       "lastmod": null,
       "output": "ghl-social-planner-get-upload-status-9857941548.md",
-      "sha256": "845f4c2043ff805ec41898b6c7760e850228fe428896cf14d657da916869cb95"
+      "sha256": "f7346ede4d4344b4d91d36eb7df0be210efb2f428587873302e1257f734f3ff7"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-watermark-template",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-watermark",
       "lastmod": null,
-      "output": "ghl-social-planner-get-watermark-template-37e77cab0b.md",
-      "sha256": "d076af28400c7f8d5ba5e1919937ae93e4f4d99a9c2ac3d07f8900029fd4097a"
-    },
-    {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/list-watermark-templates",
-      "lastmod": null,
-      "output": "ghl-social-planner-list-watermark-templates-8621f97d00.md",
-      "sha256": "1a8aa2ce512ddef3e90a422a07e8cd4d48343efc7418402faabc52c85dba3a72"
+      "output": "ghl-social-planner-get-watermark-281150f9aa.md",
+      "sha256": "d0ad6da4f00b0a32ac8a040c8094e599f83cd2e1883ec79460de4165b30fb0bf"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/o-auth-generic",
       "lastmod": null,
       "output": "ghl-social-planner-o-auth-generic-66d098820e.md",
-      "sha256": "c1f1b8177ca4705ce0cf9b5c98ccd64c9086e37fddf1aa9427e41f0aa992e601"
+      "sha256": "ddef81e00cedc2ac4b22f5f287ffb6adfac1d7264284688bc7ede588354cea94"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/post",
       "lastmod": null,
       "output": "ghl-social-planner-post-e7df7e4a9b.md",
-      "sha256": "8b08cd2342954cde81ab8536c044b1eb6ce0260aa9e036eb402cdc337ae0b251"
+      "sha256": "4116f7c1d43475908921a9481d9c7b579c9463687c89ddabf88c0a882085e055"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/reset-queue-item",
       "lastmod": null,
       "output": "ghl-social-planner-reset-queue-item-2f2dd9f928.md",
-      "sha256": "1d9b6e0ad013b882238b2e6d67ad62b9dc303099ea350d36b644322a590408c8"
+      "sha256": "fd6319aef0d0d79a07164883970570b7d1f451f8750cb5f4cf692815f61c2fea"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/save-edit-session",
       "lastmod": null,
       "output": "ghl-social-planner-save-edit-session-f0a14bb65f.md",
-      "sha256": "fd3bc6e165b67582de4320b66b99095be49d4aac9a041d4de66e6646014cea1c"
+      "sha256": "4c2d4917aa1453ca929080890e044bafe3c137add68565d9207f369eaa4967d2"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/set-accounts",
       "lastmod": null,
       "output": "ghl-social-planner-set-accounts-0aa006246c.md",
-      "sha256": "50824c76db2d27281ce6fa6239912547d500961b32b583dfe490ffe92ff07af2"
+      "sha256": "f1befd11933a67779691a434edb4384cc5b930c97fc4c8500d4600f8be3c9fbd"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/social-media-posting-api",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/social-planner-api-v-3",
       "lastmod": null,
-      "output": "ghl-social-planner-social-media-posting-api-bfda009552.md",
-      "sha256": "3a04807d6959b23cecc8d549320425dadc0ea96dbf7bf45c8194274d75b2350f"
+      "output": "ghl-social-planner-social-planner-api-v-3-a033c69121.md",
+      "sha256": "c9891f63c87a0785a1502fcb78088e83cdb7cc41bd51f928c7e578d45a1f03c1"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/start-csv-finalize",
@@ -4831,55 +5191,55 @@
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/start-edit-session",
       "lastmod": null,
       "output": "ghl-social-planner-start-edit-session-658018959e.md",
-      "sha256": "f8e8ebff8e35de54bc9713716720dfed64b38fd7e8ee7c7739b79e1e4d96990d"
+      "sha256": "6d0b26dc4a00a8a5e8ebe1704205189753cdb286f71949d960150b3626cb251b"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/start-oauth",
       "lastmod": null,
       "output": "ghl-social-planner-start-oauth-6825b12f17.md",
-      "sha256": "bc80b5cd32fe91711767990818635d98bf431fe21bb06b7e6234d80d76a52210"
+      "sha256": "a68bb762f2bd77594bc20360ae9fc9ef40523cd735be81fab231a5fd5c0df731"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/statistics",
       "lastmod": null,
       "output": "ghl-social-planner-statistics-d97a3bb62a.md",
-      "sha256": "29c065c7d95f1a7df83992da6da1c8d957706ca85c66de9b90826ce53c1d4282"
+      "sha256": "974f6abb1e389e3e054d5d99dd57e34f2e1d30dab320413773ab22f43fb90f5f"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/tag",
       "lastmod": null,
       "output": "ghl-social-planner-tag-5a5765e30a.md",
-      "sha256": "7e2c1b2e0ce438d49a502d524283a70b7d1ebf86fcd430659e2f7114e1f86038"
+      "sha256": "3f13ea4a6d7f138778879cb484145d2f917105170e787fe55bb9155aa557d4d6"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/update-queue",
       "lastmod": null,
       "output": "ghl-social-planner-update-queue-36df080d30.md",
-      "sha256": "c64ce9a2bf3d6363b7691305cdda5823c2b2b876bb8964bff72100be525a6835"
+      "sha256": "d11978fffa271bea58b13480418bdbeb50cb6a0340bc64126acb07147e593bae"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/update-queue-item",
       "lastmod": null,
       "output": "ghl-social-planner-update-queue-item-68c1294268.md",
-      "sha256": "e2776fc1d077c74fbbb0e2debad735bff2fc5bd9a58fece9857231a9e5626e0d"
+      "sha256": "bb681545fda634c030d09706a7469f17e462b80c1730ee8ef9b45f7c6b829ae1"
     },
     {
-      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/update-watermark-template",
+      "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/update-watermark",
       "lastmod": null,
-      "output": "ghl-social-planner-update-watermark-template-fe9c505255.md",
-      "sha256": "ce54521ed7dd938c579faa3e17c6045362354bc25d73669de8985ee1482520cb"
+      "output": "ghl-social-planner-update-watermark-c66d3f984d.md",
+      "sha256": "21e44e0d19aba253dde0ad9696f0023e4461999ff4be2e341d5ed9dec910dcb6"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/upload-csv",
       "lastmod": null,
       "output": "ghl-social-planner-upload-csv-1a23d24c4f.md",
-      "sha256": "83500166dce3dfcc1489d3b69861e7d2002644b98e017d0eef47f7ff43e5852b"
+      "sha256": "2375e1d3b150e78f78ec6cbbb67a6d168ba815862fd3533527b375146106ef28"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/social-planner/watermarks",
       "lastmod": null,
       "output": "ghl-social-planner-watermarks-faef501d68.md",
-      "sha256": "42f1049e89bff41df737583da7bb3e1ac09ff5d2bf6143adbdb546ad34c65a48"
+      "sha256": "16af9e57215670c8eb383c7827b70f9dd394856f69fddc940e136dce7ecc1886"
     },
     {
       "url": "https://marketplace.gohighlevel.com/docs/ghl/store/create-shipping-carrier",

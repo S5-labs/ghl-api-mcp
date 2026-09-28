@@ -1,4 +1,4 @@
-> Live website snapshot from [HighLevel API Documentation](https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-watermark-template). This rendered page is the freshness authority; repository-derived documents remain available for structured schema details.
+> Live website snapshot from [HighLevel API Documentation](https://marketplace.gohighlevel.com/docs/ghl/social-planner/create-watermark). This rendered page is the freshness authority; repository-derived documents remain available for structured schema details.
 
 **Website Version:** v3
 
@@ -41,7 +41,7 @@ application/json
 
 ### Body**required**
 
-**watermarkImageUrl**stringrequiredURL of the watermark image. Must be a PNG or JPG file, minimum 200x200 pixels, and no larger than 5 MB.**position**stringrequiredWatermark position on the target imageAvailable options`top-left``top-center``top-right``left-center``center``right-center``bottom-left``bottom-center``bottom-right`**scale**numberrequiredScale factor between 0 and 1**opacity**numberrequiredOpacity between 0 and 1**padding**booleanrequiredWhether padding is applied around the watermark**templateName**stringrequiredName of the watermark template**accountIds**string[]requiredConnected account IDs to bind this template to. These IDs map user accounts to this template at post-publish time. Use the [Get Accounts](https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-account) endpoint to look up account IDs.
+**watermarkImageUrl**stringURL of the watermark image. Must be a PNG or JPG file, minimum 200x200 pixels, and no larger than 5 MB.**position**stringWatermark position. Position can be one of the following values: top-left, top-center, top-right, left-center, center, right-center, bottom-left, bottom-center, bottom-rightAvailable options`top-left``top-right``bottom-left``bottom-right``center``top-center``bottom-center``left-center``right-center`**scale**numberScale factor for watermark. scale value must be between 0 - 1**opacity**numberWatermark opacity. opacity value must be between 0 - 1**padding**booleanWhether padding is applied around the watermark**templateName**stringName of the watermark template**accountIds**string[]Connected account IDs to bind this template to. These IDs map user accounts to this template at post-publish time. Use the [Get Accounts](https://marketplace.gohighlevel.com/docs/ghl/social-planner/get-account) endpoint to look up account IDs.
 
 ```json
 {
@@ -69,13 +69,13 @@ Watermark template successfully created.
 
 **Schema**
 
-**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectWatermark template
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectRequested Results
 
 ```json
 {
   "success": true,
-  "statusCode": 200,
-  "message": "Fetched Watermark Template",
+  "statusCode": 201,
+  "message": "Created Watermark Image",
   "results": {
     "_id": "665f1bac78fda9b6c5f48012",
     "watermarkImageUrl": "http://example.com/watermark.png",

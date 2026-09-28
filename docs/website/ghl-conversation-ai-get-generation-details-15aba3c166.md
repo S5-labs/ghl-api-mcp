@@ -36,6 +36,8 @@ string
 
 required
 
+Source of the AI message - conversation or workflow
+
 Available options
 
 `conversation`

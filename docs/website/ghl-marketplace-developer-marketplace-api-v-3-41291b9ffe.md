@@ -1,12 +1,16 @@
-> Live website snapshot from [HighLevel API Documentation](https://marketplace.gohighlevel.com/docs/ghl/marketplace/developer-marketplace-api). This rendered page is the freshness authority; repository-derived documents remain available for structured schema details.
+> Live website snapshot from [HighLevel API Documentation](https://marketplace.gohighlevel.com/docs/ghl/marketplace/developer-marketplace-api-v-3). This rendered page is the freshness authority; repository-derived documents remain available for structured schema details.
 
 **Website Version:** v3
 
-Version: 1.0
+Version: v3
 
-# Developer marketplace API
+# Developer marketplace API v3
 
 Documentation for Marketplace API
+
+## API Version v3
+
+All APIs available via `/v3` route prefix with AIP-compliant responses.
 
 ## Authentication
 

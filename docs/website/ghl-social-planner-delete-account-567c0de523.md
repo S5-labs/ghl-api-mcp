@@ -38,17 +38,11 @@ required
 
 Id
 
-**companyId**
-
-string
-
-Company ID
-
 **userId**
 
 string
 
-User ID
+ID of the user performing the disconnect. Recorded for auditing only; omit it and the account is still deleted.
 
 application/json
 

@@ -2,11 +2,11 @@
 
 **Website Version:** v3
 
-# Get all categories
+# Get all blog categories
 
 **Endpoint:** `GET /blogs/categories`
 
-The "Get all categories" Api return the blog categoies for a given location ID. Please use "blogs/category.readonly"
+The "Get all blog categories" API returns the blog categories for a given location ID.
 
 ## Request
 
@@ -28,13 +28,15 @@ string
 
 required
 
+Sub-account (location) identifier the category belongs to
+
 **limit**
 
 number
 
 required
 
-Number of categories to show in the listing
+Maximum number of categories to return (0-50)
 
 **offset**
 
@@ -42,7 +44,13 @@ number
 
 required
 
-Number of categories to skip in listing
+Number of categories to skip before returning results
+
+**searchTerm**
+
+string
+
+Free-text search across category label and description
 
 application/json
 
@@ -55,19 +63,18 @@ Successful response
 
 **Schema**
 
-**categories**object[]requiredArray of categories
+**categories**object[]requiredArray of categories**count**numberrequiredTotal number of categories matching the query, ignoring limit/offset
 
 ```json
 {
   "categories": [
     {
-      "_id": "lMOzIQZne5m6zQ528sT6",
-      "label": "HighLevel",
-      "locationId": "lMOzIQZne5m6zQ528sT6",
-      "updatedAt": "2025-01-03T11:06:35.822Z",
-      "canonicalLink": "https://tryghl.blog/doc/category/agency-growth",
-      "urlSlug": "agency-growth"
+      "_id": "66c381b38be80858b9af62b6",
+      "locationId": "ve9EPM428h8vShlRW1KT",
+      "label": "Marketing Tips",
+      "urlSlug": "marketing-tips"
     }
-  ]
+  ],
+  "count": 42
 }
 ```

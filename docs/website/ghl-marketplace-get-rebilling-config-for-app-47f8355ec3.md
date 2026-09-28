@@ -6,6 +6,10 @@
 
 **Endpoint:** `GET /marketplace/app/:appId/rebilling-config/location/:locationId`
 
+deprecated
+
+This endpoint has been deprecated and may be replaced or removed in future versions of the API.
+
 Get rebilling config for an app subscription and usage plans for the authenticated sub-account. This endpoint returns the subscription and usage plans for an app.
 
 ## Request

@@ -28,7 +28,7 @@ string
 
 required
 
-Location Id
+Location ID (also known as Sub-Account ID) for the business location.
 
 **id**
 
@@ -36,7 +36,9 @@ string
 
 required
 
-Post Id
+Post ID of the post to retrieve, update, or delete.
+
+**Get Post IDs from:** [List Posts API](https://marketplace.gohighlevel.com/social-media-posting/%7BlocationId%7D/posts/list) — use the `_id` field from each post.
 
 application/json
 

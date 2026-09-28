@@ -6,7 +6,7 @@
 
 **Endpoint:** `GET /blogs/posts/all`
 
-The "Get Blog posts by Blog ID" API allows you get blog posts for any given blog site using blog ID.Please use blogs/posts.readonly
+The "Get Blog posts by Blog ID" API returns the blog posts for a given blog site. Use searchTerm to search across post title, description, url slug and category name.
 
 ## Request
 
@@ -28,11 +28,7 @@ string
 
 required
 
-**blogId**
-
-string
-
-required
+Sub-account (location) identifier whose posts are being listed
 
 **limit**
 
@@ -40,33 +36,51 @@ number
 
 required
 
+Maximum number of records to return (0-50)
+
 **offset**
 
 number
 
 required
 
+Number of records to skip for pagination
+
 **searchTerm**
 
 string
 
-search for any post by name
+Free-text search across post title, description, url slug and category name
 
 **status**
 
 string
 
+Filter by publication status
+
 Available options
 
 `ALL`
+
+`DRAFT`
 
 `PUBLISHED`
 
 `SCHEDULED`
 
+`SCHEDULE_FAILED`
+
 `ARCHIVED`
 
-`DRAFT`
+`DELETED`
+
+**blogId**
+
+string
+
+required
+
+Identifier of the blog site whose posts are being listed
 
 application/json
 
@@ -79,33 +93,17 @@ Successful response
 
 **Schema**
 
-**blogs**object[]requiredObject containing response data of blog posts
+**blogs**object[]requiredBlog posts matching the query**count**numberrequiredTotal number of blog posts matching the query, ignoring limit/offset
 
 ```json
 {
   "blogs": [
     {
-      "categories": [
-        "659ecabc4a37969a2b7cc370",
-        "6683abde331c041f32c07aee"
-      ],
-      "tags": [
-        "Apple",
-        "Banana"
-      ],
-      "archived": false,
       "_id": "66c381b38be80858b9af62b6",
-      "title": "Banana is good source of energy",
-      "description": "Description",
-      "imageUrl": "https://storage.googleapis.com/ghl-test/fACm0Ojm5oC70G3DcFmE/media/66b5aa3b1745b2713a8d033f.jpeg",
-      "status": "PUBLISHED",
-      "imageAltText": "alt",
-      "urlSlug": "banana-good-energy",
-      "canonicalLink": "https://blog.chatgpts.agency/post/test-8384",
-      "author": "659ec9634a3796e4e47cc360",
-      "publishedAt": "2024-08-19T17:14:57.000Z",
-      "updatedAt": "2024-08-19T17:32:36.182Z"
+      "title": "How to grow your agency",
+      "status": "PUBLISHED"
     }
-  ]
+  ],
+  "count": 42
 }
 ```

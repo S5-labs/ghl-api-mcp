@@ -6,7 +6,7 @@
 
 **Endpoint:** `GET /blogs/site/all`
 
-The "Get Blogs by Location ID" API allows you get blogs using Location ID.Please use blogs/list.readonly
+The "Get Blogs by Location ID" API allows you get blogs using Location ID.
 
 ## Request
 
@@ -28,23 +28,25 @@ string
 
 required
 
+Sub-account (location) identifier whose blog sites are being listed
+
 **skip**
 
 number
 
-required
+Number of records to skip for pagination
 
 **limit**
 
 number
 
-required
+Maximum number of records to return
 
 **searchTerm**
 
 string
 
-search for any post by name
+Free-text search across blog site name and description
 
 application/json
 
@@ -57,7 +59,7 @@ Successful response
 
 **Schema**
 
-**data**object[]requiredObject containing response data of blog
+**data**object[]requiredBlog sites matching the query
 
 ```json
 {

@@ -34,11 +34,15 @@ string
 
 required
 
+Location ID
+
 **limit**
 
 string
 
 required
+
+Page size (default 20, max 100)
 
 **offset**
 
@@ -46,9 +50,13 @@ string
 
 required
 
+Number of agents to skip before collecting results (pagination offset)
+
 **source**
 
 string
+
+Origin channel attributed to this read for auditing (e.g. public_api, internal)
 
 application/json
 

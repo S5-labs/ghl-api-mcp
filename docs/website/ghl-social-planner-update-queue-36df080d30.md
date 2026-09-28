@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 application/json
 
 - application/json
@@ -37,7 +39,7 @@ application/json
 
 ### Body**required**
 
-**locationId**stringrequiredLocation ID**skipLegacyWatermark**booleanSkip legacy watermark cleanup when rescheduling posts**status**objectStatus of the Queue**skipDateTime**stringSkip Date Time in ISO format**timeSlots**object[]**enableFuturePosts**booleanEnable posting future content. Automatically Queue any New Posts Created in this Category.**prioritizeNewContent**booleanPrioritize new content over older content. When true, new items added via directToQueue will be placed at the top of the queue.
+**locationId**stringrequiredLocation ID**skipLegacyWatermark**booleanSkip legacy watermark cleanup when rescheduling posts**status**stringStatus of the QueueAvailable options`active``paused``deleted`**skipDateTime**stringSkip Date Time in ISO format**timeSlots**object[]Time slots defining when posts should be published**enableFuturePosts**booleanEnable posting future content. Automatically Queue any New Posts Created in this Category.**prioritizeNewContent**booleanPrioritize new content over older content. When true, new items added via directToQueue will be placed at the top of the queue.
 
 ```json
 {
@@ -47,8 +49,12 @@ application/json
   "skipDateTime": "2023-10-05T14:48:00.000Z",
   "timeSlots": [
     {
-      "dayOfWeek": 0,
+      "dayOfWeek": 1,
       "time": "09:00"
+    },
+    {
+      "dayOfWeek": 3,
+      "time": "14:30"
     }
   ],
   "enableFuturePosts": true,
@@ -67,7 +73,7 @@ Queue updated successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -78,29 +84,36 @@ Queue updated successfully.
     "queue": {
       "_id": "60af88475f1b2c001f5d5f4b",
       "locationId": "location-123",
-      "categoryId": "60af88475f1b2c001f5d5f4b",
+      "categoryId": "6756f381be2553245b08d30c",
       "timeSlots": [
         {
-          "dayOfWeek": 0,
-          "time": "09:00"
+          "_id": "65f1a4e1b1d7f0b8d5a7d6a5",
+          "dayOfWeek": 1,
+          "time": "10:00"
         }
       ],
       "enableFuturePosts": false,
       "prioritizeNewContent": false,
-      "currentOrder": 1000,
       "status": "active",
       "startDate": "2023-01-01T12:00:00Z",
-      "skipDateTime": [
-        "2023-01-02T12:00:00Z"
-      ],
-      "currentPostId": "60af88475f1b2c001f5d5f4b",
       "totalPosts": 10,
       "lastScheduledTime": "2023-01-01T12:00:00Z",
       "createdBy": "user-123",
       "createdAt": "2023-01-01T00:00:00Z",
-      "updatedAt": "2023-01-01T00:00:00Z"
+      "updatedAt": "2023-01-01T00:00:00Z",
+      "category": {
+        "_id": "6756f381be2553245b08d30c",
+        "name": "Category Name",
+        "primaryColor": "#FFFFFF",
+        "secondaryColor": "#000000",
+        "deleted": false,
+        "locationId": "fvg1TXIiVxGcdOaL0riG",
+        "createdBy": "SQ6d63Va2PUbWEZ9k0TD",
+        "createdAt": "2024-12-09T13:41:21.385Z",
+        "updatedAt": "2024-12-09T13:41:21.385Z"
+      }
     }
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

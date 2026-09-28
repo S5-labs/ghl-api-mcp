@@ -36,7 +36,7 @@ string
 
 required
 
-Post Id
+Post Id. Accepts either a 24-character post id or a native platform post id (24-hex).
 
 application/json
 
@@ -62,9 +62,9 @@ Successful response
       "locationId": "ve9EPM428h8vShlRW1KT",
       "status": "published",
       "insights": {
-        "like": 12,
-        "share": 3,
-        "comment": 5
+        "like": 0,
+        "share": 0,
+        "comment": 0
       }
     }
   }

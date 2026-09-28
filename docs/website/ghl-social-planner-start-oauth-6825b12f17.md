@@ -57,14 +57,6 @@ GET /social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}
 
 ## Request
 
-**Authorization**
-
-string
-
-required
-
-Access Token
-
 **Version**
 
 string
@@ -96,28 +88,6 @@ Social media platform to connect. Each platform has specific account types:
 - **threads**: Threads Profiles
 - **bluesky**: Bluesky Accounts (currently not supported)
 
-Available options
-
-`google`
-
-`facebook`
-
-`instagram`
-
-`linkedin`
-
-`tiktok`
-
-`tiktok-business`
-
-`youtube`
-
-`pinterest`
-
-`threads`
-
-`bluesky`
-
 **locationId**
 
 string
@@ -146,4 +116,4 @@ string
 
 Reconnect
 
-Successful Response
+Redirect to the platform OAuth consent screen

@@ -4,12 +4,12 @@
 
 # Tag
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
-## 📄️Get tags by location id
+## 📄️Get tags by location ID
 
 Retrieve all tags for a specific location with optional search and pagination
 
-## 📄️Get tags by ids
+## 📄️Get tags by IDs
 
 Retrieve specific tags by their IDs

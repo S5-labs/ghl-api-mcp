@@ -4,7 +4,7 @@
 
 # Category Queue
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Get all categories with their queue status
 

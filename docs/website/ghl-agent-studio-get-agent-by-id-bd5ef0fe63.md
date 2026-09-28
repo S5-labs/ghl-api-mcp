@@ -28,15 +28,21 @@ string
 
 required
 
+Agent ID to retrieve (returns metadata and all non-deleted versions)
+
 **locationId**
 
 string
 
 required
 
+Location (sub-account) ID that owns the agent
+
 **source**
 
 string
+
+Origin channel attributed to this read for auditing (e.g. public_api, internal)
 
 application/json
 

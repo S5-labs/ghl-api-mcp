@@ -2,11 +2,11 @@
 
 **Website Version:** v3
 
-# Get all authors
+# Get all blog authors
 
 **Endpoint:** `GET /blogs/authors`
 
-The "Get all authors" Api return the blog authors for a given location ID. Please use "blogs/author.readonly"
+The "Get all blog authors" API returns the blog authors for a given location ID.
 
 ## Request
 
@@ -28,7 +28,7 @@ string
 
 required
 
-Location Id
+Sub-account (location) identifier the author belongs to
 
 **limit**
 
@@ -36,7 +36,7 @@ number
 
 required
 
-Number of authors to show in the listing
+Maximum number of authors to return (0-50)
 
 **offset**
 
@@ -44,7 +44,13 @@ number
 
 required
 
-Number of authors to skip in listing
+Number of authors to skip before returning results
+
+**searchTerm**
+
+string
+
+Free-text search across author name and description
 
 application/json
 
@@ -57,18 +63,19 @@ Successful response
 
 **Schema**
 
-**authors**object[]requiredArray of authors
+**authors**object[]requiredArray of authors**count**numberrequiredTotal number of authors matching the query, ignoring limit/offset
 
 ```json
 {
   "authors": [
     {
-      "_id": "lMOzIQZne5m6zQ528sT6",
-      "name": "HighLevel",
-      "locationId": "lMOzIQZne5m6zQ528sT6",
-      "updatedAt": "2025-01-03T11:06:35.822Z",
-      "canonicalLink": "https://tryghl.blog/post/technology"
+      "_id": "66c381b38be80858b9af62b6",
+      "locationId": "ve9EPM428h8vShlRW1KT",
+      "name": "Jane Doe",
+      "description": "Content strategist",
+      "imageUrl": "https://storage.googleapis.com/blog-assets/authors/jane.png"
     }
-  ]
+  ],
+  "count": 42
 }
 ```

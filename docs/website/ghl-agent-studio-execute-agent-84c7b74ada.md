@@ -34,9 +34,13 @@ string
 
 required
 
+Agent ID to execute (must be in active status and belong to the location)
+
 **source**
 
 string
+
+Origin channel attributed to this execution for auditing (e.g. public_api, internal)
 
 application/json
 
@@ -61,7 +65,8 @@ application/json
   "attachments": [
     {
       "type": "image",
-      "imageUrl": "https://example.com/image.png"
+      "url": "https://example.com/image.png",
+      "mimeType": "image/png"
     }
   ],
   "locationId": "C2QujeCh8ZnC7al2InWR",

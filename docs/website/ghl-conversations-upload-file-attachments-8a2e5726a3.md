@@ -55,6 +55,38 @@ Post the necessary fields for the API to upload files. The files need to be a bu
 
 <br>
 
+<br>
+
+<br>
+
+**Secure attachments:**
+
+`isSecureAttachment`
+
+`true`
+
+**email channel only**
+
+<br>
+
+<br>
+
+`/files/d/{slug}`
+
+`{slug}`
+
+`GET /files/d/{slug}`
+
+`files.readonly`
+
+<br>
+
+<br>
+
+**Note:**
+
+`isSecureAttachment`
+
 ## Request
 
 **Version**
@@ -78,7 +110,7 @@ multipart/form-data
 
 ### Body**required**
 
-**conversationId**stringConversation Id**contactId**stringContact Id**workflowId**stringWorkflow Id**campaignId**stringCampaign Id**locationId**stringrequired**attachmentUrls**string[]required
+**conversationId**stringConversation Id**contactId**stringContact Id**workflowId**stringWorkflow Id**campaignId**stringCampaign Id**locationId**stringrequired**attachmentUrls**string[]required**isSecureAttachment**stringSet to true to upload the file as a secure attachment. Defaults to false. Currently supported for the email channel only; support for the remaining conversation channels is coming. A secure attachment URL is publicly accessible for one hour after upload, after which the file must be fetched with GET /files/d/{slug} using the files.readonly OAuth scope. Considered only until 30 November 2026; from that date every upload is stored as a secure attachment and this field is ignored.**Default value:**`false`
 
 ```json
 {
@@ -89,7 +121,8 @@ multipart/form-data
   "locationId": "string",
   "attachmentUrls": [
     "string"
-  ]
+  ],
+  "isSecureAttachment": "false"
 }
 ```
 

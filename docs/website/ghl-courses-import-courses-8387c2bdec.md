@@ -10,18 +10,6 @@ Import Courses through public channels
 
 ## Request
 
-**Version**
-
-string
-
-required
-
-API Version
-
-Available options
-
-`v3`
-
 application/json
 
 - application/json
@@ -94,6 +82,33 @@ application/json
         "name": "string",
         "description": "string"
       }
+    }
+  ]
+}
+```
+
+application/json
+
+Response
+
+- application/json
+
+- Schema
+- Example (auto)
+
+**Schema**
+
+**message**stringrequired**note**string**processingCourses**object[]
+
+```json
+{
+  "message": "string",
+  "note": "string",
+  "processingCourses": [
+    {
+      "id": "string",
+      "title": "string",
+      "url": "string"
     }
   ]
 }

@@ -28,9 +28,13 @@ string
 
 required
 
+Agent version ID to update
+
 **source**
 
 string
+
+Origin channel attributed to this write for auditing (e.g. public_api, internal)
 
 application/json
 

@@ -28,6 +28,8 @@ string
 
 required
 
+The unique identifier of the AI agent
+
 application/json
 
 - application/json
@@ -37,7 +39,7 @@ application/json
 
 ### Body**required**
 
-**actionIds**string[]required**followupSettings**objectrequired
+**actionIds**string[]requiredArray of action IDs to update followup settings for**followupSettings**objectrequiredFollowup settings configuration to apply to the specified actions
 
 ```json
 {
@@ -46,20 +48,7 @@ application/json
   ],
   "followupSettings": {
     "dynamicChannelSwitching": true,
-    "followUpHours": true,
-    "workingHours": [
-      {
-        "dayOfTheWeek": 1,
-        "intervals": [
-          {
-            "startHour": 9,
-            "startMinute": 0,
-            "endHour": 17,
-            "endMinute": 30
-          }
-        ]
-      }
-    ],
+    "followUpHours": false,
     "timezoneToUse": "contact"
   }
 }
@@ -76,23 +65,14 @@ Success
 
 **Schema**
 
-**data**objectrequiredUpdated action details**success**booleanrequiredSuccess status of the request
+**data**objectrequiredUpdated action details (classic action or customApi API Call action)**success**booleanrequiredSuccess status of the request
 
 ```json
 {
   "data": {
     "id": "actionId123",
     "name": "Trigger Workflow",
-    "type": "triggerWorkflow",
-    "agentId": "agentId123",
-    "details": {
-      "workflowIds": [
-        "workflow123",
-        "workflow456"
-      ],
-      "triggerCondition": "When user requests appointment",
-      "triggerMessage": "Workflow triggered successfully"
-    }
+    "type": "triggerWorkflow"
   },
   "success": true
 }

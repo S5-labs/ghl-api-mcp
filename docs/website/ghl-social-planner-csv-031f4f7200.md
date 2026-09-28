@@ -4,7 +4,7 @@
 
 # CSV
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Upload CSV
 

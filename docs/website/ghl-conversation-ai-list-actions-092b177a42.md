@@ -6,7 +6,11 @@
 
 **Endpoint:** `GET /conversation-ai/agents/:agentId/actions/list`
 
-List for actions for an agent
+deprecated
+
+This endpoint has been deprecated and may be replaced or removed in future versions of the API.
+
+Deprecated — use GET /conversation-ai/agents/{agentId}/actions instead. List for actions for an agent, including any `customApi` ("API Call") actions.
 
 ## Request
 
@@ -28,6 +32,8 @@ string
 
 required
 
+The unique identifier of the AI agent
+
 application/json
 
 Success
@@ -39,7 +45,7 @@ Success
 
 **Schema**
 
-**data**object[]requiredGrouped actions by type**success**booleanrequiredSuccess status of the request
+**data**object[]requiredActions for the agent — classic actions and customApi (API Call) actions**success**booleanrequiredSuccess status of the request
 
 ```json
 {
@@ -47,16 +53,7 @@ Success
     {
       "id": "actionId123",
       "name": "Trigger Workflow",
-      "type": "triggerWorkflow",
-      "agentId": "agentId123",
-      "details": {
-        "workflowIds": [
-          "workflow123",
-          "workflow456"
-        ],
-        "triggerCondition": "When user requests appointment",
-        "triggerMessage": "Workflow triggered successfully"
-      }
+      "type": "triggerWorkflow"
     }
   ],
   "success": true

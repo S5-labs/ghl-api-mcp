@@ -42,14 +42,6 @@ POST /social-media-posting/oauth/{locationId}/{platform}/accounts/{accountId}
 
 ## Request
 
-**Authorization**
-
-string
-
-required
-
-Access Token
-
 **Version**
 
 string
@@ -62,21 +54,13 @@ Available options
 
 `v3`
 
-**locationId**
-
-string
-
-required
-
-Account Location Id
-
 **platform**
 
 string
 
 required
 
-Social media platform
+Social media platform. Must match the platform used in the preceding steps of the OAuth flow.
 
 Available options
 
@@ -85,6 +69,10 @@ Available options
 `facebook`
 
 `instagram`
+
+`threads`
+
+`bluesky`
 
 `linkedin`
 
@@ -96,9 +84,13 @@ Available options
 
 `pinterest`
 
-`threads`
+**locationId**
 
-`bluesky`
+string
+
+required
+
+The Location ID where you want to connect this social account
 
 **accountId**
 
@@ -122,17 +114,10 @@ Returns available accounts/pages/channels that can be connected. Response struct
 
 - Schema
 - Example (auto)
-- facebook
-- instagram
-- google
-- linkedin
-- tiktok
-- youtube
-- pinterest
 
 **Schema**
 
-oneOfFacebookInstagramGoogle Business AccountLinkedinTiktokTiktok BusinessYouTubePinterest**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectRequested Results
+oneOfFacebookTiktok BusinessGoogle Business AccountLinkedinInstagramThreadsYouTubeBlueskyTiktokPinterest**success**booleanrequiredWhether the page lookup completed without an upstream API error**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectThe Facebook Pages available to connect. See `GetFacebookAccountsSchema` for the full field breakdown.
 
 ```json
 {
@@ -144,175 +129,10 @@ oneOfFacebookInstagramGoogle Business AccountLinkedinTiktokTiktok BusinessYouTub
       {
         "id": "u37swmmLbA02zgqKPpxITe2",
         "name": "FB Page",
-        "avatar": "u37swmmLbA02zgqKPpxITe2",
-        "isOwned": true,
-        "isConnected": true
-      }
-    ]
-  }
-}
-```
-
-Facebook Pages Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched Facebook Account",
-  "results": {
-    "pages": [
-      {
-        "id": "244405123411687",
-        "name": "My Business Page",
-        "avatar": "https://graph.facebook.com/244405123411687/picture",
         "isOwned": true,
         "isConnected": false
-      },
-      {
-        "id": "567890123456789",
-        "name": "Another Page",
-        "avatar": "https://graph.facebook.com/567890123456789/picture",
-        "isOwned": false,
-        "isConnected": true
       }
     ]
-  }
-}
-```
-
-Instagram Professional Accounts Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched Instagram Account",
-  "results": {
-    "accounts": [
-      {
-        "id": "17841405123456789",
-        "name": "my_instagram_business",
-        "avatar": "https://...",
-        "isConnected": false,
-        "pageId": "244405123411687",
-        "isBusinessAccount": true
-      }
-    ]
-  }
-}
-```
-
-Google Business Profile Locations Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched Google Business Account",
-  "results": {
-    "locations": {
-      "location": {
-        "name": "locations/12345678901234567890",
-        "storeCode": "STORE001",
-        "title": "My Business Location",
-        "metadata": {
-          "hasGoogleUpdated": true,
-          "canDelete": true
-        },
-        "storefrontAddress": {
-          "locality": "New York",
-          "regionCode": "US"
-        },
-        "isVerified": true,
-        "isConnected": false
-      },
-      "account": {
-        "name": "accounts/123456789012345678",
-        "accountName": "My Business Account",
-        "type": "PERSONAL",
-        "verificationState": "VERIFIED",
-        "vettedState": "VETTED"
-      }
-    }
-  }
-}
-```
-
-LinkedIn Pages & Profile Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched LinkedIn Account",
-  "results": {
-    "pages": [
-      {
-        "id": "urn:li:organization:12345678",
-        "name": "My Company",
-        "avatar": "https://...",
-        "isConnected": false
-      }
-    ],
-    "profile": {
-      "id": "urn:li:person:AbCdEfGhIj",
-      "name": "John Doe",
-      "avatar": "https://..."
-    }
-  }
-}
-```
-
-TikTok Creator Account Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched TikTok Account",
-  "results": {
-    "openId": "7234567890123456789",
-    "displayName": "My TikTok",
-    "avatarUrl": "https://...",
-    "isConnected": false
-  }
-}
-```
-
-YouTube Channels Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched YouTube Account",
-  "results": {
-    "channels": [
-      {
-        "id": "UCabcdefghijklmnop",
-        "name": "My YouTube Channel",
-        "avatar": "https://...",
-        "isConnected": false
-      }
-    ]
-  }
-}
-```
-
-Pinterest Account Response
-
-```json
-{
-  "success": true,
-  "statusCode": 200,
-  "message": "Fetched Pinterest Account",
-  "results": {
-    "id": "123456789012345678",
-    "username": "mybusiness",
-    "businessName": "My Pinterest Business",
-    "avatar": "https://...",
-    "isConnected": false
   }
 }
 ```

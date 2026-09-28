@@ -6,7 +6,7 @@
 
 **Endpoint:** `POST /blogs/posts`
 
-The "Create Blog Post" API allows you create blog post for any given blog site. Please use blogs/post.write
+The "Create Blog Post" API allows you to create a blog post for any given blog site.
 
 ## Request
 
@@ -31,36 +31,45 @@ application/json
 
 ### Body**required**
 
-**title**stringrequired**locationId**stringrequired**blogId**stringrequiredYou can find the blog id from blog site dashboard link**imageUrl**stringrequired**description**stringrequired**rawHTML**stringrequired**status**stringrequiredAvailable options`DRAFT``PUBLISHED``SCHEDULED``ARCHIVED`**imageAltText**stringrequired**categories**string[]requiredThis needs to be array of category ids, which you can get from the category get api call.**tags**string[]**author**stringrequiredThis needs to be author id, which you can get from the author get api call.**urlSlug**stringrequired**canonicalLink**string**publishedAt**stringrequiredProvide ISO timestamp
+**title**stringTitle of the blog post**locationId**stringrequiredSub-account (location) identifier the blog post belongs to**blogId**stringrequiredIdentifier of the blog site the post belongs to**imageUrl**stringCover image URL for the blog post**description**stringShort description or excerpt for the blog post**rawHTML**stringrequiredFull HTML body of the blog post**status**stringrequiredPublication status of the blog postAvailable options`DRAFT``PUBLISHED``SCHEDULED``ARCHIVED``DELETED`**wordCount**numberTotal word count of the blog post body**readTimeInMinutes**numberEstimated read time of the blog post, in minutes**archived**booleanWhether the blog post is archived**imageAltText**stringAlt text for the cover image**currentVersion**stringIdentifier of the current version of the blog post**metaData**objectMetadata about actors that performed lifecycle actions on the post**categories**string[]Identifiers of categories the blog post belongs to**tags**string[]Tags applied to the blog post**author**stringIdentifier of the author of the blog post**urlSlug**stringURL-safe slug used in the blog post path**canonicalLink**stringCanonical link override for SEO**importId**stringIdentifier of the import record this post was created from**type**stringPost type marker (e.g., "preview")**publishedAt**stringTimestamp when the post was (or will be) published
 
 ```json
 {
-  "title": "Your blog title",
-  "locationId": "Location ID",
-  "blogId": "Blog ID",
-  "imageUrl": "Image URl",
-  "description": "A short description",
-  "rawHTML": "<h1>Your blog content</h1>",
-  "status": "This can be PUBLISHED OR SCHEDULED OR ARCHIVED OR DRAFT",
-  "imageAltText": "Alt text for your blog image",
+  "title": "My Blog Post",
+  "locationId": "ve9EPM428h8vShlRW1KT",
+  "blogId": "lMOzIQZne5m6zQ528sT6",
+  "imageUrl": "https://storage.googleapis.com/blog-assets/posts/cover.png",
+  "description": "A practical guide to inbound marketing in 2026.",
+  "rawHTML": "<h1>Hello</h1><p>This is my post.</p>",
+  "status": "DRAFT",
+  "wordCount": 1200,
+  "readTimeInMinutes": 6,
+  "archived": false,
+  "imageAltText": "A laptop on a desk",
+  "currentVersion": "66c381b38be80858b9af62b7",
+  "metaData": {
+    "updatedBy": "user_abc123",
+    "publishedBy": "user_abc123"
+  },
   "categories": [
-    "9c48df2694a849b6089f9d0d3513efe",
-    "6683abde331c041f32c07aee"
+    "659ecabc4a37969a2b7cc370"
   ],
   "tags": [
-    "blog",
+    "marketing",
     "seo"
   ],
-  "author": "6683abde331c041f32c07aea",
-  "urlSlug": "any-blog-post-url",
-  "canonicalLink": "https://tryghl.blog/post/testing-unsplash",
-  "publishedAt": "2025-02-05T18:30:47.000Z"
+  "author": "659ec9634a3796e4e47cc360",
+  "urlSlug": "my-blog-post",
+  "canonicalLink": "https://example.com/blog/my-blog-post",
+  "importId": "64a1b2c3d4e5f6a7b8c9d0e1",
+  "type": "preview",
+  "publishedAt": "2026-05-13T17:14:57.000Z"
 }
 ```
 
 application/json
 
-Successful response
+Blog post created
 
 - application/json
 
@@ -69,31 +78,14 @@ Successful response
 
 **Schema**
 
-**data**objectrequiredObject containing response data of blog post create.
+**data**objectrequiredObject containing response data of blog post create
 
 ```json
 {
   "data": {
-    "categories": [
-      "659ecabc4a37969a2b7cc370",
-      "6683abde331c041f32c07aee"
-    ],
-    "tags": [
-      "Apple",
-      "Banana"
-    ],
-    "archived": false,
     "_id": "66c381b38be80858b9af62b6",
-    "title": "Banana is good source of energy",
-    "description": "Description",
-    "imageUrl": "https://storage.googleapis.com/ghl-test/fACm0Ojm5oC70G3DcFmE/media/66b5aa3b1745b2713a8d033f.jpeg",
-    "status": "PUBLISHED",
-    "imageAltText": "alt",
-    "urlSlug": "banana-good-energy",
-    "canonicalLink": "https://blog.chatgpts.agency/post/test-8384",
-    "author": "659ec9634a3796e4e47cc360",
-    "publishedAt": "2024-08-19T17:14:57.000Z",
-    "updatedAt": "2024-08-19T17:32:36.182Z"
+    "title": "How to grow your agency",
+    "status": "PUBLISHED"
   }
 }
 ```

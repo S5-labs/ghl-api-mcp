@@ -31,7 +31,7 @@ application/json
 
 ### Body**required**
 
-**type**stringrequiredType of authentication - basic or oauth2Available options`oauth2``basic`**locationId**stringrequiredLocation ID**appId**stringrequiredApp ID**appVersionId**stringrequiredApp Version ID**accountId**stringrequiredConnection identifier**apiKey**stringAPI Key (supported when type is basic)**basicCredentials**objectBasic auth credentials as key/value pairs (supported when type is basic). Keys are validated against the app version externalAuthConfig.fields.**accessToken**stringAccess token (required when type is oauth2)**refreshToken**stringRefresh token (required when type is oauth2)**expiryIn**numberAccess token expiry time in milliseconds (optional for oauth2)**expiryAt**numberTimestamp for access token expiry (optional for oauth2)**scopes**string[]OAuth2 scopes (optional for oauth2)**displayName**stringDisplay name for the connection (optional, defaults to accountId)**isDefault**booleanWhether this is the default connection for the location (optional, defaults to false)
+**type**stringrequiredType of authentication - basic or oauth2Available options`oauth2``basic`**locationId**stringrequiredLocation ID**appId**stringrequiredApp ID**appVersionId**stringrequiredApp Version ID**accountId**stringrequiredConnection identifier**apiKey**stringAPI Key (supported when type is basic)**basicCredentials**objectBasic auth credentials as key/value pairs (supported when type is basic). Keys are validated against the app version externalAuthConfig.fields.**accessToken**stringAccess token (required when type is oauth2)**refreshToken**stringRefresh token. Omit only when the provider issues long-lived, non-refreshable tokens (e.g. TikTok Marketing API, ClickUp) and therefore never returns one. Callers are responsible for supplying it whenever their app has a refresh endpoint configured: the migration stores exactly what it is given and replaces any previously stored secret, so omitting a refresh token the connection needs will leave it unable to refresh once the access token expires. Must be a non-empty string when supplied — null is rejected.**expiryIn**numberAccess token expiry time in milliseconds (optional for oauth2)**expiryAt**numberTimestamp for access token expiry (optional for oauth2)**scopes**string[]OAuth2 scopes (optional for oauth2)**displayName**stringDisplay name for the connection (optional, defaults to accountId)**email**stringAccount email metadata for the migrated connection**identitySource**stringSource of the account identity metadataAvailable options`provider``manual`**isDefault**booleanWhether this is the default connection for the location (optional, defaults to false)
 
 ```json
 {
@@ -54,6 +54,8 @@ application/json
     "contacts.write"
   ],
   "displayName": "My Connection Display Name",
+  "email": "user@example.com",
+  "identitySource": "manual",
   "isDefault": false
 }
 ```

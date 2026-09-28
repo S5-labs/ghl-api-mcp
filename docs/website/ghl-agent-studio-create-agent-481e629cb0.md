@@ -26,6 +26,8 @@ Available options
 
 string
 
+Origin channel attributed to this write for auditing (e.g. public_api, internal)
+
 application/json
 
 - application/json

@@ -28,71 +28,40 @@ string
 
 required
 
-Location ID
+Location ID (also known as Sub-Account ID) for the business location.
 
 application/json
 
 - application/json
 
 - Body
-- default-behavior
-- custom-range-with-comparison
-- custom-range-without-comparison
+- Example (auto)
 
 ### Body**required**
 
-**profileIds**string[]requiredArray of connected social media account IDs to fetch analytics for. This can be found as 'profileId' in /accounts api.**Possible values:** `>= 1`, `<= 100`**platforms**string[]Array of social media platforms to filter analytics by. If not provided, all platforms will be included. NOTE: Linkedin (PAGE only) and Tiktok (BUSINESS only) are supported.Available options`facebook``instagram``linkedin``google``pinterest``youtube``tiktok`**currentRange**objectCustom date range for the current analytics period. If omitted, defaults to the last 7 days (excluding today) with automatic comparison to the previous 7 days.**prevRange**objectComparison date range. Can only be provided when currentRange is also present. If omitted while currentRange is present, no comparison data is returned.
-
-Default behavior (backward compatible, no date ranges)
+**profileIds**string[]Array of connected social media account IDs to fetch analytics for. Limited to 100 accounts maximum.**Possible values:** `<= 100`**platforms**string[]Array of social media platforms to filter analytics by. If not provided, all platforms will be included.Available options`facebook``instagram``linkedin``google``pinterest``youtube``tiktok`**currentRange**objectCurrent date range for analytics. If not provided, defaults to the last 7 days (excluding today) with comparison to the previous 7 days.**prevRange**objectComparison date range. If not provided, no comparison will be made.
 
 ```json
 {
   "profileIds": [
-    "67a5a9aa776c837de4aa5b12"
+    "6673d4f770801753dcafd7b8_SovchenxzWl9R3OFPgsj_9285776684082983366"
   ],
   "platforms": [
     "facebook",
-    "instagram"
-  ]
-}
-```
-
-Custom date range with comparison
-
-```json
-{
-  "profileIds": [
-    "67a5a9aa776c837de4aa5b12"
-  ],
-  "platforms": [
-    "facebook",
-    "instagram"
+    "instagram",
+    "linkedin",
+    "google",
+    "pinterest",
+    "youtube",
+    "tiktok"
   ],
   "currentRange": {
-    "startDate": "2025-03-01T00:00:00.000Z",
-    "endDate": "2025-03-31T23:59:59.999Z"
+    "startDate": "2025-01-01T00:00:00.000Z",
+    "endDate": "2025-01-07T23:59:59.999Z"
   },
   "prevRange": {
-    "startDate": "2025-02-01T00:00:00.000Z",
-    "endDate": "2025-02-28T23:59:59.999Z"
-  }
-}
-```
-
-Custom date range without comparison
-
-```json
-{
-  "profileIds": [
-    "67a5a9aa776c837de4aa5b12"
-  ],
-  "platforms": [
-    "facebook",
-    "instagram"
-  ],
-  "currentRange": {
-    "startDate": "2025-03-01T00:00:00.000Z",
-    "endDate": "2025-03-31T23:59:59.999Z"
+    "startDate": "2024-12-25T00:00:00.000Z",
+    "endDate": "2024-12-31T23:59:59.999Z"
   }
 }
 ```
@@ -108,7 +77,7 @@ Successfully retrieved analytics data
 
 **Schema**
 
-**results**objectAnalytics data grouped by metrics and platforms**message**stringSuccess message indicating the analytics were built successfully**traceId**stringUnique identifier for tracking this request
+**results**objectrequiredAnalytics data grouped by metrics and platforms for the requested accounts and date range.**message**stringrequiredHuman-readable status message confirming the analytics were built successfully.**traceId**stringrequiredTrace ID for debugging
 
 ```json
 {
@@ -122,6 +91,7 @@ Successfully retrieved analytics data
       "Sat",
       "Sun"
     ],
+    "grouping": "daily",
     "totals": {
       "posts": 0,
       "likes": 0,

@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 application/json
 
 - application/json
@@ -58,7 +60,7 @@ Edit session saved successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -70,11 +72,12 @@ Edit session saved successfully.
       {
         "itemId": "60af88475f1b2c001f5d5f4b",
         "scheduledDateTime": "2023-10-15T10:00:00.000Z",
-        "isSkipped": false
+        "isSkipped": false,
+        "order": 18000
       }
     ],
     "totalPostsChanged": 10
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

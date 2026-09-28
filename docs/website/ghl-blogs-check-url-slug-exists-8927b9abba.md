@@ -6,7 +6,7 @@
 
 **Endpoint:** `GET /blogs/posts/url-slug-exists`
 
-The "Check url slug" API allows check the blog slug validation which is needed before publishing any blog post. Please use blogs/check-slug.readonly. you can find the POST ID from the post edit url.
+The "Check url slug" API checks whether a blog post url slug is already in use for the location. Call it before publishing a blog post.
 
 ## Request
 
@@ -28,15 +28,21 @@ string
 
 required
 
+URL slug to check for uniqueness
+
 **locationId**
 
 string
 
 required
 
+Sub-account (location) identifier the slug is being checked under
+
 **postId**
 
 string
+
+Identifier of the existing post to exclude from the uniqueness check
 
 application/json
 
@@ -53,6 +59,6 @@ Successful response
 
 ```json
 {
-  "exists": true
+  "exists": false
 }
 ```

@@ -2,7 +2,7 @@
 
 **Website Version:** v3
 
-# Get tags by ids
+# Get tags by IDs
 
 **Endpoint:** `POST /social-media-posting/:locationId/tags/details`
 

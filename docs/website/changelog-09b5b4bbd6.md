@@ -4,6 +4,240 @@
 
 # Changelog
 
+## 2026-09-24
+
+**Courses**
+
+### POST /courses/courses-exporter/public/import
+
+- api tag `Course Import` added
+
+### DELETE /courses/enrollments
+
+- endpoint added
+
+### POST /courses/enrollments
+
+- endpoint added
+
+### GET /courses/offers
+
+- endpoint added
+
+### POST /courses/offers
+
+- endpoint added
+
+### DELETE /courses/offers/{offerId}
+
+- endpoint added
+
+### GET /courses/offers/{offerId}
+
+- endpoint added
+
+### PUT /courses/offers/{offerId}
+
+- endpoint added
+
+### GET /courses/products
+
+- endpoint added
+
+### POST /courses/products
+
+- endpoint added
+
+### DELETE /courses/products/{productId}
+
+- endpoint added
+
+### GET /courses/products/{productId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/assessments
+
+- endpoint added
+
+### GET /courses/products/{productId}/assessments/{assessmentId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/assessments/{assessmentId}/review
+
+- endpoint added
+
+### DELETE /courses/products/{productId}/assignments/{assignmentId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/assignments/{assignmentId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/categories
+
+- endpoint added
+
+### POST /courses/products/{productId}/categories
+
+- endpoint added
+
+### GET /courses/products/{productId}/categories/progress
+
+- endpoint added
+
+### PUT /courses/products/{productId}/categories/sequence
+
+- endpoint added
+
+### DELETE /courses/products/{productId}/categories/{categoryId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/categories/{categoryId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/categories/{categoryId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/categories/{categoryId}/lessons/sequence
+
+- endpoint added
+
+### GET /courses/products/{productId}/completions
+
+- endpoint added
+
+### GET /courses/products/{productId}/enrollments
+
+- endpoint added
+
+### GET /courses/products/{productId}/lessons
+
+- endpoint added
+
+### POST /courses/products/{productId}/lessons
+
+- endpoint added
+
+### DELETE /courses/products/{productId}/lessons/{lessonId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/lessons/{lessonId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/lessons/{lessonId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/lessons/{lessonId}/assignment
+
+- endpoint added
+
+### POST /courses/products/{productId}/lessons/{lessonId}/assignment
+
+- endpoint added
+
+### GET /courses/products/{productId}/lessons/{lessonId}/quiz
+
+- endpoint added
+
+### POST /courses/products/{productId}/lessons/{lessonId}/quiz
+
+- endpoint added
+
+### DELETE /courses/products/{productId}/quizzes/{quizId}
+
+- endpoint added
+
+### PUT /courses/products/{productId}/quizzes/{quizId}
+
+- endpoint added
+
+### GET /courses/products/{productId}/quizzes/{quizId}/questions
+
+- endpoint added
+
+### PUT /courses/products/{productId}/quizzes/{quizId}/questions
+
+- endpoint added
+
+### GET /courses/progress
+
+- endpoint added
+
+---
+
+## 2026-09-23
+
+**Conversation Ai**
+
+### POST /conversation-ai/agents
+
+- ⚠️ added the new `customApi` enum value to the `actions/items/type` response property for the response status `201`
+
+### GET /conversation-ai/agents/{agentId}
+
+- ⚠️ added the new `customApi` enum value to the `actions/items/type` response property for the response status `200`
+
+### PUT /conversation-ai/agents/{agentId}
+
+- ⚠️ added the new `customApi` enum value to the `actions/items/type` response property for the response status `200`
+
+### GET /conversation-ai/agents/{agentId}/actions
+
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data/items/` response property `oneOf` list for the response status `200`
+
+### POST /conversation-ai/agents/{agentId}/actions
+
+- ⚠️ removed `#/components/schemas/ActionDataDTO` from the `data` response property `allOf` list for the response status `201`
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data` response property `oneOf` list for the response status `201`
+- added the new `customApi` enum value to the request property `type`
+- added `#/components/schemas/CustomApiDetailsDTO` to the `details` request property `oneOf` list
+
+### GET /conversation-ai/agents/{agentId}/actions/list
+
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data/items/` response property `oneOf` list for the response status `200`
+
+### GET /conversation-ai/agents/{agentId}/actions/{actionId}
+
+- ⚠️ removed `#/components/schemas/ActionDataDTO` from the `data` response property `allOf` list for the response status `200`
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data` response property `oneOf` list for the response status `200`
+
+### PUT /conversation-ai/agents/{agentId}/actions/{actionId}
+
+- ⚠️ removed `#/components/schemas/ActionDataDTO` from the `data` response property `allOf` list for the response status `200`
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data` response property `oneOf` list for the response status `200`
+- added the new `customApi` enum value to the request property `type`
+- added `#/components/schemas/CustomApiDetailsDTO` to the `details` request property `oneOf` list
+
+### PATCH /conversation-ai/agents/{agentId}/followup-settings
+
+- ⚠️ removed `#/components/schemas/ActionDataDTO` from the `data` response property `allOf` list for the response status `200`
+- ⚠️ added `#/components/schemas/ActionDataDTO, #/components/schemas/CustomApiActionDataDTO` to the `data` response property `oneOf` list for the response status `200`
+
+---
+
+## 2026-09-10
+
+**Marketplace**
+
+### GET /marketplace/app/{appId}/rebilling-config/location/{locationId}
+
+- endpoint deprecated
+
+---
+
 ## 2026-09-07
 
 **Affiliate Manager**
@@ -181,6 +415,59 @@
 - added `#/components/schemas/AffiliateAuditResponseDto` to the `payouts/items/affiliate/allOf[#/components/schemas/OAuthAffiliateListItemResponseDto]/lastUpdatedBy` response property `allOf` list for the response status `200`
 
 ---
+
+## 2026-09-03
+
+**Blogs**
+
+Adds Get Blog Post by ID, and splits the single `Blogs` tag into `Blogs`, `Blog Posts`, `Blog Categories` and `Blog Authors`. No previously published operation was removed.
+
+### GET /blogs/posts/post/{postId}
+
+- added the operation — returns a single published blog post including its content
+
+### PUT /blogs/posts/{postId}
+
+- ⚠️ the required `postId` path parameter is now declared — it was always required, but the specification omitted it, which made the operation uncallable from generated clients
+- added the `400`, `401` and `404` responses
+- corrected the description, which previously described creating a blog post
+
+### GET /blogs/authors
+
+- ⚠️ the required `locationId` query parameter is now declared — it was always enforced, but the specification omitted it
+- added the `count` property to the response
+- added the `400` and `401` responses
+- the response now documents `_id` and `updatedAt`; both were always returned but undeclared
+- ⚠️ the response no longer documents `originId`, an internal identifier set only on imported records
+
+### GET /blogs/categories
+
+- added the `count` property to the response
+- added the `400` and `401` responses
+- the response now documents `_id` and `updatedAt`; both were always returned but undeclared
+- ⚠️ the response no longer documents `originId`, an internal identifier set only on imported records
+
+### GET /blogs/posts/all
+
+- the response property `blogs` is now correctly typed as an array
+- added the `count` property to the response
+- the `status` filter now documents its accepted values: `ALL`, `DRAFT`, `PUBLISHED`, `SCHEDULED`, `SCHEDULE_FAILED`, `ARCHIVED`, `DELETED`
+- added the `400`, `401` and `404` responses
+- `searchTerm` now searches post title, description, url slug and category name; it previously matched only the title, despite the documentation saying otherwise
+
+### GET /blogs/site/all
+
+- the response property `data` is now correctly typed as an array
+- added the `400` and `401` responses
+
+### POST /blogs/posts
+
+- ⚠️ the success response is documented as `201`, which is the status the operation has always returned; it was previously documented as `200`
+- added the `400`, `401` and `404` responses
+
+### GET /blogs/posts/url-slug-exists
+
+- added the `400`, `401` and `404` responses
 
 ## 2026-08-25
 

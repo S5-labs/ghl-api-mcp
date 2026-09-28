@@ -30,6 +30,8 @@ required
 
 The key of the Custom Object / Standard Object Schema. For custom objects, the key must include the “custom_objects.” prefix, while standard objects use their respective object keys. This information is available on the Custom Objects Details page under Settings.
 
+application/json
+
 - application/json
 
 - Body
@@ -37,10 +39,16 @@ The key of the Custom Object / Standard Object Schema. For custom objects, the k
 
 ### Body**required**
 
-****object
+**locationId**stringrequiredLocation Id**properties**objectrequiredProperties of the custom object record. Keys are the object field names; values are the field values (string, number, or a monetary { currency, value } object).
 
 ```json
-{}
+{
+  "locationId": "ve9EPM428h8vShlRW1KT",
+  "properties": {
+    "pet_name": "Cat",
+    "pet_age": 10
+  }
+}
 ```
 
 application/json

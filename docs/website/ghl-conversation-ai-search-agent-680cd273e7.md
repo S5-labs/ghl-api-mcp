@@ -59,37 +59,16 @@ Successful response
     {
       "id": "emp_123",
       "name": "John Doe",
-      "businessName": "Tech Corp",
       "mode": "auto-pilot",
       "channels": [
-        "SMS",
-        "LIVE_CHAT"
+        "SMS"
       ],
       "waitTime": 30,
       "waitTimeUnit": "seconds",
-      "sleepTime": 2,
-      "sleepTimeUnit": "hours",
-      "actions": [
-        {
-          "id": "action_123",
-          "type": "triggerWorkflow"
-        }
-      ],
+      "sleepEnabled": false,
+      "actions": [],
       "isPrimary": false,
-      "autoPilotMaxMessages": 25,
-      "goal": {
-        "prompt": "Assist customers",
-        "type": "custom",
-        "actionId": null
-      },
-      "knowledgeBaseIds": [
-        "kb_123",
-        "kb_456"
-      ],
-      "createdAt": "2024-01-01T00:00:00Z",
-      "updatedAt": "2024-01-01T00:00:00Z",
-      "sleepOnManualMessage": false,
-      "sleepOnWorkflowMessage": false
+      "autoPilotMaxMessages": 25
     }
   ],
   "totalCount": 100,

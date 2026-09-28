@@ -34,15 +34,21 @@ string
 
 required
 
+Managed Agent ID
+
 **locationId**
 
 string
 
 required
 
+Location ID
+
 **source**
 
 string
+
+Origin channel attributed to this read for auditing (e.g. public_api, internal)
 
 application/json
 

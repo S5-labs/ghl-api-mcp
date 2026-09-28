@@ -2,7 +2,7 @@
 
 **Website Version:** v3
 
-# Get tags by location id
+# Get tags by location ID
 
 **Endpoint:** `GET /social-media-posting/:locationId/tags`
 

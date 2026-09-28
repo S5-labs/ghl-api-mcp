@@ -6,7 +6,7 @@
 
 **Endpoint:** `DELETE /conversation-ai/agents/:agentId/actions/:actionId`
 
-Permanently deletes an action. This will remove the action from all associated agents and cannot be undone.
+Permanently deletes an action. This will remove the action from all associated agents and cannot be undone. Applies to both classic and `customApi` ("API Call") actions.
 
 ## Request
 
@@ -35,6 +35,8 @@ The unique identifier of the action ID Attached to the agent
 string
 
 required
+
+The unique identifier of the AI agent
 
 application/json
 

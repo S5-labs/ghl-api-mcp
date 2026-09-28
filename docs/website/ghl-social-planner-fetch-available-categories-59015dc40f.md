@@ -59,7 +59,7 @@ Available categories fetched successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -69,15 +69,15 @@ Available categories fetched successfully.
     "message": "Available categories fetched successfully",
     "categories": [
       {
+        "_id": "6756f381be2553245b08d30c",
+        "name": "Category Name",
+        "primaryColor": "#FFFFFF",
+        "secondaryColor": "#000000",
         "deleted": false,
-        "_id": "65cb3d2f68baa617aa0c286e",
-        "name": "Facebook Reel",
         "locationId": "fvg1TXIiVxGcdOaL0riG",
-        "primaryColor": "#004EEB",
-        "secondaryColor": "#EFF4FF",
         "createdBy": "SQ6d63Va2PUbWEZ9k0TD",
-        "createdAt": "2024-02-13T09:58:07.129Z",
-        "updatedAt": "2024-02-13T09:58:07.129Z",
+        "createdAt": "2024-12-09T13:41:21.385Z",
+        "updatedAt": "2024-12-09T13:41:21.385Z",
         "publishedPostsCount": 80,
         "status": "in_queue",
         "queueDetails": {
@@ -91,6 +91,6 @@ Available categories fetched successfully.
       "count": "100"
     }
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

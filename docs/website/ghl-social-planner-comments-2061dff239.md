@@ -4,7 +4,7 @@
 
 # Comments
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Create a comment or reply
 
@@ -12,11 +12,11 @@ Create a top-level comment on a post (`isParentThread: true`, `parentId` = postI
 
 ## 📄️Like a comment
 
-Like a comment by its **Highlevel** comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
+Like a comment by its internal comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
 
 ## 📄️Unlike a comment
 
-Remove a like from a comment by its **Highlevel** comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
+Remove a like from a comment by its internal comment ID (the `_id` returned by the list-comments endpoint — not the native platform ID).
 
 ## 📄️List comments for a post or thread
 

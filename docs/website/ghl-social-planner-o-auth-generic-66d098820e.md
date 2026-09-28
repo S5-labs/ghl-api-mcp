@@ -4,7 +4,7 @@
 
 # OAuth | Generic
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Start OAuth Flow (Step 1 of 3)
 

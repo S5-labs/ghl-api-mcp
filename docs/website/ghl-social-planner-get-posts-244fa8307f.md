@@ -28,7 +28,7 @@ string
 
 required
 
-Location Id
+Location ID (also known as Sub-Account ID) for the business location.
 
 application/json
 
@@ -39,7 +39,7 @@ application/json
 
 ### Body**required**
 
-**type**stringtype must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress, pending and deleted**Default value:**`all`**accounts**stringList of account Ids separated by comma as a string**skip**stringrequiredNumber of records to skip for pagination**Default value:**`0`**limit**stringrequiredMaximum number of records to return**Default value:**`10`**fromDate**stringrequiredFrom Date**toDate**stringrequiredTo Date**includeUsers**stringrequiredInclude User Data**postType**objectPost Type must be one of the following values: - post, story, reel
+**type**stringtype must be one of the following values: recent, all, scheduled, draft, failed, in_review, published, in_progress, pending and deleted**Default value:**`all`**accounts**stringList of account Ids separated by comma as a string**skip**stringNumber of records to skip for pagination. Send as a numeric string — a JSON number is rejected.**Default value:**`0`**limit**stringMaximum number of records to return. Send as a numeric string — a JSON number is rejected.**Default value:**`10`**fromDate**stringFrom Date**toDate**stringTo Date**includeUsers**stringInclude User Data**postType**stringPost Type must be one of the following values: post, story, reel, short Matches the top-level `type` a post was created with (see the `type` field on Create Post), so only these three values can ever match a post.Available options`post``story``reel`
 
 ```json
 {
@@ -79,9 +79,9 @@ Successful response
         "locationId": "ve9EPM428h8vShlRW1KT",
         "status": "published",
         "insights": {
-          "like": 12,
-          "share": 3,
-          "comment": 5
+          "like": 0,
+          "share": 0,
+          "comment": 0
         }
       }
     ],

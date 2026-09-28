@@ -64,6 +64,12 @@ string[]
 
 The users for whom the free slots are returned
 
+**duration**
+
+number
+
+Duration in minutes to use for slot calculation. Must match one of the active durationOptions on the calendar. If omitted, the default duration is used.
+
 application/json
 
 Availability map keyed by date (YYYY-MM-DD)

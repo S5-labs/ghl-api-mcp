@@ -6,7 +6,7 @@
 
 **Endpoint:** `GET /conversation-ai/agents/:agentId/actions/:actionId`
 
-Retrieves detailed information about a specific action using its unique identifier. Returns the action configuration, associated agents, and performance metrics.
+Retrieves detailed information about a specific action using its unique identifier. Returns the action configuration, associated agents, and performance metrics. Supports both classic actions and the `customApi` ("API Call") type.
 
 ## Request
 
@@ -36,6 +36,8 @@ string
 
 required
 
+The unique identifier of the AI agent
+
 application/json
 
 Success
@@ -47,23 +49,14 @@ Success
 
 **Schema**
 
-**data**objectrequiredAction details**success**booleanrequiredSuccess status of the request
+**data**objectrequiredAction details (classic action or customApi API Call action)**success**booleanrequiredSuccess status of the request
 
 ```json
 {
   "data": {
     "id": "actionId123",
     "name": "Trigger Workflow",
-    "type": "triggerWorkflow",
-    "agentId": "agentId123",
-    "details": {
-      "workflowIds": [
-        "workflow123",
-        "workflow456"
-      ],
-      "triggerCondition": "When user requests appointment",
-      "triggerMessage": "Workflow triggered successfully"
-    }
+    "type": "triggerWorkflow"
   },
   "success": true
 }

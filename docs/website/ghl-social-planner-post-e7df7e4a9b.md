@@ -4,7 +4,7 @@
 
 # Post
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
 ## 📄️Get posts
 

@@ -16,95 +16,17 @@ This is the final step in the OAuth flow. After retrieving available accounts (S
 1. **Get Accounts** → Retrieved available pages/channels
 1. **Attach Account** (this endpoint) → Connect the selected account
 
-### Request Body by Platform
+### Request Body
 
-The request body structure varies depending on the platform:
+The accepted fields depend on the `platform` path parameter — pick the matching schema in the request body below. Most platforms take the `originId`, `name` and optional `avatar` of the account you selected in Step 2; Google Business Profile takes the full `location` and `account` objects.
 
-#### Facebook / Instagram
-
-```json
-{
-  "type": "page",
-  "originId": "244405XXXXX11687",
-  "name": "My Facebook Page",
-  "avatar": "https://..." // optional
-}
-```
-
-#### Google Business Profile
-
-```json
-{
-  "location": {
-    "name": "locations/12345",
-    "title": "My Business Location",
-    "storeCode": "STORE123",
-    "isVerified": "ChIJsZQpj1qbXjkRQNDUG4UUx6k"
-  },
-  "account": {
-    "name": "accounts/12345",
-    "accountName": "My Business Account",
-    "type": "LOCATION_GROUP",
-    "verificationState": "VERIFIED",
-    "vettedState": "VETTED"
-  }
-}
-```
-
-#### LinkedIn
-
-```json
-{
-  "type": "page",
-  "originId": "urn:li:organization:12345",
-  "name": "My LinkedIn Page",
-  "avatar": "https://..." // optional
-}
-```
-
-#### TikTok
-
-```json
-{
-  "originId": "7234567890123456789",
-  "name": "My TikTok Account",
-  "avatar": "https://..." // optional
-}
-```
-
-#### YouTube
-
-```json
-{
-  "originId": "UCxxxxxxxxxxxxxxxx",
-  "name": "My YouTube Channel",
-  "avatar": "https://..." // optional
-}
-```
-
-#### Pinterest
-
-```json
-{
-  "originId": "123456789",
-  "name": "My Pinterest Account",
-  "avatar": "https://..." // optional
-}
-```
+> tiktok-business accounts are connected through the TikTok Business flow, not this endpoint.
 
 ### After Connection
 
 Once connected, the account will appear in your location's connected accounts and can be used for social media posting.
 
 ## Request
-
-**Authorization**
-
-string
-
-required
-
-Access Token
 
 **Version**
 
@@ -118,21 +40,13 @@ Available options
 
 `v3`
 
-**locationId**
-
-string
-
-required
-
-The Location ID where you want to connect this social account
-
 **platform**
 
 string
 
 required
 
-Social media platform (must match the platform used in Steps 1 and 2)
+Social media platform. Must match the platform used in the preceding steps of the OAuth flow.
 
 Available options
 
@@ -142,17 +56,27 @@ Available options
 
 `instagram`
 
+`threads`
+
+`bluesky`
+
 `linkedin`
 
 `tiktok`
+
+`tiktok-business`
 
 `youtube`
 
 `pinterest`
 
-`threads`
+**locationId**
 
-`bluesky`
+string
+
+required
+
+The Location ID where you want to connect this social account
 
 **accountId**
 
@@ -160,81 +84,25 @@ string
 
 required
 
-The OAuth Account ID received from Step 1 (same as used in Step 2)
+The OAuth Account ID received from Step 1 (Start OAuth) via the window message event
 
 application/json
 
 - application/json
 
 - Body
-- facebook
-- instagram
-- google
-- linkedin
-- tiktok
+- Example (auto)
 
 ### Body**required**
 
-Account details to connect. The structure varies by platform - see description above for examples.
-
-Facebook Page
+The account to connect. The accepted fields depend on the `platform` path parameter.
 
 ```json
 {
   "type": "page",
-  "originId": "244405123411687",
-  "name": "My Facebook Page",
-  "avatar": "https://graph.facebook.com/244405123411687/picture"
-}
-```
-
-Instagram Professional Account
-
-```json
-{
-  "type": "page",
-  "originId": "17841405123456789",
-  "name": "My Instagram Business",
-  "avatar": "https://..."
-}
-```
-
-Google Business Profile
-
-```json
-{
-  "location": {
-    "name": "locations/12345678901234567890",
-    "title": "My Business Location",
-    "storeCode": "STORE001"
-  },
-  "account": {
-    "name": "accounts/123456789012345678",
-    "accountName": "My Business Account",
-    "type": "LOCATION_GROUP",
-    "verificationState": "VERIFIED",
-    "vettedState": "VETTED"
-  }
-}
-```
-
-LinkedIn Page
-
-```json
-{
-  "type": "page",
-  "originId": "urn:li:organization:12345678",
-  "name": "My Company Page"
-}
-```
-
-TikTok Account
-
-```json
-{
-  "originId": "7234567890123456789",
-  "name": "My TikTok",
-  "avatar": "https://..."
+  "originId": "244405****11687",
+  "name": "JOHN_DEO",
+  "avatar": "https://storage.googleapis.com/2ad21ebc23/test"
 }
 ```
 
@@ -249,7 +117,7 @@ Successful response - Account attached. Response structure varies by platform.
 
 **Schema**
 
-oneOfFacebookInstagramGoogle Business AccountLinkedinTiktokYouTubePinterest**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**message**stringrequiredMessage**results**objectRequested Results
+oneOfFacebookTiktok BusinessGoogle Business AccountLinkedinInstagramThreadsYouTubeTiktokBlueskyPinterest**success**booleanrequiredWhether the Facebook page was successfully attached to the requesting location**statusCode**numberrequiredStatus Code**message**stringrequiredHuman-readable message confirming the account was attached**results**objectThe connected account record created (or updated) for the page that was just attached.
 
 ```json
 {
@@ -259,45 +127,11 @@ oneOfFacebookInstagramGoogle Business AccountLinkedinTiktokYouTubePinterest**suc
   "results": {
     "_id": "65f2d989a4f2f1e5322c3856",
     "oAuthId": "u37swmmLbA02zgqKPpxITe2",
-    "oldId": "u37swmmLbA02zgqKPpxITe2",
     "locationId": "u37swmmLbA02zgqKPpxITe2",
-    "originId": "u37swmmLbA02zgqKPpxITe2",
     "platform": "facebook",
     "type": "page",
     "name": "Account Name",
-    "avatar": "u37swmmLbA02zgqKPpxITe2",
-    "meta": {
-      "pageId": "u37swmmLbA02zgqKPpxITe2",
-      "page": {
-        "id": "u37swmmLbA02zgqKPpxITe2",
-        "name": "Account Name",
-        "avatar": "u37swmmLbA02zgqKPpxITe2"
-      },
-      "storeCode": "122",
-      "isVerified": "true",
-      "verified": true,
-      "protected": true,
-      "locationId": "u37swmmLbA02zgqKPpxITe2",
-      "accountId": "u37swmmLbA02zgqKPpxITe2",
-      "openId": "u37swmmLbA02zgqKPpxITe2",
-      "urn": "u37swmmLbA02zgqKPpxITe2",
-      "username": "testUser",
-      "storefrontAddress": {
-        "regionCode": "30021",
-        "languageCode": "E001",
-        "postalCode": "1221",
-        "administrativeArea": "Down Town",
-        "locality": "Louis Street",
-        "addressLines": [
-          "207",
-          "county"
-        ]
-      }
-    },
-    "active": true,
-    "deleted": true,
-    "createdAt": "2024-03-14T11:03:37.015Z",
-    "updatedAt": "2024-03-14T11:03:37.015Z"
+    "active": true
   }
 }
 ```

@@ -71,13 +71,13 @@ application/json
 
 ### Body**required**
 
-**parentId**stringrequiredFor top-level comments (`isParentThread: true`): pass the post ID returned by the posts API. For replies (`isParentThread: false`): pass the parent comment ID returned by the list-comments API. In both cases this must be a valid 24-character Highlevel ID — not the native platform ID.**isParentThread**booleanrequiredSet `true` to create a top-level comment on a post (parentId = post ID). Set `false` to create a reply to an existing comment (parentId = comment ID).**content**stringrequiredContent of the comment. Per-platform max length: Facebook 8000, Instagram 2200, Linkedin 3000, Community 8000, Tiktok 150, Bluesky 300, Youtube 10000, Threads 500.**attachments**object[]Attachments for the comment (max 1 image). **Supported on:** Facebook only. **Not supported on:** Instagram, LinkedIn, TikTok, Bluesky, Community — the field is accepted by the API but the attachment will not appear on the comment. (Community processes the field server-side, but external URLs are not rendered due to its bucket restriction.)**mentions**object[]Mentions for the comment. **Supported on:** Facebook, LinkedIn, Community. **Ignored on:** Instagram, TikTok, Bluesky — the field is accepted but mentions are not rendered on these platforms.**notifyAllGroupMembers**booleanWhen `true`, all members of the Community group receive a push/in-app notification about this comment — equivalent to an `@everyone` broadcast. **Supported on:** Community only. Ignored on all other platforms (the field is accepted but no notification is sent). **Independent of the `mentions` array** — you do not need to add an `@everyone` entry to `mentions` for this to take effect. Conversely, putting the literal text `@everyone` in `content` does **not** by itself trigger notifications; only this flag does. Defaults to `false` (no broadcast notification). Use `true` only when the comment is genuinely intended for every member of the group — overuse may cause members to mute the group.
+**parentId**stringrequiredFor top-level comments (`isParentThread: true`): pass the post ID returned by the posts API. For replies (`isParentThread: false`): pass the parent comment ID returned by the list-comments API. In both cases this must be a valid 24-character internal ID — not the native platform ID.**isParentThread**booleanrequiredSet `true` to create a top-level comment on a post (parentId = post ID). Set `false` to create a reply to an existing comment (parentId = comment ID).**content**stringrequiredContent of the comment. Per-platform max length: Facebook 8000, Instagram 2200, Linkedin 3000, Community 8000, Tiktok 150, Bluesky 300, Youtube 10000, Threads 500.**attachments**object[]Attachments for the comment (max 1 image). **Supported on:** Facebook only. **Not supported on:** Instagram, LinkedIn, TikTok, Bluesky, Community — the field is accepted by the API but the attachment will not appear on the comment. (Community processes the field server-side, but external URLs are not rendered due to its bucket restriction.)**mentions**object[]Mentions for the comment. **Supported on:** Facebook, LinkedIn, Community. **Ignored on:** Instagram, TikTok, Bluesky — the field is accepted but mentions are not rendered on these platforms. `offset`/`length` must locate `name` inside `content` exactly — `content.substring(offset, offset + length) === name` — otherwise the request is rejected with 400. The example below aligns with the `content` example above.**notifyAllGroupMembers**booleanWhen `true`, all members of the Community group receive a push/in-app notification about this comment — equivalent to an `@everyone` broadcast. **Supported on:** Community only. Ignored on all other platforms (the field is accepted but no notification is sent). **Independent of the `mentions` array** — you do not need to add an `@everyone` entry to `mentions` for this to take effect. Conversely, putting the literal text `@everyone` in `content` does **not** by itself trigger notifications; only this flag does. Defaults to `false` (no broadcast notification). Use `true` only when the comment is genuinely intended for every member of the group — overuse may cause members to mute the group.**pollOptions**objectPoll options for Threads reply (2-4 options)**textAttachment**objectText attachment for Threads reply with optional styling info**threadLocationId**stringLocation ID for Threads reply location tagging
 
 ```json
 {
   "parentId": "6975b186f3442844ec07665b",
   "isParentThread": true,
-  "content": "This is a comment",
+  "content": "Great post, Alex Morgan!",
   "attachments": [
     {
       "url": "https://example.com/image.jpg",
@@ -86,14 +86,31 @@ application/json
   ],
   "mentions": [
     {
-      "name": "Test",
+      "name": "Alex Morgan",
       "id": "102694781978972",
-      "offset": "106",
-      "length": "106",
-      "slug": "mohammed-marvan-8bRf3H"
+      "offset": 12,
+      "length": 11
     }
   ],
-  "notifyAllGroupMembers": false
+  "notifyAllGroupMembers": false,
+  "pollOptions": {
+    "option_a": "Yes",
+    "option_b": "No",
+    "option_c": "Maybe"
+  },
+  "textAttachment": {
+    "plaintext": "Styled text content",
+    "textWithStylingInfo": [
+      {
+        "offset": 0,
+        "length": 5,
+        "styling_info": [
+          "bold"
+        ]
+      }
+    ]
+  },
+  "threadLocationId": "123456"
 }
 ```
 
@@ -119,40 +136,22 @@ Successful response
     "_id": "507f1f77bcf86cd799439011",
     "platform": "facebook",
     "platformCommentId": "122129390871181019_974705035458625",
-    "platformParentId": "956033194258752_122129390871181019",
-    "platformPostId": "122129390871181019",
     "postId": "6a169db95c78177a5c24ef7c",
     "originId": "956033194258752",
     "isParentThread": true,
     "isPost": false,
-    "content": "Nice post!",
+    "message": "Nice post!",
     "attachments": [
       {
         "type": "image/jpeg",
-        "url": "https://example.com/image.jpg",
-        "thumbnail": "https://example.com/thumb.jpg",
-        "videoUrl": "https://example.com/video.mp4"
+        "url": "https://example.com/image.jpg"
       }
     ],
     "author": {
       "id": "123456789",
       "name": "John Doe",
       "profilePic": "https://example.com/avatar.jpg"
-    },
-    "level": 1,
-    "likeCount": 0,
-    "reactionCount": 0,
-    "replyCount": 0,
-    "shareCount": 0,
-    "repostCount": 0,
-    "quoteCount": 0,
-    "previewLink": "https://www.facebook.com/.../posts/...",
-    "isRead": false,
-    "isDeleted": false,
-    "isEdited": false,
-    "publishedAt": "2026-04-01T10:00:00.000Z",
-    "createdAt": "2026-04-01T10:00:00.000Z",
-    "updatedAt": "2026-04-01T10:00:00.000Z"
+    }
   }
 }
 ```

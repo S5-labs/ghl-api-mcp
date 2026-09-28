@@ -4,7 +4,7 @@
 
 # Watermarks
 
-Watermark templates and image-watermark preview endpoints for the Social Planner
+Documentation for Social Planner API
 
 ## 📄️Create a watermark template
 

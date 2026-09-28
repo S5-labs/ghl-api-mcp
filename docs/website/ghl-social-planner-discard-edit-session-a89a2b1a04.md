@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 application/json
 
 - application/json
@@ -58,7 +60,7 @@ Edit session discarded successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -67,6 +69,6 @@ Edit session discarded successfully.
   "results": {
     "message": "Edit session discarded successfully"
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

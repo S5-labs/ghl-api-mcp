@@ -65,7 +65,7 @@ application/json
 
 ### Body**required**
 
-**fromDate**stringStart of the published-date window (ISO 8601). If provided, `toDate` is also required, and `fromDate` must be ≤ `toDate`. Omit both to disable date filtering.**toDate**stringEnd of the published-date window (ISO 8601). If provided, `fromDate` is also required.**originIds**string[]requiredOrigin IDs of connected accounts to filter by**sortBy**stringSort by top comments or latest commentsAvailable options`top``latest`**search**stringSearch**skip**numberPagination offset — number of comments to skip (zero-based). Must be ≥ 0.**Possible values:** `>= 0`**Default value:**`0`**limit**numberPagination page size — number of comments to return. Must be between 1 and 100.**Possible values:** `>= 1` and `<= 100`**Default value:**`10`**parentId**stringParent ID — pass the Highlevel post ID (for replies under a specific post) or the Highlevel comment ID (for replies under a specific comment). Omit to list all top-level comments for the location filtered by `originIds`. Must be a valid 24-character Highlevel ID, not the native platform ID.
+**fromDate**stringStart of the published-date window (ISO 8601). If provided, `toDate` is also required, and `fromDate` must be ≤ `toDate`. Omit both to disable date filtering.**toDate**stringEnd of the published-date window (ISO 8601). If provided, `fromDate` is also required.**originIds**string[]requiredOrigin IDs of connected accounts to filter by**sortBy**stringSort by top comments or latest commentsAvailable options`top``latest`**search**stringSearch**skip**numberPagination offset — number of comments to skip (zero-based). Must be ≥ 0.**Possible values:** `>= 0`**Default value:**`0`**limit**numberPagination page size — number of comments to return. Must be between 1 and 100.**Possible values:** `>= 1` and `<= 100`**Default value:**`10`**parentId**stringParent ID — pass the internal post ID (for replies under a specific post) or the internal comment ID (for replies under a specific comment). Omit to list all top-level comments for the location filtered by `originIds`. Must be a valid 24-character internal ID, not the native platform ID.
 
 ```json
 {
@@ -108,40 +108,22 @@ Successful response
         "_id": "507f1f77bcf86cd799439011",
         "platform": "facebook",
         "platformCommentId": "122129390871181019_974705035458625",
-        "platformParentId": "956033194258752_122129390871181019",
-        "platformPostId": "122129390871181019",
         "postId": "6a169db95c78177a5c24ef7c",
         "originId": "956033194258752",
         "isParentThread": true,
         "isPost": false,
-        "content": "Nice post!",
+        "message": "Nice post!",
         "attachments": [
           {
             "type": "image/jpeg",
-            "url": "https://example.com/image.jpg",
-            "thumbnail": "https://example.com/thumb.jpg",
-            "videoUrl": "https://example.com/video.mp4"
+            "url": "https://example.com/image.jpg"
           }
         ],
         "author": {
           "id": "123456789",
           "name": "John Doe",
           "profilePic": "https://example.com/avatar.jpg"
-        },
-        "level": 1,
-        "likeCount": 0,
-        "reactionCount": 0,
-        "replyCount": 0,
-        "shareCount": 0,
-        "repostCount": 0,
-        "quoteCount": 0,
-        "previewLink": "https://www.facebook.com/.../posts/...",
-        "isRead": false,
-        "isDeleted": false,
-        "isEdited": false,
-        "publishedAt": "2026-04-01T10:00:00.000Z",
-        "createdAt": "2026-04-01T10:00:00.000Z",
-        "updatedAt": "2026-04-01T10:00:00.000Z"
+        }
       }
     ],
     "meta": {

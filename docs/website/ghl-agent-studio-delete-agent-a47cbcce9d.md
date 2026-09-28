@@ -28,15 +28,21 @@ string
 
 required
 
+Agent ID to delete (removes the agent and all its versions)
+
 **locationId**
 
 string
 
 required
 
+Location (sub-account) ID that owns the agent
+
 **source**
 
 string
+
+Origin channel attributed to this write for auditing (e.g. public_api, internal)
 
 application/json
 

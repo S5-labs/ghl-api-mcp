@@ -2,7 +2,7 @@
 
 **Website Version:** v3
 
-# Agents
+# Flow Agents
 
 Documentation for Agent Studio APIs
 

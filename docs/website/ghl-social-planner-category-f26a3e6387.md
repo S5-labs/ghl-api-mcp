@@ -4,12 +4,12 @@
 
 # Category
 
-Documentation for Social Media Posting API
+Documentation for Social Planner API
 
-## 📄️Get categories by location id
+## 📄️Get categories by location ID
 
 Retrieve all categories for a specific location with optional search and pagination
 
-## 📄️Get categories by id
+## 📄️Get category by ID
 
 Retrieve a specific category by its ID

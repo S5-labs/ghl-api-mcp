@@ -28,9 +28,13 @@ string
 
 required
 
+Draft/staging version ID to promote to production and publish
+
 **source**
 
 string
+
+Origin channel attributed to this write for auditing (e.g. public_api, internal)
 
 application/json
 

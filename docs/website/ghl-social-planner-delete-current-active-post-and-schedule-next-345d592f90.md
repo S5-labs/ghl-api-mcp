@@ -28,6 +28,8 @@ string
 
 required
 
+Post ID
+
 **locationId**
 
 string
@@ -47,7 +49,7 @@ Successfully deleted the active post and scheduled the next one.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -56,6 +58,6 @@ Successfully deleted the active post and scheduled the next one.
   "results": {
     "message": "Current post deleted and next post scheduled successfully"
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

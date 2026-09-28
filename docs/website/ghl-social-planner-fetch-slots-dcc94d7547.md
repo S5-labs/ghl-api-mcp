@@ -28,6 +28,8 @@ string
 
 required
 
+Category queue ID
+
 application/json
 
 - application/json
@@ -59,7 +61,7 @@ Slots fetched successfully.
 
 **Schema**
 
-**success**booleanrequired**statusCode**numberrequired**results**objectrequired**traceId**string
+**success**booleanrequiredSuccess or Failure**statusCode**numberrequiredStatus Code**results**objectrequiredResponse payload**traceId**stringTrace ID for debugging
 
 ```json
 {
@@ -71,7 +73,8 @@ Slots fetched successfully.
       {
         "itemId": "60af88475f1b2c001f5d5f4b",
         "scheduledDateTime": "2023-10-15T10:00:00.000Z",
-        "isSkipped": false
+        "isSkipped": false,
+        "order": 18000
       }
     ],
     "total": 100,
@@ -79,6 +82,6 @@ Slots fetched successfully.
     "limit": 20,
     "timezone": "America/New_York"
   },
-  "traceId": "string"
+  "traceId": "TRACE-abc123-def456"
 }
 ```

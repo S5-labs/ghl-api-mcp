@@ -420,6 +420,9 @@ Here is a list of the scopes you require to access the API Endpoints and Webhook
 | blogs/check-slug.readonly | GET /blogs/posts/url-slug-exists | — | Sub-Account |
 | blogs/category.readonly | GET /blogs/categories | — | Sub-Account |
 | blogs/author.readonly | GET /blogs/authors | — | Sub-Account |
+| blogs/posts.readonly | GET /blogs/posts/all | — | Sub-Account |
+| — | GET /blogs/posts/post/:postId | — | Sub-Account |
+| blogs/list.readonly | GET /blogs/site/all | — | Sub-Account |
 | companies.readonly | GET /companies/:companyId | — | Agency |
 | associations.readonly | GET /associations/key/:key_name | AssociationCreate | Sub-Account |
 | — | GET /associations/objectKey/:objectKey | AssociationUpdate | Sub-Account |
